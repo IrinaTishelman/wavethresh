@@ -11,9 +11,9 @@ summary.imwdc(x)
     The image wavelet decomposition of class "imwd" or "imwdc", respectively.
     This is assumed to be the result of some image wavelet decomposition.}
 }
-\details{
-The number of levels, the dimension of the original image,
-name of the filter and the type of boundary handling are printed.
+\description{
+  The number of levels, the dimension of the original image,
+  name of the filter and the type of boundary handling are printed.
 }
 \section{RELEASE}{
 Release 2.2

@@ -72,4 +72,3 @@ summary(thr.wds <- wr(threshold(wds, type="hard") ))
 \keyword{math}
 \keyword{smooth}
 \keyword{nonlinear}
-% Converted by Sd2Rd version 0.3-3.

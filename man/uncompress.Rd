@@ -1,14 +1,9 @@
 \name{uncompress}
 \alias{uncompress}
-\title{
-Decompression - Generic function (wavelet)
-}
+\title{Decompression - Generic Function (Wavelet)}
 \description{
-Decompresses object by padding with zeroes
-This is a generic function.
-Functions with names beginning in \code{uncompress.} will be
-methods for this function.
-\code{imwdc}, \code{default}
+  Decompresses \code{x}  by padding with zeroes
+  This is the generic function.
 }
 \usage{
 uncompress(x, \dots)
@@ -17,13 +12,16 @@ uncompress(x, \dots)
   \item{x}{an \R object.}
   \item{\dots}{methods may have additional arguments.}
 }
-\value{
-a uncompressed version of the supplied argument
+\value{a uncompressed version of the supplied argument.
 }
-\details{
-See individual help pages for operation
+\details{Functions with names beginning in \code{uncompress.} will be
+  methods for this function,
+
+  See their individual help pages, e.g.,
+  \code{\link{uncompress.imwdc}}, \code{\link{uncompress.default}},
+  for operation.
 }
-\seealso{
-\code{\link{compress}}
-}
-% Converted by Sd2Rd version 0.3-3.
+\seealso{\code{\link{compress}}.}
+\keyword{manip}
+\keyword{utilities}
+

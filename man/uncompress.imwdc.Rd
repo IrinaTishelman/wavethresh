@@ -1,32 +1,27 @@
 \name{uncompress.imwdc}
 \alias{uncompress.imwdc}
-\title{
-Use `uncompress()' on an `imwdc' object
-}
+\title{Uncompress an `imwdc' object}
 \description{
-Decompresses a imwdc object by padding with zero elements
+  Decompresses a imwdc object by padding with zero elements.
 }
 \usage{
 uncompress.imwdc(imwdc, verbose=FALSE)
 }
 \arguments{
-\item{imwdc}{
-Object to decompress must be of class "imwdc".
+\item{imwdc}{Object to decompress must be of class "imwdc".}
+\item{verbose}{If this is true then report on compression activity}
 }
-\item{verbose}{
-If this is true then report on compression activity
-}}
 \value{
-An object of type "imwd" representing the decompressed imwdc object.
+  An object of type "imwd" representing the decompressed imwdc object.
 }
 \details{
-This uncompresses a "imwdc" object back into a "imwd" object.
-This function is a method for the generic function
-\code{uncompress()} for class \code{imwdc}.
-It can be invoked by calling \code{uncompress(x)} for an
-object \code{x} of the appropriate class, or directly by
-calling \code{uncompress.imwdc(x)} regardless of the
-class of the object.
+  This uncompresses a "imwdc" object back into a "imwd" object.
+  This function is a method for the generic function
+  \code{uncompress()} for class \code{imwdc}.
+  It can be invoked by calling \code{uncompress(x)} for an
+  object \code{x} of the appropriate class, or directly by
+  calling \code{uncompress.imwdc(x)} regardless of the
+  class of the object.
 }
 \section{RELEASE}{
 Release 2.2

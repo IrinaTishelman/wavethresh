@@ -7,10 +7,11 @@ summary.wd(object)
 \arguments{
 \item{object}{
   The wavelet decomposition of class \code{"wd"}.
-  This is assumed to be the result of some wavelet decomposition.}}
-\details{
-The number of levels, the length of the original data sequence,
-name of the filter and type of boundary handling are printed.
+  This is assumed to be the result of some wavelet decomposition.}
+}
+\description{
+  The number of levels, the length of the original data sequence,
+  name of the filter and type of boundary handling are printed.
 }
 \section{RELEASE}{
 Release 2.2

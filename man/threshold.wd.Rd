@@ -1,10 +1,9 @@
 \name{threshold.wd}
 \alias{threshold.wd}
 \title{Threshold a `wd' Object (1D Wavelet)}
-}
 \description{
-Applies hard or soft thresholding with different policies to a wavelet
-decomposition object.
+  Applies hard or soft thresholding with different policies to a wavelet
+  decomposition object.
 }
 \usage{
 threshold.wd(wd, levels=3:(wd$nlevels-1), type="hard",
@@ -38,37 +37,35 @@ threshold.wd(wd, levels=3:(wd$nlevels-1), type="hard",
 }
 \value{An object of class "wd" that has been thresholded.
 }
-\details{
-Thresholding modifies the coefficients within a wd wavelet
+\details{%
+%%__FIXME___ These are VERY wordy --- and almost identical to those in
+%%           ./threshold.imwd.Rd (and probably even other places) !!
+%%
+Thresholding modifies the coefficients within a \code{wd} wavelet
 decomposition object. The modification can be performed either
-with a "hard" or "soft" thresholding selected by the "type" argument.
+with a "hard" or "soft" thresholding selected by the \code{type} argument.
 
-
-Hard thresholding simply compares a coefficient with a threshold.
-If it is larger in absolute magnitude it is left alone, if it is
-smaller it is set to zero.
+Hard thresholding simply compares a coefficient with a threshold.  If it
+is larger in absolute magnitude it is left alone, if it is smaller it is
+set to zero.
 The "soft threshold" formula is
+\deqn{\mbox{soft}(w) = \mbox{sgn}(w) \max(\left|w\right| - t, 0)}{%
+             soft(w) = sgn(w)*max(|w| - t, 0)}
+where \eqn{w} is the wavelet coefficient, \eqn{t} is the threshold and
+\eqn{\mbox{sgn}(w)}{sgn(w)} is the sign of \eqn{w}.  Soft thresholding
+causes \eqn{w} to be replaced by \eqn{soft(w)}.
 
-soft(w) = sgn(w)*max(|w| - t, 0)
-
-where "w" is the wavelet coefficient, "t" is the threshold and
-"sgn" is the sign of w. Soft thresholding causes w to be replaced
-by soft(w).
-
-There are many ways that the threshold can be computed,
-we term this the "policy". A universal policy computes
-a threshold based on Donoho and Johnstone's "universal thresholds".
-The threshold is sqrt(2*log(n))*noise, where noise is computed
-as sqrt(dev(w)), i.e. some measure of the variability of the coefficients,
-and n is the number of data points (or number of wavelet coefficients).
-By default "dev" is "var", so the noise level is estimated using the
-sample standard deviation. You can use any other such estimate by writing
-your own function and supplying it as the "dev" argument. For example
-you could create the function "myvar" by
-
-myvar <- function(d)
-mad(d)^2
-
+There are many ways that the threshold can be computed; we term this the
+"policy".  A universal policy computes a threshold based on Donoho and
+Johnstone's "universal thresholds".  The threshold is
+sqrt(2*log(n))*noise, where noise is computed as sqrt(dev(w)), i.e. some
+measure of the variability of the coefficients, and n is the number of
+data points (or number of wavelet coefficients).  By default "dev" is
+"var", so the noise level is estimated using the sample standard
+deviation. You can use any other such estimate by writing your own
+function and supplying it as the "dev" argument. For example you could
+create the function \code{myvar} by
+\cr \code{myvar <- function(d) mad(d)^2}
 
 This computes the square of the mean absolute deviation of the data.
 It is squared because "dev" should be a measure on the variance scale,
@@ -76,7 +73,6 @@ not the standard deviation (you know what I mean).
 If you make the "by.levels" argument T, then a separate threshold is
 computed for each level in the "levels" vector. This means that
 the variance is estimated separately for each level.
-
 
 The "manual" policy is simple. You supply a threshold value ("value")
 and hard or soft thresholding is performed using that value.
@@ -86,7 +82,6 @@ otherwise it is repeated as many times as necessary to be the
 length vector's length. In this way, different thresholds can be
 given for different levels. Note that the "by.level" argument has
 no effect with this policy.
-
 
 The "probability" policy works as follows. All coefficients that
 are smaller than the "value"th quantile of the coefficients are
@@ -105,15 +100,11 @@ class of the object.
 Release 2.2
 Copyright Guy Nason 1993
 }
-\references{see \code{\link{wd}} for a list.
-}
+\references{see \code{\link{wd}} for a list.}
 \section{BUGS}{
-There should be an optimal policy as well, although universal comes
-close.
+  There should be an optimal policy as well, although universal comes close.
 }
-\seealso{
-\code{\link{wr}}, \code{\link{wd}}
-}
+\seealso{\code{\link{wr}}, \code{\link{wd}}}
 \examples{
 # "Standard" example:
 example(wd)
@@ -128,12 +119,15 @@ thS.wds <- threshold(wds, type="soft")
 str(    trecH <- wr(thH.wds))
 summary(trecS <- wr(thS.wds))
 #
-# Plot the reconstructed functions
+# Plot the data, the true & reconstructed functions
 #
-plot(x, trecH, type="l", col=2)
-lines(x,trecS, col=3)
-lines(x, fx, col="gray", lty=2, lwd=1.5)# true function
+plot(x,y, col = "gray", cex = .6) # the data
+lines(x, fx, col="red", lwd=1.5)# true function
+lines(x, trecH, col= "blue1", lty=2, lwd=1.5)
+lines(x, trecS, col= "blue4", lty=4, lwd=1.5)
+legend(0,6, c("true", paste(c("hard","soft")," thresh.")),
+       col = c("red","blue1","blue2"), lwd= 1.5, lty = c(1,2,4))
 }
 \keyword{nonlinear}
 \keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.
+

@@ -1,0 +1,21 @@
+2000-05-15  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* Release of 2.2-4
+
+	* Documentation fixes to successfully run through "R CMD Rd2dvi"
+
+	* data/lennon.R: require(wavethresh) when necessary, and detach
+			afterwards in that case.
+
+2000-04-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/wavethresh.R: only(?) formatting (indenting, line breaking)
+
+        * man/threshold.imwd.Rd (and others):
+		lots of reformatting. Fixing links; clean up, ...
+		(still far from excellent...)
+
+
+1999-10-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* Release of 2.2-3

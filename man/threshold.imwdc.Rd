@@ -9,33 +9,27 @@ of class \code{imwdc}.
 threshold.imwdc(imwdc, verbose=FALSE, \dots)
 }
 \arguments{
-\item{imwdc}{
-Object of class "imwdc", maybe after a previous thresholding.
-}
-\item{verbose}{
-print information messages about what's going on
-}
-\item{...}{
-other arguments to threshold
-}}
+\item{imwdc}{Object of class "imwdc", maybe after a previous thresholding.}
+\item{verbose}{print information messages about what's going on}
+\item{...}{other arguments to threshold}}
 \value{
-An object of class "imwdc", containing the thresholded object
+  An object of class \code{"imwdc"}, containing the thresholded object
 }
 \details{
-This function thresholds just like \code{`threshold.imwd}', except that the
-input is an "imwdc" object, not a "imwd" object, which suggests that
-the object has already been thresholded (because threshold.imwd
-returns an "imwdc" object). Because the object is likely to have
+This function thresholds just like \code{\link{threshold.imwd}}, except that the
+input is an "imwdc" object, not a "imwd" one, which suggests that
+the object has already been thresholded (because \code{\link{threshold.imwd}}
+returns an "imwdc" object).  Because the object is likely to have
 been thresholded a warning message stating this is printed.
-
 
 However, it is entirely possible that you would wish to impose a higher
 threshold on an already thresholded object, and so this function does
 just this.
 
-
+%% FIXME: "Everyone" should know the following :
+%% =====  Don't say this in all the *.Rd files, rather "see \link{...}"...
 This function is a method for the generic function
-\code{threshold()} for class \code{imwdc}.
+\code{\link{threshold}()} for class \code{imwdc}.
 It can be invoked by calling \code{threshold(x)} for an
 object \code{x} of the appropriate class, or directly by
 calling \code{threshold.imwdc(x)} regardless of the

@@ -39,19 +39,19 @@ structure.
 
 For decomposition, the top level contains the original data, and
 subsequent lower levels contain the successively smoothed data.
-So if there are 2^m original data points, there will be m+1 levels
+So if there are \eqn{2^m} original data points, there will be m+1 levels
 indexed 0,1,\dots{},m. So
 
-> accessC(wd.obj, level=m)
+>  \code{accessC(wd.obj, level=m)}
 
 pulls out the original data, as does
 
-> accessC(wd.obj)
+>  \code{accessC(wd.obj)}
 
 To get hold of lower levels just specify the level that you're interested
 in, e.g.
 
-> accessC(wd.obj, level=2)
+>  \code{accessC(wd.obj, level=2)}
 
 gets hold of the second level.
 

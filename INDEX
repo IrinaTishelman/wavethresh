@@ -1,6 +1,6 @@
-wd		1D Discrete wavelet transform         (decomposition)
+wd		1D Discrete wavelet transform	      (decomposition)
 wr		1D Inverse Discrete wavelet transform (reconstruction)
-imwd		2D Discrete wavelet transform         (IMage W. Decomposition)
+imwd		2D Discrete wavelet transform	      (IMage W. Decomposition)
 imwr		2D Inverse Discrete wavelet transform (IMage W. Reconstruction)
 threshold	Thresholding wavelets - Generic function
 compress	Wavelet Compression   (2D) - Generic function
@@ -15,20 +15,21 @@ draw		Draw Wavelet - Generic function
 filter.select	Provide wavelet filter coefficients
 first.last	Build a first/last database for wavelet transforms
 lt.to.name	Convert notations (wavelet)
+pack8bit	Packing of 8-bit Integers
 support		Compute support of wavelet
 wvrelease	Identify version of wavelet software
 
-lennon	        256 x 256 gray scale image of John Lennon (dataset)
+lennon		256 x 256 gray scale image of John Lennon (dataset)
 
 
 -- Classes --
 wd.object		1D Wavelet decomposition object
-imwd.object		2D            Wavelet decomposition object
+imwd.object		2D	      Wavelet decomposition object
 imwdc.object		2D Compressed wavelet decomposition object
 compress.object		Compressed   (wavelet) object
 uncompressed.object	Uncompressed (wavelet) object
 
 -- methods for these classes			--
--- for  compress, uncompress,  threshold, imwr, --
--- and  print, summary, plot, draw 		--
+-- for	compress, uncompress,  threshold, imwr, --
+-- and	print, summary, plot, draw		--
 

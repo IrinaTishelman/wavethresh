@@ -16,4 +16,5 @@ Information about the \code{wd} object is printed out.
 }
 \seealso{\code{\link{wd}}, \code{\link{wd.object}}.
 }
-% Converted by Sd2Rd version 0.3-3.
+\keyword{utilities}
+

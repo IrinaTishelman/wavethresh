@@ -1,18 +1,14 @@
 \name{wd}
 \alias{wd}
-\title{
-Discrete wavelet transform (decomposition).
-}
+\title{Discrete Wavelet Transform (Decomposition).}
 \description{
-This function performs the decomposition stage of Mallat's pyramid algorithm
-(Mallat 1989),
-i.e. the discrete wavelet transform. The actual transform is performed
-by some C code, this is dynamically linked into S (if your machine can
-do this, if it can't then tough!).
+  This function performs the decomposition stage of Mallat's pyramid
+  algorithm (Mallat 1989), i.e., the discrete wavelet transform.  The
+  actual transform is performed by some C code, this is dynamically
+  linked into \R.
 }
 \usage{
-wd(data, filter.number=2, family="DaubExPhase", bc="periodic",
-	verbose=FALSE)
+wd(data, filter.number = 2, family="DaubExPhase", bc="periodic", verbose=FALSE)
 }
 \arguments{
   \item{data}{a vector containing the data you wish to decompose. The
@@ -65,22 +61,23 @@ wd(data, filter.number=2, family="DaubExPhase", bc="periodic",
 \details{
 The code implements Mallat's pyramid algorithm (Mallat 1989).
 Essentially it works like this: you start off with some data cm,
-which is a real vector of length 2^m, say.
+which is a real vector of length \eqn{2^m}, say.
 
-Then from this you obtain two vectors of length 2^(m-1). One of these
-is a set of smoothed data, c(m-1), say. This looks like a smoothed version
-of cm. The other is a vector, d(m-1), say.
-This corresponds to the detail removed
-in smoothing cm to c(m-1). More precisely, they are the coefficients of the
-wavelet expansion corresponding to the highest resolution wavelets in the
-expansion. Similarly, c(m-2) and d(m-2) are obtained from c(m-1), etc. until
-you reach c0 and d0.
+Then from this you obtain two vectors of length \eqn{2^{m-1}}{2^(m-1)}.
+One of these is a set of smoothed data, c(m-1), say.  This looks like a
+smoothed version of cm. The other is a vector, d(m-1), say.
+%
+This corresponds to the detail removed in smoothing cm to c(m-1).  More
+precisely, they are the coefficients of the wavelet expansion
+corresponding to the highest resolution wavelets in the expansion.
+Similarly, c(m-2) and d(m-2) are obtained from c(m-1), etc. until you
+reach c0 and d0.
 
 All levels of smoothed data are stacked into a single vector for memory
 efficiency and ease of transport across the SPlus-C interface.
 
 The smoothing is performed directly by convolution with the wavelet filter
-(filter.select(n)$H, essentially low-pass filtering), and then dyadic
+(\code{filter.select(n)$H}, essentially low-pass filtering), and then dyadic
 decimation (selecting every other datum, see Vaidyanathan (1990)).
 The detail extraction is performed by the mirror filter of H, which
 we call G and is a bandpass filter.
@@ -112,31 +109,31 @@ Copyright Guy Nason 1993
 \references{
 Any book on wavelets, especially
 
-Chui, C. K. (1992).  \emph{An Introduction to Wavelets};
+Chui, C. K. (1992)  \emph{An Introduction to Wavelets};
 Academic Press, London.
 
-Daubechies, I. (1988).
+Daubechies, I. (1988)
 \emph{Orthonormal bases of compactly supported wavelets};
 Communications on Pure and Applied Mathematics, \bold{41}, 909-996.
 
-Daubechies, I. (1992).
+Daubechies, I. (1992)
 \emph{Ten Lectures on Wavelets};
 CBMS-NSF Regional Conference Series in Applied Mathematics.
 
-Donoho, D and Johnstone, I. (1994).
+Donoho, D and Johnstone, I. (1994)
 \emph{Ideal Spatial Adaptation by Wavelet Shrinkage};
 Biometrika; \bold{81}, 425-455.
 
-Mallat, S. G. (1989).
+Mallat, S. G. (1989)
 \emph{A theory for multiresolution signal decomposition: the wavelet
   representation};
 IEEE Transactions on Pattern Analysis and Machine Intelligence,
 \bold{11}, No. 7, 674-693.
 
-Vaidyanathan, P. P. (1990).
+Vaidyanathan, P. P. (1990)
 \emph{Multirate digital filters, filter banks, polyphase networks and
   applications: A tutorial};
-Proceedings of the IEEE, \bold{78}, No.~1, 56-93
+Proceedings of the IEEE, \bold{78}, No.~1, 56-93.
 }
 \seealso{\code{\link{wr}}, \code{\link{threshold}}, \code{\link{plot.wd}},
   \code{\link{accessC}}, \code{\link{accessD}},
