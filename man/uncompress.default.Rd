@@ -6,12 +6,13 @@
   removing zeroes.  This function performs the inverse transformation.
 }
 \usage{
-\method{uncompress}{default}(v, verbose=FALSE)
+\method{uncompress}{default}(x, verbose = getOption("verbose"), \dots)
 }
 \arguments{
-  \item{v}{The \code{compressed} or \code{uncompressed} object to
+  \item{x}{The \code{compressed} or \code{uncompressed} object to
     uncompress.}
   \item{verbose}{logical; if true then informative messages are printed.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \value{The uncompressed vector.
 }
@@ -31,8 +32,7 @@ vector in a list with class \code{uncompressed}. The \code{uncompress.default()}
 function's task in this case is simple: only return the vector part of
 \code{uncompressed}.
 }
-\seealso{\code{\link{compress}}, \code{\link{compressed.object}}.
-}
+\seealso{\code{\link{compress}}, \code{\link{compressed.object}}.}
 \examples{
 ## Compress a sparse vector and look at it
 str(cv <- compress( vv <- c(rep(0,100),564) ))
@@ -47,4 +47,4 @@ str(cv <- compress(vv))
 all(vv == uncompress(cv))
 }
 \keyword{manip}
-% Converted by Sd2Rd version 0.3-3.
+

@@ -11,6 +11,7 @@ summary.imwdc(object, \dots)
   \item{object}{
     The image wavelet decomposition of class "imwd" or "imwdc", respectively.
     This is assumed to be the result of some image wavelet decomposition.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \description{
   The number of levels, the dimension of the original image,

@@ -5,19 +5,19 @@
 
 void StoIDS(
     double *C,
-    long *Csize,
-    long *firstCin,
+    Sint *Csize,
+    Sint *firstCin,
     double *H,
-    long *LengthH,
-    long *LengthCout,
-    long *firstCout,
-    long *lastCout,
-    long *LengthDout,
-    long *firstDout,
-    long *lastDout,
+    Sint *LengthH,
+    Sint *LengthCout,
+    Sint *firstCout,
+    Sint *lastCout,
+    Sint *LengthDout,
+    Sint *firstDout,
+    Sint *lastDout,
     double *ImCC, double *ImCD, double *ImDC, double *ImDD,
-    long *bc,
-    long *error
+    Sint *bc,
+    Sint *ierr
     )
 {
     register int i,j;
@@ -29,7 +29,7 @@ void StoIDS(
 		       *LengthCout, *firstCout, *lastCout,
 		       *LengthDout, *firstDout, *lastDout,
 		       &cc_out, &cd_out, &dc_out, &dd_out, *bc,
-		       error);
+		       ierr);
 
     /* Copy images */
 

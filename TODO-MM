@@ -1,0 +1,16 @@
+  o \keyword{.} in man/*.Rd should be better and consistent
+
+  o use \link{} better; clean up several \details{} which repeat themselves
+	{partly done, by collapsing some man pages}
+
+  o Fix bug of (un)pack8bit():
+
+   > all(250:255 == unpack8bit(pack8bit(250:255)))
+   [1] FALSE
+   Warning message:
+   longer object length is not a multiple of shorter object length
+    in: 250:255 == unpack8bit(pack8bit(250:255))
+
+
+  o ./tests/ needed!
+

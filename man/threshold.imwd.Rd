@@ -1,3 +1,4 @@
+%%% $Id: threshold.imwd.Rd,v 1.6 2001/12/17 08:18:28 maechler Exp maechler $
 \name{threshold.imwd}
 \alias{threshold.imwd}
 \title{Threshold an `imwd' Object (2D Wavelet)}
@@ -6,12 +7,13 @@
   of class \code{imwd}.
 }
 \usage{
-\method{threshold}{imwd}(imwd, levels=3:(wd$nlevels-1), type="hard",
+\method{threshold}{imwd}(x, levels=3:(wd$nlevels-1), type="hard",
     policy="universal", by.level=FALSE, value=0, dev=var,
-    verbose=FALSE, return.threshold=FALSE, compression=T)
+    verbose = getOption("verbose"), return.threshold=FALSE,
+    compression=TRUE, \dots)
 }
 \arguments{
-  \item{imwd}{object of class \code{"imwd"},  typically  from a wavelet
+  \item{x}{object of class \code{"imwd"},  typically  from a wavelet
     decomposition using the \code{\link{imwd}} function.}
   \item{levels}{integer vector determining which levels are thresholded in
     the decomposition.}
@@ -34,6 +36,7 @@
     returned, otherwise the thresholded object is returned.}
   \item{compression}{logical; if true the thresholded object is
     compressed and then returned, otherwise it is returned unaltered.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \value{
   If \code{compression} is true then an object of class \code{"imwdc"}
@@ -51,10 +54,10 @@ explanation of thresholding types and policies.
 
 %% imwd specific :
 The thresholding process forces many coefficients to zero. From release 2.2
-onwards the thresholded "imwd" object is compressed by \code{\link{compress}}
-and returned as a much smaller "imwdc" object.  An "imwdc" object is
-easily converted into an "imwd" object by \code{\link{uncompress}}, but
-all relevant functions will handle the "imwdc" object.
+onwards the thresholded \code{imwd} object is compressed by \code{\link{compress}}
+and returned as a much smaller \code{imwdc} object.  An \code{imwdc} object is
+easily converted into an \code{imwd} object by \code{\link{uncompress}}, but
+all relevant functions will handle the \code{imwdc} object.
 
 Note that the coefficients for the horizontal, diagonal and vertical
 detail at a particular level are treated as one. In future releases
@@ -87,4 +90,4 @@ close.
 }
 \keyword{nonlinear}
 \keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.
+

@@ -1,58 +1,62 @@
+% $Id: draw.default.Rd,v 1.6 2001/12/17 07:27:09 maechler Exp maechler $
 \name{draw.default}
 \alias{draw.default}
 \title{Draw a Picture of a Wavelet}
 \description{
-Draws pictures of wavelets associated with the wavethresh package
+  Draws pictures of basic (Daubechies') wavelets in the wavethresh package.
 }
 \usage{
-\method{draw}{default}(filter.number=2, family="DaubExPhase",
-    resolution=1024, verbose=FALSE, plot=TRUE, main="Wavelet Picture",
-    sub=zwd$filter$name, xlab="x", ylab=expression(psi(x)), dimension=1,
-    twodplot=persp, enhance=TRUE, efactor=0.05, \dots)
+\method{draw}{default}(x = filter.number, filter.number = 2,
+     family = c("DaubExPhase", "DaubLeAsymm"),
+     resolution = 1024, verbose = FALSE, plot = TRUE,
+     main = paste("Wavelet Picture", if(enhance) " (Enhanced)", sep=""),
+     sub = zwd$filter$name, xlab = "x", ylab = expression(psi(x)), dimension = 1,
+     twodplot = persp, enhance = TRUE, efactor = 0.05, \dots)
 }
 \arguments{
-  \item{filter.number}{integer; number of the filter in the wavelet
+  \item{x, filter.number}{integer; number of the filter in the wavelet
     family specified.  The range of possible numbers depends on the family.}
-  \item{family}{character, the family of wavelets to use, can be
-    "DaubExPhase" or "DaubLeAsymm" for Release 2.2.}
+  \item{family}{character, the family of wavelets to use, defaults to
+    the first of the list shown above.}
   \item{resolution}{integer specifying the resolution to use in drawing
     pictures.  A higher resolution gives a better quality picture but
-    will take longer to draw (especially in two-dimensions).}
+    will take longer to draw (especially in two dimensions).}
   \item{verbose}{logical, if \code{TRUE}, report the progress of drawing.}
   \item{plot}{logical, if true then plot the
     appropriate wavelet on the current active graphics device, otherwise
     the information about the wavelet is returned.}
-  \item{main}{main title}
-  \item{sub}{subtitle}
+  \item{main, sub}{main and sub-title for the plot, see \code{\link{title}}.}
   \item{xlab, ylab}{labels for the x and y axis.}
   \item{dimension}{
     If this is 1, then a one-dimensional version of the wavelet is drawn,
-    if this is 2, then a two-d picture is drawn with the twodplot function.
+    if this is 2, then a two-d picture is drawn with the \code{twodplot} function.
   }
   \item{twodplot}{function such as \code{\link{persp}} that can do
-    something interesting with a matrix!}
+    something interesting with a matrix.}
   \item{enhance}{logical; with Daubechies' wavelets their effective
     support is much less than their actual support.
-    If \code{enhance=TRUE} then the function tries to draw
+    If \code{enhance} is true, the function tries to draw
     the wavelet on its effective support.}
   \item{efactor}{numeric, defining the effective support.
     Define z0 to be efactor times the maximum absolute value of the
-    wavelet w(x). Define the set A=\{ x: |w(x)| > z0 \}, and the
-    effective support is the smallest interval (1D), (square - 2D)
+    wavelet w(x). Define the set \eqn{A = \{ x: |w(x)| > z0 \}}, and the
+    effective support is the smallest interval (in 1D, square in 2D)
     containing A.
   }
   \item{\dots}{further arguments to \code{plot} or \code{twodplot}.}
 }
 \value{
-If \code{plot} is false then no actual drawing is done, however, a list is
-returned. If \code{dim=1} the list has two components x and y, representing the
-domain of definition (or effective support) of the wavelet and the
-value of the wavelet at x. If \code{dim=2}, the list has three components
-x,y and z.
+  If \code{plot} is false then no actual drawing is done, however, a list is
+  returned with \code{dimension + 1} components:
+  If \code{dimension} is one, the list has components x and y, representing the
+  domain of definition (or effective support) of the wavelet and the
+  value of the wavelet at x.
+  \cr
+  If \code{dimension == 2}, the list has three components x,y and z.
 }
 \section{Side Effects}{
-a picture of a wavelet is drawn on the currently active graphics device
-if plot=TRUE.
+  a picture of a wavelet is drawn on the currently active graphics device
+  if plot=TRUE.
 }
 \details{
 For Daubechies' compactly supported wavelets there is no known closed form
@@ -80,18 +84,22 @@ the highest resolution wavelets. If there is
 a choice of such wavelets, then the middle-most one is selected.
 }
 \section{RELEASE}{
-Release 2.2
-Copyright Guy Nason 1993
+  Release 2.2
+  Copyright Guy Nason 1993
 }
 \seealso{\code{\link{draw}}, \code{\link{draw.wd}} etc.
 }
 \examples{
-par(mfrow=c(3,2))
-for(fn in 1:6) {
-   draw.default(filter.number= fn, col = "blue")
+op <- par(mfrow=c(5,2), oma = c(0,0, 4, 0),
+          mgp = c(1.2, .8, 0), mar = .1 + c(4,4, .5,1))
+for(fn in 1:10) {
+   draw.default(filter.number= fn, col = "blue", main = NULL, xlab= "")
    abline(h=0,v=0, lty=3, lwd=.5, col = "gray")
 }
-par(mfrow=c(1,1))
+mtext(paste("draw.default(*, family = '",formals(draw.default)$family[[2]],"')"),
+      side = 3, line = 1, outer = TRUE,
+      cex = par("cex.main"), font = par("font.main"))
+par(op)
 
 # Draw a 2-dimensional Daubechies least asymmetric wavelet
 draw.default(filter.number=6, family="DaubLeAsymm", dim=2, resolution=128)

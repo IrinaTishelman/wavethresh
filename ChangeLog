@@ -1,8 +1,64 @@
+2001-12-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/waverecons.c (waverecons): use Rprintf(.) instead of printf(.)
+
+	* src/convolve.c:
+	   use REprintf(.) instead of fprintf(stderr, .) and
+	       error(.)	   instead of exit(.)
+
+	* src/wavelet.h and others:  Use `Sint' instead of `long';
+	   use `ierr' instead of `error' (-Wall)
+
+
+2001-12-15  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/release.R:
+	* DESCRIPTION (Version): 2.2-7 release for R 1.4.0
+
+	* R/wavethresh.R (draw.default): main & enhance was bad.
+
+	* tests/ created
+	* tests/filters.R and tests/filters.Rout.save
+
+	* R/wavethresh.R: ESS : M-x ess-fix-miscellaneous {" <- " etc}
+
+	   o use match.arg() -- this the modern way of
+	     checking for character options!
+	   o use switch() instead of tons of if(..) else if(..) ....
+
+	* man/uncompress.imwdc.Rd: eliminate these files.
+
+	* R/wavethresh.R (filter.select): cleanup of ugly H[] definition
+	  methods and generics must have same / conforming argument names.
+
+	* man/wd.Rd:
+	* ......   : {in many places} use `verbose = getOption("verbose")'
+
+2001-11-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/wavethresh.R: get rid of .Alias
+
+2001-10-04  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/wavethresh.R: plot.wd() : new  col, lty, and lwd arguments
+	* man/plot.wd.Rd: (ditto)
+
+2001-08-20  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/*.Rd: fixed missing braces in quite a few places!
+	  now passes new "R CMD check".
+
+2001-06-08  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* .Rbuildignore: new, containing
+	* TODO-MM: new
+
+
 2001-03-08  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* DESCRIPTION (Version): 2.2-6
 
-        * man/*.Rd: many uses of new \method{<generic>}{<class}
+	* man/*.Rd: many uses of new \method{<generic>}{<class}
 
 
 2001-02-23  Martin Maechler  <maechler@stat.math.ethz.ch>
@@ -16,14 +72,14 @@
 2001-01-05  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* DESCRIPTION (Version): 2.2-5 ; Maintainer added.
-	
-	* data/00Index: lennon 
+
+	* data/00Index: lennon
 
 	* R/release.R: outsourced from wavethresh.R
 
 	* man/(plot|print|summary)*.Rd: Many small \usage{} fixes {codoc() !}
 	* R/wavethresh.R:  <ditto>
-	
+
 2000-07-14  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* R/pack8bit.R: "outsourced" from wavethresh.R
@@ -41,7 +97,7 @@
 
 	* R/wavethresh.R: only(?) formatting (indenting, line breaking)
 
-        * man/threshold.imwd.Rd (and others):
+	* man/threshold.imwd.Rd (and others):
 		lots of reformatting. Fixing links; clean up, ...
 		(still far from excellent...)
 

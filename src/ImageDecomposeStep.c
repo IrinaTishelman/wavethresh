@@ -30,24 +30,24 @@
 
 void ImageDecomposeStep(
     double *C,	/* Input data image					*/
-    long Csize,	/* Size of image (side length)				*/
-    long firstCin,	/* Index number of first element in input "C" image */
+    Sint Csize,	/* Size of image (side length)				*/
+    Sint firstCin,/* Index number of first element in input "C" image	*/
     double *H,	/* Filter coefficients					*/
-    long LengthH,	/* Length of filter				*/
+    Sint LengthH,	/* Length of filter				*/
 
 /* Details about output image */
-    long LengthCout,/* Length of C part of output image			*/
-    long firstCout,	/* Index number of first element in output "C" image */
-    long lastCout,	/* Index number of last element			*/
-    long LengthDout,/* Length of D part of output image			*/
-    long firstDout,	/* Index number of first element in output "D" image */
-    long lastDout,	/* Index number of last element			*/
+    Sint LengthCout,/* Length of C part of output image			*/
+    Sint firstCout,/* Index number of first element in output "C" image */
+    Sint lastCout,	/* Index number of last element			*/
+    Sint LengthDout,/* Length of D part of output image			*/
+    Sint firstDout,	/* Index number of first element in output "D" image */
+    Sint lastDout,	/* Index number of last element			*/
     double **cc_out,/* Smoothed output image				*/
     double **cd_out,/* Horizontal detail				*/
     double **dc_out,/* Vertical detail					*/
     double **dd_out,/* Diagonal detail					*/
-    long bc,	/* Method of boundary correction			*/
-    long *error	/* Error code						*/
+    Sint bc,	/* Method of boundary correction			*/
+    Sint *ierr	/* Error code						*/
     )
 {
 register int j,row,col;
@@ -58,13 +58,13 @@ double *afterC;	/* Temporary store for image data after C convolution	*/
 double *afterD;	/* Temporary store for image data after D convolution	*/
 double *afterCC,*afterCD,*afterDC,*afterDD;	/* Results		*/
 
-*error = 0l;
+*ierr = 0;
 
 /* Get memory for afterC */
 
 if ((afterC = (double *)malloc((unsigned)(Csize*LengthCout*sizeof(double))))
 	==NULL){
-	*error = 1l;
+	*ierr = 1;
 	return;
 	}
 
@@ -72,14 +72,14 @@ if ((afterC = (double *)malloc((unsigned)(Csize*LengthCout*sizeof(double))))
 
 if ((afterD = (double *)malloc((unsigned)(Csize*LengthDout*sizeof(double))))
 	==NULL){
-        *error = 2l;
+        *ierr = 2;
         return;
         }
 
 /* Get memory for row of image to pass to convolution routines */
 
 if ((ccopy = (double *)malloc((unsigned)(Csize*sizeof(double)))) == NULL) {
-	*error = 3l;
+	*ierr = 3;
 	return;
 	}
 
@@ -87,7 +87,7 @@ if ((ccopy = (double *)malloc((unsigned)(Csize*sizeof(double)))) == NULL) {
 
 if ((ccopy_out = (double *)malloc((unsigned)(LengthCout*sizeof(double))))
 	==NULL)	{
-	*error = 4l;
+	*ierr = 4;
 	return;
 	}
 
@@ -95,7 +95,7 @@ if ((ccopy_out = (double *)malloc((unsigned)(LengthCout*sizeof(double))))
 
 if ((dcopy_out = (double *)malloc((unsigned)(LengthDout*sizeof(double))))
         ==NULL) {
-        *error = 5l;
+        *ierr = 5;
         return;
         }
 
@@ -135,25 +135,25 @@ for(row=0; row < (int)Csize; ++row)	{
 
 if ((afterCC = (double *)malloc((unsigned)(LengthCout*LengthCout*sizeof(double))
 		))==NULL)	{
-	*error = 6l;
+	*ierr = 6;
 	return;
 	}
 
 if ((afterCD = (double *)malloc((unsigned)(LengthDout*LengthCout*sizeof(double))
 		))==NULL)	{
-	*error = 7l;
+	*ierr = 7;
 	return;
 	}
 
 if ((afterDC = (double *)malloc((unsigned)(LengthCout*LengthDout*sizeof(double))
 		))==NULL)	{
-	*error = 8l;
+	*ierr = 8;
 	return;
 	}
 
 if ((afterDD = (double *)malloc((unsigned)(LengthDout*LengthDout*sizeof(double))
 		))==NULL)	{
-	*error = 9l;
+	*ierr = 9;
 	return;
 	}
 

@@ -1,3 +1,4 @@
+#include <R.h>
 
 #define PERIODIC	1
 #define SYMMETRIC	2
@@ -56,99 +57,99 @@ void convolveD(
 
 void wavedecomp(
     double *C,		/* Input data, and the subsequent smoothed data */
-    long *LengthC,	/* Length of C array				*/
+    Sint *LengthC,	/* Length of C array				*/
     double *D,		/* The wavelet coefficients			*/
-    long *LengthD,	/* Length of D array				*/
+    Sint *LengthD,	/* Length of D array				*/
     double *H,		/* The smoothing filter H			*/
-    long *LengthH,	/* Length of smoothing filter			*/
-    long *levels,	/* The number of levels in this decomposition	*/
-    long *firstC,	/* The first possible C coef at a given level	*/
-    long *lastC,	/* The last possible C coef at a given level	*/
-    long *offsetC,	/* Offset from C[0] for certain level's coeffs	*/
-    long *firstD,	/* The first possible D coef at a given level	*/
-    long *lastD,	/* The last possible D coef at a given level	*/
-    long *offsetD,	/* Offset from D[0] for certain level's coeffs	*/
-    long *bc,		/* Method of boundary correction		*/
-    long *error		/* Error code					*/
+    Sint *LengthH,	/* Length of smoothing filter			*/
+    Sint *levels,	/* The number of levels in this decomposition	*/
+    Sint *firstC,	/* The first possible C coef at a given level	*/
+    Sint *lastC,	/* The last possible C coef at a given level	*/
+    Sint *offsetC,	/* Offset from C[0] for certain level's coeffs	*/
+    Sint *firstD,	/* The first possible D coef at a given level	*/
+    Sint *lastD,	/* The last possible D coef at a given level	*/
+    Sint *offsetD,	/* Offset from D[0] for certain level's coeffs	*/
+    Sint *bc,		/* Method of boundary correction		*/
+    Sint *ierr		/* Error code					*/
     );
 
 void waverecons(
     double *C,		/* Input data, and the subsequent smoothed data */
-    long *LengthC,	/* Length of C array				*/
+    Sint *LengthC,	/* Length of C array				*/
     double *D,		/* The wavelet coefficients			*/
-    long *LengthD,	/* Length of D array				*/
+    Sint *LengthD,	/* Length of D array				*/
     double *H,		/* The smoothing filter H			*/
-    long *LengthH,	/* Length of smoothing filter			*/
-    long *levels,	/* The number of levels in this decomposition	*/
-    long *firstC,	/* The first possible C coef at a given level	*/
-    long *lastC,	/* The last possible C coef at a given level	*/
-    long *offsetC,	/* Offset from C[0] for certain level's coeffs	*/
-    long *firstD,	/* The first possible D coef at a given level	*/
-    long *lastD,	/* The last possible D coef at a given level	*/
-    long *offsetD,	/* Offset from D[0] for certain level's coeffs	*/
-    long *bc,		/* Which boundary handling are we doing		*/
-    long *error		/* Error code					*/
+    Sint *LengthH,	/* Length of smoothing filter			*/
+    Sint *levels,	/* The number of levels in this decomposition	*/
+    Sint *firstC,	/* The first possible C coef at a given level	*/
+    Sint *lastC,	/* The last possible C coef at a given level	*/
+    Sint *offsetC,	/* Offset from C[0] for certain level's coeffs	*/
+    Sint *firstD,	/* The first possible D coef at a given level	*/
+    Sint *lastD,	/* The last possible D coef at a given level	*/
+    Sint *offsetD,	/* Offset from D[0] for certain level's coeffs	*/
+    Sint *bc,		/* Which boundary handling are we doing		*/
+    Sint *ierr		/* Error code					*/
     );
 
 void StoIDS(
     double *C,
-    long *Csize,
-    long *firstCin,
+    Sint *Csize,
+    Sint *firstCin,
     double *H,
-    long *LengthH,
-    long *LengthCout,
-    long *firstCout,
-    long *lastCout,
-    long *LengthDout,
-    long *firstDout,
-    long *lastDout,
+    Sint *LengthH,
+    Sint *LengthCout,
+    Sint *firstCout,
+    Sint *lastCout,
+    Sint *LengthDout,
+    Sint *firstDout,
+    Sint *lastDout,
     double *ImCC, double *ImCD, double *ImDC, double *ImDD,
-    long *bc,
-    long *error
+    Sint *bc,
+    Sint *ierr
     );
 
 void StoIRS(
     double *ImCC, double *ImCD, double *ImDC, double *ImDD,
-    long *LengthCin, long *firstCin, long *lastCin,
-    long *LengthDin, long *firstDin, long *lastDin,
+    Sint *LengthCin, Sint *firstCin, Sint *lastCin,
+    Sint *LengthDin, Sint *firstDin, Sint *lastDin,
     double *H,
-    long *LengthH,
-    long *LengthCout, long *firstCout, long *lastCout,
+    Sint *LengthH,
+    Sint *LengthCout, Sint *firstCout, Sint *lastCout,
     double *ImOut,
-    long *bc,
-    long *error
+    Sint *bc,
+    Sint *ierr
     );
 
 void ImageDecomposeStep(
     double *C,		/* Input data image				*/
-    long Csize,		/* Size of image (side length)			*/
-    long firstCin,	/* Index number of first element in input "C" image */
+    Sint Csize,		/* Size of image (side length)			*/
+    Sint firstCin,	/* Index number of first element in input "C" image */
     double *H,		/* Filter coefficients				*/
-    long LengthH,	/* Length of filter				*/
+    Sint LengthH,	/* Length of filter				*/
 
 /* Details about output image */
-    long LengthCout,	/* Length of C part of output image		*/
-    long firstCout,	/* Index number of first element in output "C" image */
-    long lastCout,	/* Index number of last element			*/
-    long LengthDout,	/* Length of D part of output image		*/
-    long firstDout,	/* Index number of first element in output "D" image */
-    long lastDout,	/* Index number of last element			*/
+    Sint LengthCout,	/* Length of C part of output image		*/
+    Sint firstCout,	/* Index number of first element in output "C" image */
+    Sint lastCout,	/* Index number of last element			*/
+    Sint LengthDout,	/* Length of D part of output image		*/
+    Sint firstDout,	/* Index number of first element in output "D" image */
+    Sint lastDout,	/* Index number of last element			*/
     double **cc_out,	/* Smoothed output image			*/
     double **cd_out,	/* Horizontal detail				*/
     double **dc_out,	/* Vertical detail				*/
     double **dd_out,	/* Diagonal detail				*/
-    long bc,		/* Method of boundary correction		*/
-    long *error		/* Error code					*/
+    Sint bc,		/* Method of boundary correction		*/
+    Sint *ierr		/* Error code					*/
     );
 
 void ImageReconstructStep(
     double *ImCC, double *ImCD, double *ImDC, double *ImDD,
-    long LengthCin, long firstCin, long lastCin,
-    long LengthDin, long firstDin, long lastDin,
+    Sint LengthCin, Sint firstCin, Sint lastCin,
+    Sint LengthDin, Sint firstDin, Sint lastDin,
     double *H,
-    long LengthH,
-    long LengthCout, long firstCout, long lastCout,
+    Sint LengthH,
+    Sint LengthCout, Sint firstCout, Sint lastCout,
     double *ImOut,
-    long *bc,
-    long *error
+    Sint *bc,
+    Sint *ierr
     );

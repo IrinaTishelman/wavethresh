@@ -1,3 +1,4 @@
+%%% $Id: wd.Rd,v 1.6 2001/12/17 07:26:28 maechler Exp maechler $
 \name{wd}
 \alias{wd}
 \title{Discrete Wavelet Transform (Decomposition).}
@@ -8,7 +9,8 @@
   linked into \R.
 }
 \usage{
-wd(data, filter.number = 2, family="DaubExPhase", bc="periodic", verbose=FALSE)
+wd(data, filter.number = 2, family="DaubExPhase", bc="periodic",
+   verbose = getOption("verbose"))
 }
 \arguments{
   \item{data}{a vector containing the data you wish to decompose. The

@@ -1,17 +1,20 @@
+%%% $Id: plot.wd.Rd,v 1.9 2001/12/17 08:17:02 maechler Exp maechler $
 \name{plot.wd}
 \alias{plot.wd}
 \title{Plot Method for a `wd' object}
 \description{Plot wavelet coefficients of an object of class \code{"wd"}.
 }
 \usage{
-\method{plot}{wd}(wd, xlabels, first.level = 1,
+\method{plot}{wd}(x, xlabels, first.level = 1,
      main = "Wavelet Decomposition Coefficients",
      sub = wd$filter$name,
      xlab = "Translate", ylab = "Resolution Level",
-     scaling="by.level", rhlab = FALSE, \dots)
+     scaling="by.level", rhlab = FALSE,
+     col = par("fg"), lty = par("lty"), lwd = par("lwd"),
+     \dots)
 }
 \arguments{
-  \item{wd}{object of class "wd", containing a wavelet decomposition of
+  \item{x}{object of class \code{wd}, containing a wavelet decomposition of
     a function.}
   \item{xlabels}{if supplied, this argument should be a vector containing
     the x-axis for the plot. For example, if you are trying to regress y
@@ -25,6 +28,7 @@
     Either \code{"by.level"} or \code{"global"}.}
   \item{rhlab}{logical; determines whether the scale factors applied to
     each level before plotting are printed as the right hand axis.}
+  \item{col, lty, lwd}{graphical parameters, passed to \code{\link{segments}}.}
   \item{\dots}{other arguments to be supplied to \code{plot.wd}, see
     \code{\link{plot}}.}
 }
@@ -65,7 +69,7 @@ to make inter-level comparisons.
 Release 2.2
 Copyright Guy Nason 1993
 }
-\seealso{\code{\link{wd} and \code{\link{wd.object}}
+\seealso{\code{\link{wd}} and \code{\link{wd.object}}
 }
 \examples{
 example(wd)
@@ -75,4 +79,4 @@ plot(wds, rhlab = TRUE) # plotting the wavelet coefficients
 \keyword{hplot}
 \keyword{smooth}
 \keyword{nonlinear}
-% Converted by Sd2Rd version 0.3-3.
+

@@ -5,9 +5,10 @@
 summary.wd(object, \dots)
 }
 \arguments{
-\item{object}{
-  The wavelet decomposition of class \code{"wd"}.
-  This is assumed to be the result of some wavelet decomposition.}
+  \item{object}{
+    The wavelet decomposition of class \code{"wd"}.  This is assumed to
+    be the result of some wavelet decomposition.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \description{
   The number of levels, the length of the original data sequence,

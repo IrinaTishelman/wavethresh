@@ -3,7 +3,9 @@
  */
 
 #include <stdio.h>
+
 #include "wavelet.h"
+
 
 /*
  * ACCESSC handles negative accesses, as well as those that exceed the number
@@ -94,6 +96,10 @@ int reflect(
     int bc)
 {
 
+/* do not really exit()! -- would take down S/R as well!
+ * the return() is just for -Wall .. */
+#define Exit(i) { error("convolveC: error exit (%d)", i); return(-1); }
+
     if ((n >= 0) && (n < lengthC))
 	return(n);
     else if (n<0)	{
@@ -103,10 +109,9 @@ int reflect(
 	    */
 	    n = n%lengthC + lengthC*((n%lengthC)!=0);
 	    if (n < 0)      {
-		fprintf(stderr, "reflect: access error (%d,%d)\n",
-			n,lengthC);
-		fprintf(stderr, "reflect: left info from right\n");
-		exit(2);
+		REprintf("reflect: access error (%d,%d)\n", n,lengthC);
+		REprintf("reflect: left info from right\n");
+		Exit(2);
 	    }
 	    else
 		return(n);
@@ -115,18 +120,18 @@ int reflect(
 	else if (bc==SYMMETRIC)	{
 	    n = -1-n;
 	    if (n >= lengthC)       {
-		fprintf(stderr, "reflect: access error (%d,%d)\n",
-			n,lengthC);
-		exit(3);
+		REprintf("reflect: access error (%d,%d)\n",
+			 n,lengthC);
+		Exit(3);
 	    }
 	    else
 		return(n);
 	}
 
 	else	{
-	    fprintf(stderr, "reflect: Unknown boundary correction");
-	    fprintf(stderr, " value of %d\n", bc);
-	    exit(4);
+	    REprintf("reflect: Unknown boundary correction");
+	    REprintf(" value of %d\n", bc);
+	    Exit(4);
 	}
 
     }
@@ -141,10 +146,10 @@ int reflect(
 	      printf("%d\n", n);
 	    */
 	    if (n >= lengthC)	{
-		fprintf(stderr, "reflect: access error (%d,%d)\n",
+		REprintf("reflect: access error (%d,%d)\n",
 			n,lengthC);
-		fprintf(stderr, "reflect: right info from left\n");
-		exit(5);
+		REprintf("reflect: right info from left\n");
+		Exit(5);
 	    }
 	    else
 		return(n);
@@ -152,20 +157,20 @@ int reflect(
 	else if (bc==SYMMETRIC)	{
 	    n = 2*lengthC - n - 1;
 	    if (n<0)        {
-		fprintf(stderr, "reflect: access error (%d,%d)\n",
+		REprintf("reflect: access error (%d,%d)\n",
 			n,lengthC);
-		exit(6);
+		Exit(6);
 	    }
 	    else
 		return(n);
 	}
 	else    {
-	    fprintf(stderr, "reflect: Unknown boundary correction\n");
-	    exit(7);
+	    REprintf("reflect: Unknown boundary correction\n");
+	    Exit(7);
 	}
     }
 
 /* Safety */
-    fprintf(stderr, "reflect: SHOULD NOT HAVE REACHED THIS POINT\n");
-    exit(8);
+    REprintf("reflect: SHOULD NOT HAVE REACHED THIS POINT\n");
+    Exit(8);
 }

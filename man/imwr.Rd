@@ -5,15 +5,14 @@
   Generic function for 2-dimensional wavelet reconstruction.
 }
 \usage{
-imwr(x, \dots)
+imwr(imwd, \dots)
 }
 \arguments{
-\item{x}{an \R object.}
-\item{...}{methods may have additional arguments.}
+  \item{imwd}{a wavelet decomposition object.}
+  \item{\dots}{methods may have additional arguments.}
 }
-\seealso{the principal method, \code{\link{imwr.imwd},
-    and \code{\link{imwr.imwdc}}.
+\seealso{the principal method, \code{\link{imwr.imwd}},
+  and \code{\link{imwr.imwdc}}.
 }
 \keyword{nonlinear}
 \keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.

@@ -1,3 +1,4 @@
+%%% $Id: threshold.imwdc.Rd,v 1.6 2001/12/17 08:18:30 maechler Exp maechler $
 \name{threshold.imwdc}
 \alias{threshold.imwdc}
 \title{Threshold an `imwdc' Object (2D Wavelet)}
@@ -6,14 +7,15 @@
   of class \code{imwdc}.
 }
 \usage{
-\method{threshold}{imwdc}(imwdc, verbose=FALSE, \dots)
+\method{threshold}{imwdc}(x, verbose = getOption("verbose"), \dots)
 }
 \arguments{
-  \item{imwdc}{Object of class "imwdc", maybe after a previous thresholding.}
+  \item{x}{object of class \code{imwdc}, maybe after a previous thresholding.}
   \item{verbose}{print information messages about what's going on}
-  \item{\dots}{other arguments to threshold}}
+  \item{\dots}{other arguments to threshold}
+}
 \value{
-  An object of class \code{"imwdc"}, containing the thresholded object
+  An object of class \code{"imwdc"}, containing the thresholded object.
 }
 \details{
 This function thresholds just like \code{\link{threshold.imwd}}, except that the
@@ -42,8 +44,8 @@ Copyright Guy Nason 1993
 \references{see \code{\link{wd}} for a list.
 }
 \section{BUGS}{
-There should be an optimal policy as well, although universal comes
-close.
+  There should be an optimal policy as well, although universal comes
+  close.
 }
 \seealso{For examples, see \code{\link{imwr.imwd}}.
   \code{\link{imwr}}, \code{\link{imwd}}, \code{\link{compress}},
@@ -52,4 +54,4 @@ close.
 }
 \keyword{nonlinear}
 \keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.
+

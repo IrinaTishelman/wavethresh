@@ -5,18 +5,18 @@
 Images Wavelet Coefficients of a imwd class object
 }
 \usage{
-\method{plot}{imwd}(imwd, scaling="by.level", co.type="abs",
+\method{plot}{imwd}(x, scaling="by.level", co.type="abs",
      plot.type="mallat", arrangement=c(3,3),
      plot = exists("image", mode="function"),
      transform = FALSE, tfunction = sqrt,
      col = heat.colors(32), \dots)
 }
 \arguments{
-  \item{imwd}{object of class "imwd" containing a wavelet decomposition of
+  \item{x}{object of class \code{imwd} containing a wavelet decomposition of
     an image.}
   \item{scaling}{character string, determining the scaling applied to
     each sub-image.  The values can be
-    "by.level" which means each image is scaled independently to the whole
+    \code{"by.level"} which means each image is scaled independently to the whole
     dynamic range of the image, otherwise the whole image is scaled as a whole
     (as in previous versions).  This argument only takes effect when the
     \code{plot.type} is \code{"mallat"}.
@@ -48,6 +48,7 @@ Images Wavelet Coefficients of a imwd class object
   \item{tfunction}{a (vectorizing) function; a transform to apply to the
     coefficients if \code{transform} is true.}
   \item{col}{vector of colors to use for \code{\link{image}}.}
+  \item{\dots}{potential further graphics parameters.}
 }
 \value{
   The matrix of wavelet coefficients packed in Mallat form,

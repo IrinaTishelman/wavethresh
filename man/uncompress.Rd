@@ -12,8 +12,7 @@ uncompress(x, \dots)
   \item{x}{an \R object.}
   \item{\dots}{methods may have additional arguments.}
 }
-\value{a uncompressed version of the supplied argument.
-}
+\value{an uncompressed version of the supplied argument.}
 \details{Functions with names beginning in \code{uncompress.} will be
   methods for this function,
 

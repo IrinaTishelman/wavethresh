@@ -1,3 +1,4 @@
+%%% $Id: wr.Rd,v 1.6 2001/12/17 08:18:37 maechler Exp maechler $
 \name{wr}
 \title{Discrete wavelet transform (reconstruction).}
 \alias{wr}

@@ -5,8 +5,8 @@
 filter.select(filter.number, family="DaubExPhase", constant=1)
 }
 \description{
-This function stores the filter coefficients necessary for doing a discrete
-wavelet transform (and its inverse).
+  This function stores the filter coefficients necessary for doing a discrete
+  wavelet transform (and its inverse).
 }
 \arguments{
   \item{filter.number}{integer, selecting the desired filter; takes a
@@ -18,33 +18,33 @@ wavelet transform (and its inverse).
     to be whatever you want. (This is feature of negative utility.)}
 }
 \value{
-A list is returned with four components describing the filter:
-\item{H}{A vector containing the filter coefficients.}
-\item{name}{A character string containing the name of the filter.}
-\item{family}{A character string containing the family of the filter.}
-\item{filter.number}{The filter number used to select the filter.}
+  A list is returned with four components describing the filter:
+  \item{H}{A vector containing the filter coefficients.}
+  \item{name}{A character string containing the name of the filter.}
+  \item{family}{A character string containing the family of the filter.}
+  \item{filter.number}{The filter number used to select the filter.}
 }
 \details{
-This function contains three types of filter.
-Two types can be selected with family set to DaubExPhase, these
-wavelets are the Haar wavelet (selected by filter.number=1 within
-this family) and Daubechies \code{`extremal phase}' wavelets selected by
-filter.numbers ranging from 2 to 10) as proposed in Daubechies (1988).
-Setting family to DaubLeAsymm gives you Daubechies least asymmetric
-wavelets also from Daubechies (1988), but here the filter number ranges
-from 4 to 10.
+  This function contains three types of filter.
+  Two types can be selected with family set to DaubExPhase, these
+  wavelets are the Haar wavelet (selected by \code{filter.number=1} within
+  this family) and Daubechies ``extremal phase'' wavelets selected by
+  filter.numbers ranging from 2 to 10 as proposed in Daubechies (1988).
+  Setting family to DaubLeAsymm gives you Daubechies least asymmetric
+  wavelets also from Daubechies (1988), but here the filter number ranges
+  from 4 to 10.
 
-For Daubechies wavelets, \code{filter.number} corresponds to the
-N of that paper, the wavelets become more regular as the filter.number
-increases, but they are all of compact support.
+  For Daubechies wavelets, \code{filter.number} corresponds to the
+  \eqn{N} of that paper, the wavelets become more regular as the filter.number
+  increases, but they are all of compact support.
 
-This function is currently used by \code{\link{wr}} and \code{\link{wd}}
-in decomposing and reconstructing, however you may wish to look at the
-coefficients.
+  This function is currently used by \code{\link{wr}} and \code{\link{wd}}
+  in decomposing and reconstructing, however you may wish to look at the
+  coefficients.
 }
 \section{NOTE}{
-The filter coefficients should always sum to
-\eqn{\sqrt{2}{sqrt(2)}. This is a useful check on their validity.
+  The filter coefficients should always sum to
+  \eqn{\sqrt{2}}{sqrt(2)}. This is a useful check on their validity.
 }
 \seealso{
   \code{\link{wd}}, \code{\link{wr}}, for background information;
@@ -64,4 +64,4 @@ all.equal(sum(f2 $H), sqrt(2))# TRUE
 }
 \keyword{math}
 \keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.
+

@@ -28,4 +28,4 @@ axis(2, at=sqrt(atl), labels = formatC(atl,wid=1), las=2)
 image(lennon, zlim = c(0, 192), col = gray(127:0/128))# white to dark
 image(lennon, zlim = c(-10, 240), col = gray(127:0/128))
 }
-\keyword(datasets)
+\keyword{datasets}

@@ -2,13 +2,13 @@
 \alias{plot.imwdc}
 \title{Plot Method for an `imwdc' object}
 \description{
-Images wavelet coefficients of an imwdc class object
+  Images (visualizes) wavelet coefficients of an \code{imwdc} class object.
 }
 \usage{
-\method{plot}{imwdc}(imwdc, verbose = getOption("verbose"),\dots)
+\method{plot}{imwdc}(x, verbose = getOption("verbose"),\dots)
 }
 \arguments{
-  \item{imwdc}{object of class "imwdc", maybe from a thresholding using
+  \item{x}{object of class "imwdc", maybe from a thresholding using
     \code{\link{threshold}()}.}
   \item{verbose}{logical, passed to \code{\link{uncompress}}.}
   \item{\dots}{other arguments to \code{\link{plot.imwd}}.}
@@ -27,7 +27,7 @@ Release 2.2
 Copyright Guy Nason 1993
 }
 \seealso{
-\code{\link{plot.imwd}}, \code{\link{plot}}
+  \code{\link{plot.imwd}}, \code{\link{plot}}
 }
 \examples{
 example(imwd)

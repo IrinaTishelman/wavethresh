@@ -1,3 +1,4 @@
+%%% $Id: imwr.imwd.Rd,v 1.6 2001/12/17 07:27:15 maechler Exp maechler $
 \name{imwr.imwd}
 \alias{imwr.imwd}
 \alias{imwr.imwdc}%- both!
@@ -7,19 +8,20 @@
   pyramid algorithm, i.e. the inverse discrete wavelet transform for images.
 }
 \usage{
-\method{imwr}{imwd}(imwd, bc=imwd$bc, verbose=FALSE)
-\method{imwr}{imwdc}(imwdc,bc=imwd$bc, verbose=FALSE)
+\method{imwr}{imwd}(imwd,  bc=imwd$bc, verbose = getOption("verbose"), \dots)
+\method{imwr}{imwdc}(imwd, bc=imwd$bc, verbose = getOption("verbose"), \dots)
 }
 \arguments{
-  \item{imwd,imwdc}{
+  \item{imwd}{
     object of class \code{imwd} or \code{imwdc} respectively; typically
     returned by \code{\link{imwd}} and \code{\link{threshold.imwd}}.
   }
   \item{bc}{character, specifying the boundary handling. It is best left
-    to be the boundary handling specified by that in the supplied argument.
+    to be the boundary handling specified by default.%that in the supplied argument.
   }
   \item{verbose}{logical; if true then informative messages are printed
     detailing the computations to be performed.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \value{
 A matrix, of dimension determined by the original data set supplied

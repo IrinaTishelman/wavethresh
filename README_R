@@ -1,5 +1,5 @@
-This version is intended as an add-on package for R.
-It is installed as described in R's  help(library) or Kurt Hornik's R-FAQ:
+This is an add-on package for R.
+It is installed as described in R's  help(library) or the R FAQ:
 
 Untar the add-on package (in $RHOME/src/library or another place where you
 			  keep add-on packages)
@@ -18,7 +18,7 @@ at the shell prompt.
 New (Oct 1999):
 
   C-code in ./src :
-		Change to ANSI C prototypes, using wavelet.h;
+		Change to ISO C prototypes, using wavelet.h;
 		no "-Wall" warnings anymore
 
   R/ : Cleanup  (last.dump; obj.files)
@@ -35,12 +35,10 @@ New (Oct 1999):
   Finally,
   	    R CMD check -l ... wavethresh
 	    -----------        ----------
+
   works (producing a wavethresh-Examples.ps file of ~ 52 MB !)
 
-
-TODO:
-      o \keyword{.} in man/*.Rd should be better and consistent
-      o use \link{} better; clean up several \details{} which repeat themselves
-
-  Martin Maechler <maechler@stat.math.ethz.ch>
+TODOs --> file ./TODO-MM
+      		~~~~~~~~
+		Martin Maechler <maechler@stat.math.ethz.ch>
 

@@ -1,3 +1,4 @@
+%%% $Id: threshold.wd.Rd,v 1.6 2001/12/17 08:18:33 maechler Exp maechler $
 \name{threshold.wd}
 \alias{threshold.wd}
 \title{Threshold a `wd' Object (1D Wavelet)}
@@ -6,12 +7,12 @@
   decomposition object.
 }
 \usage{
-threshold.wd(wd, levels=3:(wd$nlevels-1), type="hard",
+threshold.wd(x, levels=3:(wd$nlevels-1), type="hard",
     policy="universal", by.level=FALSE, value=0, dev=var, boundary=FALSE,
-    verbose=FALSE, return.threshold=FALSE)
+    verbose = getOption("verbose"), return.threshold=FALSE, \dots)
 }
 \arguments{
-  \item{wd}{Object of class \code{"wd"}, typically from a wavelet decomposition
+  \item{x}{Object of class \code{"wd"}, typically from a wavelet decomposition
     using the \code{\link{wd}} function.}
   \item{levels}{integer vector determining which levels are thresholded in
     the decomposition.}
@@ -34,6 +35,7 @@ threshold.wd(wd, levels=3:(wd$nlevels-1), type="hard",
     messages at you.}
   \item{return.threshold}{logical, if true then the actual threshold is
     returned, otherwise the thresholded object is returned.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \value{An object of class "wd" that has been thresholded.
 }
@@ -122,12 +124,11 @@ summary(trecS <- wr(thS.wds))
 # Plot the data, the true & reconstructed functions
 #
 plot(x,y, col = "gray", cex = .6) # the data
-lines(x, fx, col="red", lwd=1.5)# true function
-lines(x, trecH, col= "blue1", lty=2, lwd=1.5)
-lines(x, trecS, col= "blue4", lty=4, lwd=1.5)
-legend(0,6, c("true", paste(c("hard","soft")," thresh.")),
-       col = c("red","blue1","blue2"), lwd= 1.5, lty = c(1,2,4))
+lines(x, fx, col="blue", lwd=1)# true function
+lines(x, trecH, col= "orchid", lty=2, lwd=2)
+lines(x, trecS, col= "tomato", lty=4, lwd=2)
+legend(0,5.6, c("true", paste(c("hard","soft")," thresh.")),
+       col = c("blue","orchid","tomato"), lwd= c(1,2,2), lty = c(1,2,4))
 }
 \keyword{nonlinear}
 \keyword{smooth}
-

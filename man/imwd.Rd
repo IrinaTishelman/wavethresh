@@ -7,7 +7,7 @@ This function performs the decomposition stage of Mallat's pyramid algorithm
 i.e. the discrete wavelet transform for images.
 }
 \usage{
-imwd(image, filter.number=2, bc="periodic", verbose=FALSE)
+imwd(image, filter.number=2, bc="periodic", verbose = getOption("verbose"))
 }
 \arguments{
 \item{image}{
@@ -29,10 +29,11 @@ by symmetric reflection at each end.
 }
 \item{verbose}{logical; if true then informative messages are printed
 whilst the computations are performed.
-}}
+}
+}
 \value{
-An object of class "imwd", a list containing the wavelet coefficients
-(see "imwd.object").
+  An object of class "imwd", a list containing the wavelet coefficients
+  (see \code{\link{imwd.object}}).
 }
 \details{
 The 2D algorithm is essentially the application of many 1D filters.
@@ -51,13 +52,12 @@ After many attacks
 you will obtain four real numbers, one of which correspond to the
 image smoothed many times.
 
-
 Exact details of the algorithm are to be found in
 Mallat 1989.
 }
 \seealso{\code{\link{wd}}, for background information;
-  \code{\link{imwr} for reconstruction, \code{\link{plot.imwd}},
-    \code{\link{draw.imwd}}
+  \code{\link{imwr}} for reconstruction, \code{\link{plot.imwd}},
+  \code{\link{draw.imwd}}.
 }
 \examples{
 # Do a decomposition of an image

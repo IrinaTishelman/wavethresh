@@ -10,6 +10,7 @@
 }
 \arguments{
   \item{x}{an object of class \code{wd}}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \section{Side Effects}{
   Information about the \code{wd} object is printed out.

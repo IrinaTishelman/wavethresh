@@ -8,17 +8,17 @@
 
 void StoIRS(
     double *ImCC, double *ImCD, double *ImDC, double *ImDD,
-    long *LengthCin, long *firstCin, long *lastCin,
-    long *LengthDin, long *firstDin, long *lastDin,
+    Sint *LengthCin, Sint *firstCin, Sint *lastCin,
+    Sint *LengthDin, Sint *firstDin, Sint *lastDin,
     double *H,
-    long *LengthH,
-    long *LengthCout, long *firstCout, long *lastCout,
+    Sint *LengthH,
+    Sint *LengthCout, Sint *firstCout, Sint *lastCout,
     double *ImOut,
-    long *bc,
-    long *error
+    Sint *bc,
+    Sint *ierr
     )
 {
-    *error = 0l;
+    *ierr = 0;
 
     ImageReconstructStep(ImCC, ImCD, ImDC, ImDD,
 			 *LengthCin, *firstCin, *lastCin,
@@ -26,19 +26,19 @@ void StoIRS(
 			 H, *LengthH,
 			 *LengthCout, *firstCout, *lastCout,
 			 ImOut, bc,
-			 error);
+			 ierr);
 }
 
 void ImageReconstructStep(
     double *ImCC, double *ImCD, double *ImDC, double *ImDD,
-    long LengthCin, long firstCin, long lastCin,
-    long LengthDin, long firstDin, long lastDin,
+    Sint LengthCin, Sint firstCin, Sint lastCin,
+    Sint LengthDin, Sint firstDin, Sint lastDin,
     double *H,
-    long LengthH,
-    long LengthCout, long firstCout, long lastCout,
+    Sint LengthH,
+    Sint LengthCout, Sint firstCout, Sint lastCout,
     double *ImOut,
-    long *bc,
-    long *error
+    Sint *bc,
+    Sint *ierr
     )
 {
     register int i,j;
@@ -51,23 +51,23 @@ void ImageReconstructStep(
 /* Get memory for c_in and d_in */
 
     if ((c_in = (double *)malloc((unsigned)LengthCin*sizeof(double)))==NULL) {
-	*error = 1l;
+	*ierr = 1;
 	return;
     }
 
     if ((d_in = (double *)malloc((unsigned)LengthDin*sizeof(double)))==NULL) {
-	*error = 2l;
+	*ierr = 2;
 	return;
     }
 
     if ((c_out = (double *)malloc((unsigned)LengthCout*sizeof(double)))==NULL) {
-	*error = 3l;
+	*ierr = 3;
 	return;
     }
 
     if ((toC = (double *)malloc((unsigned)LengthCin*LengthCout*sizeof(double)))
 	== NULL)	{
-	*error = 4l;
+	*ierr = 4;
 	return;
     }
 
@@ -95,7 +95,7 @@ void ImageReconstructStep(
 
     if ((toD = (double *)malloc((unsigned)LengthDin*LengthCout*sizeof(double)))
 	== NULL)	{
-	*error = 5l;
+	*ierr = 5;
 	return;
     }
 

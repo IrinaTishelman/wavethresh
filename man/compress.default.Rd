@@ -2,24 +2,25 @@
 \alias{compress.default}
 \title{Compress a (Wavelet) Vector}
 \description{
-Compression of a vector by removal of zero elements.
+  Compression of a vector by removal of zero elements.
 }
 \usage{
-\method{compress}{default}(v, verbose=FALSE)
+\method{compress}{default}(x, verbose = getOption("verbose"), \dots)
 }
 \arguments{
-  \item{v}{numeric vector to compress}
+  \item{x}{numeric vector to compress}
   \item{verbose}{logical; if true then report on compression activity.}
+  \item{\dots}{further arguments to be passed to or from methods.}
 }
 \value{
-  An object of class "compressed" if compression took place, otherwise a
-  an object of class "uncompressed"
+  An object of class \code{compressed} if compression took place, otherwise a
+  an object of class \code{uncompressed}
 }
 \details{
 Images are large objects.  Thresholded 2d wavelet objects (imwd) are also
 large, but many of their elements are zero.  Compress takes a vector,
 decides whether compression is necessary and if it is makes an object
-of class "compressed" containing the nonzero elements and their position
+of class \code{compressed} containing the nonzero elements and their position
 in the original vector.
 
 The decision whether to compress the vector or not depends on two
@@ -45,7 +46,9 @@ This usually only happens for small objects, so it doesn't really
 matter.
 }
 \seealso{
-\code{\link{compressed.object}}, \code{\link{uncompressed.object}}
+  \code{\link{compressed.object}}, \code{\link{uncompressed.object}};
+  \code{\link[base]{rle}} for another kind of compression.
+}
 }
 \examples{
 #
