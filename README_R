@@ -1,0 +1,46 @@
+This version is intended as an add-on package for R.
+It is installed as described in R's  help(library) or Kurt Hornik's R-FAQ:
+
+Untar the add-on package (in $RHOME/src/library or another place where you
+			  keep add-on packages)
+and type
+
+      R INSTALL wavethresh
+or
+      R INSTALL -l <lib.loc> wavethresh
+
+at the shell prompt.
+
+--------------------------------------------
+--> see ./README  for general background
+--------------------------------------------
+
+New (Oct 1999):
+
+  C-code in ./src :
+		Change to ANSI C prototypes, using wavelet.h;
+		no "-Wall" warnings anymore
+
+  R/ : Cleanup  (last.dump; obj.files)
+	persp() and image() plots *are* available
+	Slight improvements to print.*, plot.wd, ...
+	New functions pack8bit and unpack8bit
+
+  data/ : Use packed version of Lennon's face.
+
+  man/
+      Cleaned up missing links; now workable
+      Examples are executable
+
+  Finally,
+  	    R CMD check -l ... wavethresh
+	    -----------        ----------
+  works (producing a wavethresh-Examples.ps file of ~ 52 MB !)
+
+
+TODO:
+      o \keyword{.} in man/*.Rd should be better and consistent
+      o use \link{} better; clean up several \details{} which repeat themselves
+
+  Martin Maechler <maechler@stat.math.ethz.ch>
+

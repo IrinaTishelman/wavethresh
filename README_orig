@@ -1,0 +1,79 @@
+Welcome to wavelets for S and Splus
+-----------------------------------
+
+Setting up the software
+-----------------------
+
+1. Create a subdirectory to contain all the software
+
+% mkdir WAVELET
+% cd WAVELET
+
+2. Unpack the Shell archive
+
+% sh wavethresh2.2
+
+3. This creates a subdirectory called "DISTRIB2.2", enter this directory:
+
+% cd DISTRIB2.2
+
+4. Set up the software by typing:
+
+% make all 
+<set up messages>
+%
+
+5. Clean up by typing:
+
+% make cleanobj 
+
+
+Using the software
+------------------
+
+Assumptions: the wavelet software is
+	     in directory "/home/fred/WAVELET/DISTRIB2.2/.Data"
+
+1. Start-up S anywhere (/home/fred/WAVELET/DISTRIB2.2 NOT recommended)
+
+% S
+>
+
+2. Attach the wavelet software directory
+
+> attach("/home/fred/WAVELET/DISTRIB2.2/.Data")
+
+3. You are now ready to use the software
+
+HINTS:
+    * Put the command in step 2 into a ".First" file. Then they
+      will be executed every time you start up S
+
+    * Raw S users (e.g. not Splus) may need to adapt the makefile
+      (change S=Splus to S=S)
+
+    * Users of some machines may need to adapt the makefile
+      (I've had reports for IBM RS machines, DEC machines and Silicon Graphics
+      machines which may help.)
+
+DOCUMENTATION:
+
+    * full S help documentation is supplied with the distribution
+
+    * fuller documentation available by anonymous ftp from
+      gdr.bath.ac.uk in /pub/masgpn as "dws.ps.Z". This is
+      a compressed PostScript file (This is for Release 2.1).
+
+    * The LATEST documentation for Release 2.2 may be obtained by emailing
+      Guy Nason at gpn@maths.bath.ac.uk
+
+
+Have fun!
+
+Guy Nason and Bernard Silverman
+
+p.s. all suggestions to Guy Nason, email gpn@maths.bath.ac.uk
+
+n.b. This work was funded by a grant awarded to Prof B W Silverman
+from the UK Science and Engineering Research Council (Complex Stochastic
+Systems Initiative).

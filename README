@@ -1,0 +1,60 @@
+Welcome to wavelets for S, Splus and R
+--------------------------------------
+
+This is now a normal R package that should be installed using
+
+     R INSTALL [ -l <libpath> ] wavethresh
+
+and used by
+
+    library(wavethresh)
+
+
+DOCUMENTATION:
+
+    o full R help documentation is supplied with the distribution
+
+    o "The" publication is
+
+	 Nason, G.P. and Silverman, B.W. (1994).
+	 The discrete wavelet transform in {S},
+	 Journal of Computational and Graphical Statistics 3, 163-191.
+
+    o Guy Nason's Web Site on Wavelets:
+           http://www.stats.bris.ac.uk/pub/reports/Wavelets/Wavelets.html
+
+    o The LATEST plans and software may be obtained by emailing
+      Guy Nason at G.P.Nason@bristol.ac.uk
+
+-----------------------
+
+1993
+~~~~
+
+Have fun!
+
+Guy Nason and Bernard Silverman
+
+p.s. all suggestions to Guy Nason, email gpn@maths.bath.ac.uk
+
+n.b. This work was funded by a grant awarded to Prof B W Silverman
+from the UK Science and Engineering Research Council (Complex Stochastic
+Systems Initiative).
+
+-----------------------
+
+R port, 1997,1999 --> see ./README_R
+~~~~~~~~~~~~~~~~~
+E-mail bug reports, etc to
+
+ Arne Kovac <Arne.Kovac@uni-essen.de>
+ Martin Maechler <maechler@stat.math.ethz.ch>
+
+
+
+
+
+
+
+
+

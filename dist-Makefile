@@ -1,0 +1,16 @@
+PKG = wavethresh
+TAR = /usr/local/bin/tar
+
+dist:
+	(Mpwd=`pwd`; TMP=../TMP_$(PKG); mkdir -p $${TMP}; \
+	 VER=`sed -n '/^Version: /s///p' DESCRIPTION`; \
+	 cd ..; cp -pr $(PKG) $${TMP}; \
+	 cd $${TMP}/$(PKG); \
+	   mv Makefile dist-Makefile; \
+	   rm -rf check *gz src/*.o ; \
+	   find . \( -name '*~' -o -name TAGS -o -name Old \) \
+		-exec rm -r {} \; ; \
+	 cd ..; $(TAR) cfvz $${Mpwd}/$(PKG)_$${VER}.tar.gz $(PKG); \
+	 cd $${Mpwd}; rm -rf $${TMP}; \
+	   ls -l $(PKG)_$${VER}.tar.gz \
+	)

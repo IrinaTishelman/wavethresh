@@ -1,0 +1,132 @@
+***************
+*** 1,11 ****
+  \name{threshold.imwd}
+  \alias{threshold.imwd}
+- \title{
+- Use `threshold()' on an `imwd' object
+- }
+  \description{
+  Applies hard or soft thresholding to wavelet decomposition object
+- "imwd".
+  }
+  \usage{
+  threshold.imwd(imwd, levels=3:(wd$nlevels-1), type="hard",
+--- 1,9 ----
+  \name{threshold.imwd}
+  \alias{threshold.imwd}
++ \title{Threshold an `imwd' Object (2D Wavelet)}
+  \description{
+  Applies hard or soft thresholding to wavelet decomposition object
++ of class \code{imwd}.
+  }
+  \usage{
+  threshold.imwd(imwd, levels=3:(wd$nlevels-1), type="hard",
+***************
+*** 13,63 ****
+      verbose=FALSE, return.threshold=FALSE, compression=T)
+  }
+  \arguments{
+- \item{imwd}{
+- Object of class "imwd", maybe from a wavelet decomposition using
+- the imwd function.
+- }
+- \item{levels}{
+- vector that determines which levels are thresholded in the decomposition
+- }
+- \item{type}{
+- Determines the type of thresholding, this can be "hard" or "soft"
+- }
+- \item{policy}{
+- which threshold to use, this can be "universal", "manual", or "probability"
+- }
+- \item{by.level}{
+- If FALSE then a global threshold is applied to all the levels specified by
+- "levels", otherwise a threshold is computed and applied separately to
+- each level.
+- }
+- \item{value}{
+- This is the user-supplied threshold for the manual policy, and
+- also the user-supplied quantile level for the probability policy.
+- }
+- \item{dev}{
+- Deviance measure. The default is to use the var() function, but you
+- can insert your own measure of deviance.
+- }
+- \item{verbose}{
+- If true then threshold spurts informative messages at you.
+- }
+- \item{return.threshold}{
+- If this is true then the actual threshold is returned, otherwise
+- the thresholded object is returned.
+- }
+- \item{compression}{
+- If true the thresholded object is compressed and then returned,
+- otherwise the thresholded object is returned.
+- }}
+  \value{
+  If compression==T then an object of class "imwdc" that has been thresholded
+  and compressed is returned, otherwise an uncompressed, but thresholded,
+  object of class "imwd" is returned.
+  }
+- \section{Side Effects}{
+- None
+- }
+  \details{
+  Thresholding modifies the coefficients within a imwd wavelet
+  decomposition object. The modification can be performed either
+--- 11,45 ----
+      verbose=FALSE, return.threshold=FALSE, compression=T)
+  }
+  \arguments{
++   \item{imwd}{object of class \code{"imwd"},  typically  from a wavelet
++     decomposition using the \code{\link{imwd}} function.}
++   \item{levels}{integer vector determining which levels are thresholded in
++     the decomposition.}
++   \item{type}{character, determining the type of thresholding; either
++     "hard" or "soft".}
++   \item{policy}{character indicating the threshold to use,
++     can be "universal", "manual", or "probability".}
++   \item{by.level}{logical; if \code{FALSE} then a global threshold is
++     applied to \emph{all} the levels specified by \code{levels},
++     otherwise a threshold is computed and applied separately to each level.
++   }
++   \item{value}{numeric user-supplied threshold for the \code{"manual"}
++     \code{policy}, or the user-supplied quantile level for the
++     \code{"probability"} policy.}
++   \item{dev}{deviance function.  The default \code{var} is to use the
++     variance, but you can insert your own measure of deviance.  }
++   \item{verbose}{logical, if true then \code{threshold()} spurts informative
++     messages at you.}
++   \item{return.threshold}{logical, if true then the actual threshold is
++     returned, otherwise the thresholded object is returned.}
++   \item{compression}{logical; if true the thresholded object is
++     compressed and then returned, otherwise it is returned unaltered.}
++ }
+  \value{
+  If compression==T then an object of class "imwdc" that has been thresholded
+  and compressed is returned, otherwise an uncompressed, but thresholded,
+  object of class "imwd" is returned.
+  }
+  \details{
+  Thresholding modifies the coefficients within a imwd wavelet
+  decomposition object. The modification can be performed either
+***************
+*** 89,98 ****
+  your own function and supplying it as the "dev" argument. For example
+  you could create the function "myvar" by
+  
+- 
+- myvar <- function(d)
+- mad(d)^2
+- 
+  
+  This computes the square of the mean absolute deviation of the data.
+  It is squared because "dev" should be a measure on the variance scale,
+--- 67,73 ----
+  your own function and supplying it as the "dev" argument. For example
+  you could create the function "myvar" by
+  
++ myvar <- function(d) mad(d)^2
+  
+  This computes the square of the mean absolute deviation of the data.
+  It is squared because "dev" should be a measure on the variance scale,
