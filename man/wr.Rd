@@ -1,9 +1,9 @@
-%%% $Id: wr.Rd,v 1.6 2001/12/17 08:18:37 maechler Exp maechler $
+%%% $Id: wr.Rd,v 1.7 2003/11/11 10:34:54 maechler Exp $
 \name{wr}
 \title{Discrete wavelet transform (reconstruction).}
 \alias{wr}
 \usage{
-wr(wd, start.level = 0, verbose = FALSE,
+wr(wd, start.level = 0, verbose = getOption("verbose"),
    bc = wd$bc, return.object = FALSE,
    filter.number = wd$filter$filter.number, family = wd$filter$family)
 }
@@ -18,7 +18,7 @@ wr(wd, start.level = 0, verbose = FALSE,
     This is usually the first (level 0).}
   \item{bc, filter.number, family}{by default part of the \code{wd}
     object, but can specified differently by the ``knowing''.}
-  \item{verbose}{logical, controlling the printing of "informative"
+  \item{verbose}{logical, controlling the printing of ``informative''
     messages whilst the computations progress.  Such messages are
     generally annoying so it is turned off by default.}
   \item{return.object}{logical;
@@ -28,34 +28,30 @@ wr(wd, start.level = 0, verbose = FALSE,
   }
 }
 \value{
-Either a vector containing the top level reconstruction or
-an object of class "wd" containing the results of the reconstruction,
-details to be found in help for "wd.object".
-}
-\section{Side Effects}{
-The appropriate C object code is loaded if it isn't.
+  Either a vector containing the top level reconstruction or
+  an object of class \code{wd} containing the results of the reconstruction,
+  details to be found in the documentation for \code{\link{wd.object}}.
 }
 \details{
 The code implements Mallat's pyramid algorithm (Mallat 1989).
 In the reconstruction the quadrature mirror filters G and H are
-supplied with c0 and d0, d1, \dots{} d(m-1) (the wavelet coefficients)
-and rebuild c1,\dots{}, cm.
+supplied with \eqn{c_0}{c0} and \eqn{d_0, d_1, \dots, d_{m-1}}{d0, d1,
+  .., d(m-1)} (the wavelet coefficients) and rebuild
+\eqn{c_1, \dots, c_m}{c1, .., cm}.
 
-If wd.object was obtained directly from wd then the original function
-can be reconstructued EXACTLY as cm and can be sought with
+If \code{wd} was obtained directly from \code{\link{wd}()} then the
+original function can be reconstructued \bold{exactly} as \eqn{c_m}{cm}
+and can be sought with \code{accessC(wd.object, level=wd.object$levels)}.
 
-\code{accessC(wd.object, level=wd.object$levels)}
-
-Usually, the wd.object has been modified in some way, for example,
-some coefficients set to zero by threshold. Wr then reconstructs
+Usually, the \code{wd} object has been modified in some way, for example,
+some coefficients set to zero by threshold. \code{Wr} then reconstructs
 the function with that set of wavelet coefficients.
 }
 \section{RELEASE}{
 Release 2.2
 Copyright Guy Nason 1993
 }
-\references{see \code{\link{wd}} for a list.
-}
+\references{see \code{\link{wd}} for a list.}
 \seealso{\code{\link{wd}}, \code{\link{accessC}}, \code{\link{accessD}},
   \code{\link{filter.select}}, \code{\link{threshold}}.
 }

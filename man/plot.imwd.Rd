@@ -2,14 +2,13 @@
 \alias{plot.imwd}
 \title{Plot Method for an `imwd' object}
 \description{
-Images Wavelet Coefficients of a imwd class object
+  Images Wavelet Coefficients of a imwd class object
 }
 \usage{
-\method{plot}{imwd}(x, scaling="by.level", co.type="abs",
-     plot.type="mallat", arrangement=c(3,3),
-     plot = exists("image", mode="function"),
-     transform = FALSE, tfunction = sqrt,
-     col = heat.colors(32), \dots)
+\method{plot}{imwd}(x, scaling="by.level", co.type= c("abs", "mabs", "none"),
+     plot.type = c("mallat", "cols"), arrangement = c(3,3),
+     plot = exists("image",mode="function"), transform = FALSE,
+     tfunction = sqrt, col = heat.colors(32), \dots)
 }
 \arguments{
   \item{x}{object of class \code{imwd} containing a wavelet decomposition of
@@ -117,5 +116,3 @@ plot(imwdL, col = c.gray, plot.type = "cols")
 }
 \keyword{hplot}
 \keyword{smooth}
-\keyword{nonlinear}
-% Converted by Sd2Rd version 0.3-3.

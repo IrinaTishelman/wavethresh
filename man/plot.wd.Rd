@@ -1,4 +1,4 @@
-%%% $Id: plot.wd.Rd,v 1.9 2001/12/17 08:17:02 maechler Exp maechler $
+%%% $Id: plot.wd.Rd,v 1.10 2003/11/11 10:44:58 maechler Exp $
 \name{plot.wd}
 \alias{plot.wd}
 \title{Plot Method for a `wd' object}
@@ -6,12 +6,10 @@
 }
 \usage{
 \method{plot}{wd}(x, xlabels, first.level = 1,
-     main = "Wavelet Decomposition Coefficients",
-     sub = wd$filter$name,
+     main = "Wavelet Decomposition Coefficients", sub = x$filter$name,
      xlab = "Translate", ylab = "Resolution Level",
      scaling="by.level", rhlab = FALSE,
-     col = par("fg"), lty = par("lty"), lwd = par("lwd"),
-     \dots)
+     col = par("fg"), lty = par("lty"), lwd = par("lwd"), \dots)
 }
 \arguments{
   \item{x}{object of class \code{wd}, containing a wavelet decomposition of
@@ -78,5 +76,4 @@ plot(wds, rhlab = TRUE) # plotting the wavelet coefficients
 }
 \keyword{hplot}
 \keyword{smooth}
-\keyword{nonlinear}
 

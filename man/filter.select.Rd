@@ -2,7 +2,8 @@
 \alias{filter.select}
 \title{Wavelet Filter Coefficients}
 \usage{
-filter.select(filter.number, family="DaubExPhase", constant=1)
+filter.select(filter.number,
+              family = c("DaubExPhase", "DaubLeAsymm"), constant = 1)
 }
 \description{
   This function stores the filter coefficients necessary for doing a discrete
@@ -12,10 +13,10 @@ filter.select(filter.number, family="DaubExPhase", constant=1)
   \item{filter.number}{integer, selecting the desired filter; takes a
     value dependent upon the family that you select.}
   \item{family}{character string, selecting the type of wavelet.}
-  \item{constant}{numeric;
-    is applied as a multiplier to all the coefficients.
-    It can be a vector, and so you can adapt the filter coefficients
-    to be whatever you want. (This is feature of negative utility.)}
+  \item{constant}{numeric; is applied as a multiplier to all the
+    coefficients.  It can be a vector, and so you can adapt the filter
+    coefficients to be whatever you want. (This is feature of negative
+    utility.)}
 }
 \value{
   A list is returned with four components describing the filter:
@@ -25,14 +26,14 @@ filter.select(filter.number, family="DaubExPhase", constant=1)
   \item{filter.number}{The filter number used to select the filter.}
 }
 \details{
-  This function contains three types of filter.
-  Two types can be selected with family set to DaubExPhase, these
-  wavelets are the Haar wavelet (selected by \code{filter.number=1} within
-  this family) and Daubechies ``extremal phase'' wavelets selected by
-  filter.numbers ranging from 2 to 10 as proposed in Daubechies (1988).
-  Setting family to DaubLeAsymm gives you Daubechies least asymmetric
-  wavelets also from Daubechies (1988), but here the filter number ranges
-  from 4 to 10.
+  This function contains three types of filter.  Two types can be
+  selected with family set to \code{"DaubExPhase"} (as per default),
+  these wavelets are the Haar wavelet (selected by
+  \code{filter.number=1} within this family) and Daubechies ``extremal
+  phase'' wavelets selected by filter.numbers ranging from 2 to 10 as
+  proposed in Daubechies (1988).  Setting family to \code{"DaubLeAsymm"}
+  gives you Daubechies least asymmetric wavelets also from Daubechies
+  (1988), but here the filter number ranges from 4 to 10.
 
   For Daubechies wavelets, \code{filter.number} corresponds to the
   \eqn{N} of that paper, the wavelets become more regular as the filter.number

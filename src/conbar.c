@@ -3,6 +3,7 @@
  */
 #include "wavelet.h"
 
+/* as in ./convolve.c -- based on  reflect() {defined there} : */
 #define ACCESSC(c, firstC, lengthC, ix, bc) \
 	*(c+reflect(((ix)-(firstC)),(lengthC), (bc)))
 

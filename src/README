@@ -1,11 +1,32 @@
 Calling Structure
-
-wavedecomp
-
-	convolveC
-	convolveD
+=================
+Toplevel ("left") := The four C functions called from R
 
 
-waverecons
+wavedecomp			./wavedecomp.c
+ |
+ |--> convolveC			./convolve.c
+ |     \-> reflect	           "
+ \--> convolveD		           "
+       \-> reflect	           "
 
-	conbar
+
+waverecons			./waverecons.c
+ |
+ \--> conbar			./conbar.c
+       \-> reflect		 [see above]
+
+
+StoIDS				./StoIDS.c
+ |
+ \--> ImageDecomposeStep 	./ImageDecomposeStep.c
+       |
+       |-> convolveC		 [see above]
+       \-> convolveD		 [see above]
+
+StoIRS				./StoIRS.c
+ |
+ \--> ImageReconstructStep	  "
+       |
+       \-> conbar		 [see above]
+

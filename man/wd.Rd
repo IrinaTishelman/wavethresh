@@ -1,4 +1,4 @@
-%%% $Id: wd.Rd,v 1.6 2001/12/17 07:26:28 maechler Exp maechler $
+%%% $Id: wd.Rd,v 1.7 2003/11/11 10:36:43 maechler Exp $
 \name{wd}
 \alias{wd}
 \title{Discrete Wavelet Transform (Decomposition).}
@@ -9,8 +9,8 @@
   linked into \R.
 }
 \usage{
-wd(data, filter.number = 2, family="DaubExPhase", bc="periodic",
-   verbose = getOption("verbose"))
+wd(data, filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm"),
+   bc = c("periodic", "symmetric"), verbose = getOption("verbose"))
 }
 \arguments{
   \item{data}{a vector containing the data you wish to decompose. The
@@ -155,4 +155,3 @@ summary(wds <- wd(y))
 \keyword{math}
 \keyword{smooth}
 \keyword{nonlinear}
-

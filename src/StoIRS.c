@@ -1,8 +1,8 @@
 /* Access an element in an image */
 #define ACCESS(image, size, i, j)       *(image + (i)*(size) + (j))
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "wavelet.h"
 

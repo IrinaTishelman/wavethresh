@@ -1,4 +1,4 @@
-%%% $Id: threshold.imwd.Rd,v 1.6 2001/12/17 08:18:28 maechler Exp maechler $
+%%% $Id: threshold.imwd.Rd,v 1.7 2003/11/11 10:41:04 maechler Exp $
 \name{threshold.imwd}
 \alias{threshold.imwd}
 \title{Threshold an `imwd' Object (2D Wavelet)}
@@ -7,10 +7,11 @@
   of class \code{imwd}.
 }
 \usage{
-\method{threshold}{imwd}(x, levels=3:(wd$nlevels-1), type="hard",
-    policy="universal", by.level=FALSE, value=0, dev=var,
-    verbose = getOption("verbose"), return.threshold=FALSE,
-    compression=TRUE, \dots)
+\method{threshold}{imwd}(x, levels=3:(x$nlevels-1), type = c("hard", "soft"),
+      policy = c("universal", "manual", "probability"),
+      by.level = FALSE, value = 0, dev = var,
+      verbose = getOption("verbose"), return.threshold = FALSE,
+      compression = TRUE, \dots)
 }
 \arguments{
   \item{x}{object of class \code{"imwd"},  typically  from a wavelet
@@ -90,4 +91,3 @@ close.
 }
 \keyword{nonlinear}
 \keyword{smooth}
-

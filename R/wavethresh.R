@@ -1,4 +1,4 @@
-#### $Id: wavethresh.R,v 1.13 2001/12/15 22:40:52 maechler Exp $
+#### $Id: wavethresh.R,v 1.16 2004/03/08 16:11:02 maechler Exp $
 
 accessC <- function(wd.obj, level = wd.obj$nlevels, boundary = FALSE)
 {
@@ -56,7 +56,7 @@ compress.default <- function(x, verbose = getOption("verbose"), ...)
 {
     ## compression for sparse vectors, i.e with many  0's
     if(length(list(...)))
-	warning(paste("extra arguments",deparse(substitute(...)),"are discarded."))
+	warning("extra arguments ",deparse(substitute(...))," are discarded.")
 
     n <- length(x)
     r <- sum(x != 0)
@@ -86,7 +86,7 @@ compress.imwd <- function(x, verbose = getOption("verbose"), ...)
     if(is.null(ctmp) || all(ctmp != "imwd"))
 	stop("argument `x' is not of class \"imwd\"")
     if(length(list(...)))
-	warning(paste("extra arguments",deparse(substitute(...)),"are discarded."))
+	warning("extra arguments ",deparse(substitute(...))," are discarded.")
 
     squished <-
         list(nlevels = x$nlevels, fl.dbase = x$fl.dbase,
@@ -623,8 +623,9 @@ filter.select <-
 		filter.number = filter.number))
 }
 
-first.last <- function(LengthH, DataLength, bc = "periodic")
+first.last <- function(LengthH, DataLength, bc = c("periodic", "symmetric"))
 {
+    bc <- match.arg(bc)
     levels <- log(DataLength)/log(2)
     first.last.c <- matrix(0, nrow = levels + 1, ncol = 3,
 			   dimnames = list(NULL, c("First", "Last", "Offset")))
@@ -643,7 +644,7 @@ first.last <- function(LengthH, DataLength, bc = "periodic")
 	ntotal <- 2 * DataLength - 1
 	ntotal.d <- DataLength - 1
     }
-    else if(bc == "symmetric") {
+    else { # (bc == "symmetric")
 	## Symmetric boundary reflection
 	first.last.c[levels + 1, 1] <- 0
 	first.last.c[levels + 1, 2] <- DataLength - 1
@@ -674,9 +675,6 @@ first.last <- function(LengthH, DataLength, bc = "periodic")
 		first.last.d[i, 1] + 1
 	}
     }
-    else {
-	stop("Unknown boundary correction method")
-    }
     names(ntotal) <- NULL
     names(ntotal.d) <- NULL
     list(first.last.c = first.last.c, ntotal = ntotal,
@@ -684,7 +682,7 @@ first.last <- function(LengthH, DataLength, bc = "periodic")
 }
 
 imwd <- function(image, filter.number = 2,
-                 bc = c("periodic","symmetric"),
+                 bc = c("periodic", "symmetric"),
                  verbose = getOption("verbose"))
 {
     if(verbose) cat("Argument checking...")
@@ -753,7 +751,8 @@ imwd <- function(image, filter.number = 2,
                 ImDC = numeric(LengthCout ^ 2),
                 ImDD = numeric(LengthCout ^ 2),
                 nbc  = as.integer(nbc),
-                error = as.integer(0))
+                error = as.integer(0),
+                PACKAGE = "wavethresh")
         error <- z$error
         if(error != 0) {
             cat("Error was ", error, "\n")
@@ -785,66 +784,62 @@ imwr.imwd <- function(imwd, bc = imwd$bc, verbose = getOption("verbose"), ...)
 {
     if(verbose) cat("Argument checking...")#
     if(length(list(...)))
-	warning(paste("extra arguments",deparse(substitute(...)),"are discarded."))
+	warning("extra arguments ",deparse(substitute(...))," are discarded.")
     ##
     ##	 Check class of imwd
     ##
     ctmp <- class(imwd)
     if(is.null(ctmp) || all(ctmp != "imwd"))
         stop("argument `imwd' is not of class \"imwd\"")
+    if(imwd$nlevels < 1)
+        stop("less than 1 level in `imwd'")
+    nbc <- switch(bc,
+                  periodic = 1,
+                  symmetric = 2)
+    if(is.null(nbc)) stop("Unknown boundary handling")
 
     filter <- imwd$filter
     if(verbose)
         cat("...done\nFirst/last database...")
     fl.dbase <- imwd$fl.dbase
-    first.last.c <- fl.dbase$first.last.c
-    first.last.d <- fl.dbase$first.last.d
+    first.c <- as.integer(fl.dbase$first.last.c[,"First"])
+    last.c  <- as.integer(fl.dbase$first.last.c[,"Last"])
+    first.d <- as.integer(fl.dbase$first.last.d[,"First"])
+    last.d  <- as.integer(fl.dbase$first.last.d[,"Last"])
     if(verbose)
         cat("...extracted\nReconstructing...")
-    ImCC <- imwd$w0Lconstant
+    ImCC <- as.double(imwd$w0Lconstant)
     ##
     ## Ok, go round loop doing reconstructions
     ##
-    for(level in seq(2, 1 + imwd$nlevels)) {
+    for(level in 2:(1 + imwd$nlevels)) {
         if(verbose)
             cat(level - 1, " ")
-        LengthCin <- first.last.c[level - 1, 2] -
-            first.last.c[level - 1, 1] + 1
-        LengthCout <- first.last.c[level, 2] -
-            first.last.c[level, 1] + 1
-        LengthDin <- first.last.d[level - 1, 2] -
-            first.last.d[level - 1, 1] + 1
-        error <- 0
-        ImOut <- rep(0, LengthCout^2)
-        nbc <- switch(bc,
-                      periodic = 1,
-                      symmetric = 2)
-        if(is.null(nbc))
-            stop("Unknown boundary handling")
+        LengthCin  <- last.c[level -1] - first.c[level -1] + 1:1
+        LengthCout <- last.c[level   ] - first.c[level   ] + 1:1
+        LengthDin  <- last.d[level -1] - first.d[level -1] + 1:1
         z <- .C("StoIRS",
-                ImCC = as.double(ImCC),
+                ImCC = ImCC,
                 ImCD = as.double(imwd[[lt.to.name(level - 2, "CD")]]),
                 ImDC = as.double(imwd[[lt.to.name(level - 2, "DC")]]),
                 ImDD = as.double(imwd[[lt.to.name(level - 2, "DD")]]),
                 LengthCin = as.integer(LengthCin),
-                firstCin = as.integer(first.last.c[level - 1, 1]),
-                lastCin	 = as.integer(first.last.c[level - 1, 2]),
+                firstCin = first.c[level - 1],
+                lastCin	 = last.c [level - 1],
                 LengthDin = as.integer(LengthDin),
-                firstDin = as.integer(first.last.d[level - 1, 1]),
-                lastDin	 = as.integer(first.last.d[level - 1, 2]),
+                firstDin = first.d[level - 1],
+                lastDin	 = last.d [level - 1],
                 H = as.double(filter$H),
-                LengthH = as.integer(length(filter$H)),
+                LengthH = length(filter$H),
                 LengthCout = as.integer(LengthCout),
-                firstCout = as.integer(first.last.c[level, 1]),
-                lastCout  = as.integer(first.last.c[level, 2]),
-                ImOut = as.double(ImOut),
+                firstCout = first.c[level],
+                lastCout  =  last.c[level],
+                ImOut = double(LengthCout^2),
                 nbc = as.integer(nbc),
-                error = as.integer(error))
-        error <- z$error
-        if(error != 0) {
-            cat("Error was ", error, "\n")
-            stop("Error reported")
-        }
+                error = as.integer(0),
+                PACKAGE = "wavethresh")
+        if(z$error != 0)
+            stop(paste("Error in .C(\"StoIRS\",*): ", z$error))
         ## Do something with ImOut
         ImCC <- z$ImOut
     }
@@ -856,7 +851,7 @@ imwr.imwd <- function(imwd, bc = imwd$bc, verbose = getOption("verbose"), ...)
 imwr.imwdc <- function(imwd, bc = imwd$bc, verbose = getOption("verbose"), ...)
 {
     if(length(list(...)))
-	warning(paste("extra arguments",deparse(substitute(...)),"are discarded."))
+	warning("extra arguments ",deparse(substitute(...))," are discarded.")
     if(verbose) cat("Uncompressing...\n")
     imwd2 <- uncompress(imwd, ver = verbose)
     if(verbose) cat("Reconstructing...\n")
@@ -872,12 +867,12 @@ lt.to.name <- function(level, type)
 ## scheme of Mallat. (So 1 is horizontal, 2 is vertical and 3 is diagonal).
 ## w is on the front to indicate that these are wavelet coefficients
 ##
-    return(paste("w", as.character(level), "L",
-		 switch(as.character(type),
-			CD = "1",
-			DC = "2",
-			DD = "3",
-			stop("illegal `type'")), sep = ""))
+    paste("w", as.character(level), "L",
+	  switch(as.character(type),
+		 CD = "1",
+		 DC = "2",
+		 DD = "3",
+		 stop("illegal `type'")), sep = "")
 }
 
 plot.imwd <-
@@ -894,8 +889,7 @@ plot.imwd <-
     if(is.null(ctmp) || all(ctmp != "imwd"))
 	stop("argument `x' is not of class \"imwd\"")
 
-    first.last.d <- x$fl.dbase$first.last.d
-    first.last.c <- x$fl.dbase$first.last.c
+    first.last.d <- x$fl.dbase$first.last.d# .Alias
 
     do.level <- function(L) {
 	## do common things for level L	 for both plot.type's
@@ -1226,24 +1220,19 @@ support <- function(filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm"),
 threshold <- function(x, ...) UseMethod("threshold")
 
 threshold.imwd <-
-  function(x, levels = 3:(x$nlevels - 1),
-	   type = "hard", policy = "universal", by.level = FALSE, value = 0,
-	   dev = var, verbose = getOption("verbose"),
-	   return.threshold = FALSE, compression = TRUE, ...)
+    function(x, levels = 3:(x$nlevels - 1), type = c("hard", "soft"),
+	     policy = c("universal", "manual", "probability"), by.level = FALSE,
+	     value = 0, dev = var, verbose = getOption("verbose"),
+	     return.threshold = FALSE, compression = TRUE, ...)
 {
-    ## Check class of x
     if(verbose) cat("Argument checking\n")
     ctmp <- class(x)
     if(is.null(ctmp) || all(ctmp != "imwd"))
         stop("argument `x' is not of class \"imwd\"")
+    policy <- match.arg(policy)
+    type <- match.arg(type)
     if(length(list(...)))
-	warning(paste("extra arguments",deparse(substitute(...)),"are discarded."))
-
-    if(policy != "universal" && policy != "manual" && policy !=
-       "probability")
-        stop("Only policys are universal, manual and probability at present")
-    if(type != "hard" && type != "soft")
-        stop("Only hard or soft thresholding at	 present")
+	warning("extra arguments ",deparse(substitute(...))," are discarded.")
     r <- range(levels)
     if(r[1] < 0)
         stop("levels out of range, level too small")
@@ -1404,7 +1393,7 @@ threshold.wd <-
     policy <- match.arg(policy)
     type <- match.arg(type)
     if(length(list(...)))
-	warning(paste("extra arguments",deparse(substitute(...)),"are discarded."))
+	warning("extra arguments ",deparse(substitute(...))," are discarded.")
     r <- range(levels)
     if(r[1] < 0)
         stop("levels out of range, level too small")
@@ -1582,11 +1571,13 @@ uncompress.imwdc <- function(x, verbose = getOption("verbose"), ...)
     unsquished
 }
 
-wd <- function(data, filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm"),
-	       bc = "periodic",	verbose = getOption("verbose"))
+wd <- function(data,
+               filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm"),
+               bc = c("periodic", "symmetric"), verbose = getOption("verbose"))
 {
     if(verbose) cat("Argument checking...")
     family <- match.arg(family)
+    bc <- match.arg(bc)
     DataLength <- length(data)          #
     ##
     ## Check that we have a power of 2 data elements
@@ -1614,26 +1605,20 @@ wd <- function(data, filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm")
     ##
     C <- rep(0, fl.dbase$ntotal)
     C[1:DataLength] <- data             #
-    if(verbose)
-        error <- 1
-    else error <- 0
-    if(verbose)
-        cat("built\nObject code...")
+    error <- if(verbose) 1 else 0
+    if(verbose) cat("built\nObject code...")
     ##
     ## Compute the decomposition
     ##
-    if(verbose)
-        cat("Decomposing...\n")
-    nbc <- switch(bc,
+    if(verbose) cat("Decomposing...\n")
+    nbc <- switch(bc,# checked already
                   periodic = 1,
                   symmetric = 2)
-    if(is.null(nbc))
-        stop("Unknown boundary condition")
     wavelet.decomposition <-
         .C("wavedecomp",
            C = as.double(C),
            LengthC = as.integer(fl.dbase$ntotal),
-           D = as.double(rep(0, fl.dbase$ntotal.d)),
+           D = double(fl.dbase$ntotal.d),
            LengthD = as.integer(fl.dbase$ntotal.d),
            H = as.double(filter$H),
            LengthH = as.integer(length(filter$H)),
@@ -1645,7 +1630,8 @@ wd <- function(data, filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm")
            lastD = as.integer(fl.dbase$first.last.d[, 2]),
            offsetD = as.integer(fl.dbase$first.last.d[, 3]),
            nbc = as.integer(nbc),
-           error = as.integer(error))
+           error = as.integer(error),
+           PACKAGE = "wavethresh")
     if(verbose)
         cat("done\n")
     error <- wavelet.decomposition$error
@@ -1718,7 +1704,8 @@ wr <- function(wd, start.level = 0, verbose = getOption("verbose"),
                      lastD = as.integer(wd$fl.dbase$first.last.d[, 2]),
                      offsetD = as.integer(wd$fl.dbase$first.last.d[, 3]),
                      nbc = as.integer(nbc),
-                     error = as.integer(error))
+                     error = as.integer(error),
+                     PACKAGE = "wavethresh")
     if(verbose)
         cat("done\n")
     error <- waverecons$error

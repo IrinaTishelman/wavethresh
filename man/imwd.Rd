@@ -1,24 +1,24 @@
 \name{imwd}
 \alias{imwd}
-\title{2D Discrete Wavelet Transform (Image W. Decomposition)
-}
+\title{2D Discrete Wavelet Transform (Image W. Decomposition)}
 \description{
-This function performs the decomposition stage of Mallat's pyramid algorithm
-i.e. the discrete wavelet transform for images.
+  This function performs the decomposition stage of Mallat's pyramid algorithm
+  i.e. the discrete wavelet transform for images.
 }
 \usage{
-imwd(image, filter.number=2, bc="periodic", verbose = getOption("verbose"))
+imwd(image, filter.number=2,
+     bc = c("periodic", "symmetric"), verbose = getOption("verbose"))
 }
 \arguments{
 \item{image}{
-Square matrix containing the image. The number of rows in the image
-must be a power of 2. Since the matrix is square, this is also the number
-of columns in the matrix.
-}
+  numeric square matrix containing the image.  The number of rows in the
+  image must be a power of 2.  Since the matrix is square, this is also
+  the number of columns.}
 \item{filter.number}{
-The filter that you wish to use to decompose the function. The filters
-are obtained from the "filter.select" function and are the compactly
-supported orthonormal wavelets as described in Daubechies, I.
+  integer; the filter that you wish to use to decompose the
+  function. The filters are obtained from the
+  \code{\link{filter.select}} function and are the compactly supported
+  orthonormal wavelets as described in Daubechies, I. % <<<< ??
 }
 \item{bc}{
 boundary treatment. The periodic (default) treatment causes the decomposition
@@ -28,11 +28,10 @@ default. This causes the decomposition to act as if the function extended
 by symmetric reflection at each end.
 }
 \item{verbose}{logical; if true then informative messages are printed
-whilst the computations are performed.
-}
+  whilst the computations are performed.}
 }
 \value{
-  An object of class "imwd", a list containing the wavelet coefficients
+  An object of class \code{imwd}, a list containing the wavelet coefficients
   (see \code{\link{imwd.object}}).
 }
 \details{
@@ -47,13 +46,11 @@ original image to obtain GG(HH), GH(HH), and HG(HH), the wavelet
 coefficients at the second highest resolution level and HH(HH)
 the twice-smoothed image, which then goes on to be further attacked.
 
-After each attack the dimension of the images is halved.
-After many attacks
-you will obtain four real numbers, one of which correspond to the
-image smoothed many times.
+After each attack the dimension of the images is halved.  After many
+attacks you will obtain four real numbers, one of which correspond to
+the image smoothed many times.
 
-Exact details of the algorithm are to be found in
-Mallat 1989.
+Exact details of the algorithm are to be found in Mallat 1989.
 }
 \seealso{\code{\link{wd}}, for background information;
   \code{\link{imwr}} for reconstruction, \code{\link{plot.imwd}},
@@ -68,4 +65,4 @@ imwdL <- imwd(lennon)
 }
 \keyword{smooth}
 \keyword{nonlinear}
-% Converted by Sd2Rd version 0.3-3.
+

@@ -1,4 +1,4 @@
-%%% $Id: threshold.wd.Rd,v 1.6 2001/12/17 08:18:33 maechler Exp maechler $
+%%% $Id: threshold.wd.Rd,v 1.7 2003/11/11 10:39:32 maechler Exp $
 \name{threshold.wd}
 \alias{threshold.wd}
 \title{Threshold a `wd' Object (1D Wavelet)}
@@ -7,9 +7,10 @@
   decomposition object.
 }
 \usage{
-threshold.wd(x, levels=3:(wd$nlevels-1), type="hard",
-    policy="universal", by.level=FALSE, value=0, dev=var, boundary=FALSE,
-    verbose = getOption("verbose"), return.threshold=FALSE, \dots)
+\method{threshold}{wd}(x, levels=3:(x$nlevels-1), type = c("hard", "soft"),
+	policy = c("universal", "manual", "probability"), by.level = FALSE,
+	value = 0, dev = var, boundary = FALSE,
+	verbose = getOption("verbose"), return.threshold = FALSE, \dots)
 }
 \arguments{
   \item{x}{Object of class \code{"wd"}, typically from a wavelet decomposition

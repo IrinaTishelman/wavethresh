@@ -1,39 +1,0 @@
-
-conbar.c,75
-#define ACCESSC(ACCESSC6,76
-#define CEIL(CEIL9,170
-void conbar(11,222
-
-convolve.c,126
-#define Exit(Exit10,163
-#define	ACCESSC(ACCESSC19,343
-void convolveC(23,437
-void convolveD(56,1240
-int reflect(97,2238
-
-ImageDecomposeStep.c,62
-#define ACCESS(ACCESS29,594
-void ImageDecomposeStep(31,663
-
-StoIDS.c,47
-#define ACCESS(ACCESS4,58
-void StoIDS(6,127
-
-StoIRS.c,81
-#define ACCESS(ACCESS2,36
-void StoIRS(9,167
-void ImageReconstructStep(32,718
-
-wavedecomp.c,85
-#define ACCESSC(ACCESSC7,58
-#define ACCESSD(ACCESSD8,126
-void wavedecomp(10,195
-
-wavelet.h,46
-#define PERIODIC	2,1
-#define SYMMETRIC	3,20
-
-waverecons.c,88
-#define ACCESSC(ACCESSC10,109
-#define ACCESSD(ACCESSD11,177
-void waverecons(14,247

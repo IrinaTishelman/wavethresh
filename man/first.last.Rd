@@ -6,15 +6,15 @@ This function is not intended for user use, but is used by various
 functions involved in computing and displaying wavelet transforms.
 }
 \usage{
-first.last(LengthH, DataLength, bc="periodic")
+first.last(LengthH, DataLength, bc = c("periodic","symmetric"))
 }
 \arguments{
   \item{LengthH}{length of the filter used to produce a wavelet decomposition.}
   \item{DataLength}{length of the data before transforming; must be a
     power of 2, say \eqn{2^m}.}
   \item{bc}{character string, determining how the boundaries of the the
-    function are to be handled;
-    one of \code{"periodic"} or \code{"symmetric"}.}
+    function are to be handled; one of \code{"periodic"} (default) or
+    \code{"symmetric"}.}
 }
 \value{
 A first/last database structure, a list with the

@@ -1,4 +1,38 @@
+2004-01-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/ImageDecomposeStep.c: stdlib.h (not malloc.h on non-Mac)
+
+2003-11-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/wavethresh.R (threshold.imwd): use match.arg() too.
+
+	* man/filter.select.Rd: usage = code
+	* man/plot.imwd.Rd: <ditto> ...
+	* man/plot.wd.Rd:
+	* man/support.Rd:
+	* man/threshold.imwd.Rd:
+	* man/threshold.wd.Rd:
+	* man/wr.Rd:
+
+2003-09-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 2.2-8 release --- BUG!! --> (not to CRAN)
+	* DESCRIPTION (Note): instead of `NOTE'
+	* R/wavethresh.R: `PACKAGE= *' in .C() everywhere
+
 2001-12-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* tests/wd-wr.R: new test
+	* tests/imwd-wr.R: "  "  (using lennon)
+
+	* R/wavethresh.R (imwr.imwd): improvements (incl.speed)
+
+	* man/wr.Rd:
+	* man/imwd.Rd: some cleanup (e.g. using \code{.}).
+
+2001-12-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* released 2.2-7 (on 10:46 CET)
 
 	* src/waverecons.c (waverecons): use Rprintf(.) instead of printf(.)
 
