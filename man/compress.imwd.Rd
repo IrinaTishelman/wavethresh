@@ -6,7 +6,7 @@
   removing zero elements.
 }
 \usage{
-compress.imwd(imwd, verbose=FALSE)
+\method{compress}{imwd}(imwd, verbose=FALSE)
 }
 \arguments{
   \item{imwd}{class \code{imwd} object to compress.}

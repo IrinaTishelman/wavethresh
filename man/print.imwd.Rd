@@ -7,7 +7,8 @@
   on it.
 }
 \usage{
-print.imwd(x, \dots)
+\method{print}{imwd}(x, \dots)
+%not \method{} -- the two lines would look silly:
 print.imwdc(x, \dots)
 }
 \arguments{

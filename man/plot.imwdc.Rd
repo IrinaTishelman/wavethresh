@@ -5,7 +5,7 @@
 Images wavelet coefficients of an imwdc class object
 }
 \usage{
-plot.imwdc(imwdc, verbose = getOption("verbose"),\dots)
+\method{plot}{imwdc}(imwdc, verbose = getOption("verbose"),\dots)
 }
 \arguments{
   \item{imwdc}{object of class "imwdc", maybe from a thresholding using

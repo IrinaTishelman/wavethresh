@@ -5,19 +5,19 @@
 Compression of a vector by removal of zero elements.
 }
 \usage{
-compress.default(v, verbose=FALSE)
+\method{compress}{default}(v, verbose=FALSE)
 }
 \arguments{
   \item{v}{numeric vector to compress}
   \item{verbose}{logical; if true then report on compression activity.}
 }
 \value{
-An object of class "compressed" if compression took place, otherwise a
-an object of class "uncompressed"
+  An object of class "compressed" if compression took place, otherwise a
+  an object of class "uncompressed"
 }
 \details{
-Images are large objects. Thresholded 2d wavelet objects (imwd) are also
-large, but many of their elements are zero. Compress takes a vector,
+Images are large objects.  Thresholded 2d wavelet objects (imwd) are also
+large, but many of their elements are zero.  Compress takes a vector,
 decides whether compression is necessary and if it is makes an object
 of class "compressed" containing the nonzero elements and their position
 in the original vector.

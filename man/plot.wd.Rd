@@ -4,7 +4,7 @@
 \description{Plot wavelet coefficients of an object of class \code{"wd"}.
 }
 \usage{
-plot(wd, xlabels, first.level = 1,
+\method{plot}{wd}(wd, xlabels, first.level = 1,
      main = "Wavelet Decomposition Coefficients",
      sub = wd$filter$name,
      xlab = "Translate", ylab = "Resolution Level",

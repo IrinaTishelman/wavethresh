@@ -1,6 +1,6 @@
 wvrelease <- function(do.cat = interactive())
 {
-    wv <- list(major = 2.2, R.minor = 5)
+    wv <- list(major = 2.2, R.minor = 6)
     ##                 ---            -
     if(do.cat)
 	cat("S/R wavelet software, release ", wv$major,", installed\n",

@@ -5,7 +5,7 @@
 Draws pictures of wavelets associated with the wavethresh package
 }
 \usage{
-draw.default(filter.number=2, family="DaubExPhase",
+\method{draw}{default}(filter.number=2, family="DaubExPhase",
     resolution=1024, verbose=FALSE, plot=TRUE, main="Wavelet Picture",
     sub=zwd$filter$name, xlab="x", ylab=expression(psi(x)), dimension=1,
     twodplot=persp, enhance=TRUE, efactor=0.05, \dots)

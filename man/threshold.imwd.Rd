@@ -6,7 +6,7 @@
   of class \code{imwd}.
 }
 \usage{
-threshold.imwd(imwd, levels=3:(wd$nlevels-1), type="hard",
+\method{threshold}{imwd}(imwd, levels=3:(wd$nlevels-1), type="hard",
     policy="universal", by.level=FALSE, value=0, dev=var,
     verbose=FALSE, return.threshold=FALSE, compression=T)
 }

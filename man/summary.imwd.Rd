@@ -3,7 +3,8 @@
 \alias{summary.imwdc}
 \title{Summary Methods for `imwd' and `imwdc'  Object}
 \usage{
-summary.imwd(object, \dots)
+\method{summary}{imwd}(object, \dots)
+%not \method{} -- the two lines would look silly:
 summary.imwdc(object, \dots)
 }
 \arguments{

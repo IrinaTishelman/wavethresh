@@ -2,16 +2,16 @@
 \alias{threshold.imwdc}
 \title{Threshold an `imwdc' Object (2D Wavelet)}
 \description{
-Applies hard or soft thresholding to wavelet decomposition object
-of class \code{imwdc}.
+  Applies hard or soft thresholding to wavelet decomposition object
+  of class \code{imwdc}.
 }
 \usage{
-threshold.imwdc(imwdc, verbose=FALSE, \dots)
+\method{threshold}{imwdc}(imwdc, verbose=FALSE, \dots)
 }
 \arguments{
-\item{imwdc}{Object of class "imwdc", maybe after a previous thresholding.}
-\item{verbose}{print information messages about what's going on}
-\item{...}{other arguments to threshold}}
+  \item{imwdc}{Object of class "imwdc", maybe after a previous thresholding.}
+  \item{verbose}{print information messages about what's going on}
+  \item{\dots}{other arguments to threshold}}
 \value{
   An object of class \code{"imwdc"}, containing the thresholded object
 }

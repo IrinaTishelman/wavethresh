@@ -19,17 +19,19 @@ pack8bit	Packing of 8-bit Integers
 support		Compute support of wavelet
 wvrelease	Identify version of wavelet software
 
-lennon		256 x 256 gray scale image of John Lennon (dataset)
-
-
 -- Classes --
+
 wd.object		1D Wavelet decomposition object
 imwd.object		2D	      Wavelet decomposition object
 imwdc.object		2D Compressed wavelet decomposition object
 compress.object		Compressed   (wavelet) object
 uncompressed.object	Uncompressed (wavelet) object
 
--- methods for these classes			--
--- for	compress, uncompress,  threshold, imwr, --
--- and	print, summary, plot, draw		--
+-- Methods for these classes --
+   for
+	   compress, uncompress,  threshold, imwr,
+	   print, summary, plot, draw
 
+-- Datasets --
+
+lennon		A 256 x 256 integer matrix, a gray scale image of John Lennon.

@@ -6,7 +6,7 @@
   removing zeroes.  This function performs the inverse transformation.
 }
 \usage{
-uncompress.default(v, verbose=FALSE)
+\method{uncompress}{default}(v, verbose=FALSE)
 }
 \arguments{
   \item{v}{The \code{compressed} or \code{uncompressed} object to

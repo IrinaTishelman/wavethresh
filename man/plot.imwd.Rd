@@ -5,7 +5,7 @@
 Images Wavelet Coefficients of a imwd class object
 }
 \usage{
-plot(imwd, scaling="by.level", co.type="abs",
+\method{plot}{imwd}(imwd, scaling="by.level", co.type="abs",
      plot.type="mallat", arrangement=c(3,3),
      plot = exists("image", mode="function"),
      transform = FALSE, tfunction = sqrt,

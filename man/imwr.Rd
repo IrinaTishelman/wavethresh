@@ -2,7 +2,7 @@
 \alias{imwr}
 \title{2D Inverse Discrete Wavelet Transform (Image W. Reconstruction)}
 \description{
-Generic function for 2-dimensional wavelet reconstruction.
+  Generic function for 2-dimensional wavelet reconstruction.
 }
 \usage{
 imwr(x, \dots)

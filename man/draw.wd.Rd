@@ -10,7 +10,8 @@
   \code{\link{plot.wd}}.
 }
 \usage{
-draw.wd(wd, \dots)
+\method{draw}{wd}(wd, \dots)
+%% not using \method for these: text would become confusing:
 draw.imwd (wd, resolution = 128, \dots)
 draw.imwdc(wd, resolution = 128, \dots)
 }

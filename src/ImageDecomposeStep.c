@@ -20,7 +20,9 @@
  */
 
 #include <stdio.h>
+#ifndef Macintosh
 #include <malloc.h>
+#endif
 #include "wavelet.h"
 
 /* Access an element in an image */

@@ -3,18 +3,17 @@
 \alias{imwr.imwdc}%- both!
 \title{2D Inverse Discrete Wavelet Transform (Image W. Reconstruction)}
 \description{
-These functions perform the reconstruction stage of Mallat's
-pyramid algorithm, i.e. the inverse discrete wavelet transform for images.
+  These functions perform the reconstruction stage of Mallat's
+  pyramid algorithm, i.e. the inverse discrete wavelet transform for images.
 }
 \usage{
-imwr.imwd (imwd, bc=imwd$bc, verbose=FALSE)
-imwr.imwdc(imwdc,bc=imwd$bc, verbose=FALSE)
+\method{imwr}{imwd}(imwd, bc=imwd$bc, verbose=FALSE)
+\method{imwr}{imwdc}(imwdc,bc=imwd$bc, verbose=FALSE)
 }
 \arguments{
   \item{imwd,imwdc}{
-    An object of class \code{imwd} or \code{imwdc} respectively.
-    Typically these are returned by \code{\link{imwd}} and
-    \code{\link{threshold.imwd}}.
+    object of class \code{imwd} or \code{imwdc} respectively; typically
+    returned by \code{\link{imwd}} and \code{\link{threshold.imwd}}.
   }
   \item{bc}{character, specifying the boundary handling. It is best left
     to be the boundary handling specified by that in the supplied argument.
