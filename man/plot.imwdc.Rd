@@ -5,11 +5,12 @@
 Images wavelet coefficients of an imwdc class object
 }
 \usage{
-plot.imwdc(imwdc, \dots)
+plot.imwdc(imwdc, verbose = getOption("verbose"),\dots)
 }
 \arguments{
   \item{imwdc}{object of class "imwdc", maybe from a thresholding using
     \code{\link{threshold}()}.}
+  \item{verbose}{logical, passed to \code{\link{uncompress}}.}
   \item{\dots}{other arguments to \code{\link{plot.imwd}}.}
 }
 \section{Side Effects}{

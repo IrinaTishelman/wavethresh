@@ -6,7 +6,7 @@ Prints out information about an wd object and then calls \code{summary()}
 on it.
 }
 \usage{
-print.wd(x)
+print.wd(x, \dots)
 }
 \arguments{
   \item{x}{an object of class \code{wd}}

@@ -2,7 +2,7 @@
 \alias{summary.wd}
 \title{Summary Method for `wd' (1D Wavelet) Object}
 \usage{
-summary.wd(object)
+summary.wd(object, \dots)
 }
 \arguments{
 \item{object}{

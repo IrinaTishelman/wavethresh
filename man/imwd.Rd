@@ -56,7 +56,8 @@ Exact details of the algorithm are to be found in
 Mallat 1989.
 }
 \seealso{\code{\link{wd}}, for background information;
-  \code{\link{imwr} for reconstruction, \code{\link{plot.imwd}}, \code{\link{draw.imwd}}
+  \code{\link{imwr} for reconstruction, \code{\link{plot.imwd}},
+    \code{\link{draw.imwd}}
 }
 \examples{
 # Do a decomposition of an image

@@ -1,14 +1,1 @@
-bwimage.colors           Sets up X11 colours to correspond to PostScript
-                         image prints (wavelet).   Sets a uniform grey
-                         scale for displaying images. Effectively
-                         installs a colourmap for the X11 driver. There
-                         are 248 gray scales ranging from white (S color
-                         1) through to black (S color 248) with a uniform
-                         grey scale in between. Ideally I would like 255
-                         grey shades but my the X11 device does not
-                         install its own colour map. I don't think the
-                         other graphics devices do either, but if you
-                         know different then let me know.    You can
-                         change the number of grey scales by altering the
-                         246 in the first character vector to something
-                         else.
+lennon		A 256 x 256 integer matrix, a gray scale image of John Lennon.

@@ -1041,7 +1041,7 @@ plot.imwd <-
     else stop("Unknown plot.type")
 }
 
-plot.imwdc <- function(imwdc, verbose = FALSE, ...)
+plot.imwdc <- function(imwdc, verbose = getOption("verbose"), ...)
 {
     imwd <- uncompress(imwdc, verbose = verbose)
     return(plot(imwd, ...))
@@ -1118,7 +1118,7 @@ print.imwd <- function(x, ...)
 	"            ", names(x), "\n\n",
 	"$ wNLx are LONG coefficient vectors !\n",
 	"\nsummary(.):\n----------\n")
-    print(summary.imwd(x))
+    print(summary.imwd(x, ...))
     invisible(x)
 }
 
@@ -1129,7 +1129,7 @@ print.imwdc <- function(x, ...)
     cat("             ", names(x), "\n\n",
       	"$ wNLx are LONG coefficient vectors !\n",
 	"\nsummary(.):\n----------\n")
-    print(summary.imwdc(x))
+    print(summary.imwdc(x, ...))
     invisible(x)
 }
 
@@ -1140,7 +1140,7 @@ print.wd <- function(x, ...)
 	"          ", names(x), "\n\n",
 	"$ C and $ D are LONG coefficient vectors !\n",
 	"\nsummary(.):\n----------\n")
-    print(summary.wd(x))
+    print(summary.wd(x, ...))
     invisible(x)
 }
 
@@ -1192,43 +1192,43 @@ putD <- function(wd, level, v, boundary = FALSE)
     wd
 }
 
-summary.imwd <- function(imwd)
+summary.imwd <- function(object, ...)
 {
-    ## Check class of imwd
-    ctmp <- class(imwd)
+    ## Check class of object
+    ctmp <- class(object)
     if(is.null(ctmp) || all(ctmp != "imwd"))
-        stop("argument `imwd' is not of class \"imwd\"")
-    fl.c <- imwd$fl.dbase$first.last.c
-    pix <- fl.c[imwd$nlevels + 1, 2] - fl.c[imwd$nlevels + 1, 1] + 1
+        stop("argument `object' is not of class \"imwd\"")
+    fl.c <- object$fl.dbase$first.last.c
+    pix <- fl.c[object$nlevels + 1, 2] - fl.c[object$nlevels + 1, 1] + 1
     cat("UNcompressed image wavelet decomposition structure\n")
-    cat("Levels: ", imwd$nlevels, "\n")
+    cat("Levels: ", object$nlevels, "\n")
     cat("Original image was", pix, "x", pix, " pixels.\n")
-    cat("Filter was: ", imwd$filter$name, "\n")
-    cat("Boundary handling: ", imwd$bc, "\n")
+    cat("Filter was: ", object$filter$name, "\n")
+    cat("Boundary handling: ", object$bc, "\n")
 }
 
-summary.imwdc <- function(imwdc)
+summary.imwdc <- function(object, ...)
 {
-    ## Check class of imwdc
-    ctmp <- class(imwdc)
+    ## Check class of object
+    ctmp <- class(object)
     if(is.null(ctmp) || all(ctmp != "imwdc"))
-        stop("argument `imwdc' is not of class \"imwdc\"")
-    fl.c <- imwdc$fl.dbase$first.last.c
-    pix <- fl.c[imwdc$nlevels + 1, 2] - fl.c[imwdc$nlevels + 1, 1] + 1
+        stop("argument `object' is not of class \"imwdc\"")
+    fl.c <- object$fl.dbase$first.last.c
+    pix <- fl.c[object$nlevels + 1, 2] - fl.c[object$nlevels + 1, 1] + 1
     cat("Compressed image wavelet decomposition structure\n")
-    cat("Levels: ", imwdc$nlevels, "\n")
+    cat("Levels: ", object$nlevels, "\n")
     cat("Original image was", pix, "x", pix, " pixels.\n")
-    cat("Filter was: ", imwdc$filter$name, "\n")
-    cat("Boundary handling: ", imwdc$bc, "\n")
+    cat("Filter was: ", object$filter$name, "\n")
+    cat("Boundary handling: ", object$bc, "\n")
 }
 
-summary.wd <- function(wd)
+summary.wd <- function(object, ...)
 {
-    pix <- length(accessC(wd))          # this is HIGHLY inefficient
-    cat("Levels:  ", wd$nlevels,
+    pix <- length(accessC(object))          # this is HIGHLY inefficient
+    cat("Levels:  ", object$nlevels,
 	"\nLength of original:  ", pix,
-	"\nFilter was:  ", wd$filter$name,
-	"\nBoundary handling:  ", wd$bc, "\n", sep = "")
+	"\nFilter was:  ", object$filter$name,
+	"\nBoundary handling:  ", object$bc, "\n", sep = "")
 }
 
 support <- function(filter.number = 2, family = "DaubExPhase", m = 0, n = 0)
@@ -1770,45 +1770,3 @@ wr <- function(wd, start.level = 0, verbose = FALSE,
 
     return(if(return.object) l else accessC(l))
 }
-
-pack8bit <- function(v)
-{
-    ## Purpose: Compress vector of values in 0:255 into an integer of 1/4 length
-    ## ----------------------------------------------------------------------
-    ## Author: Martin Mächler, Date:  5 Oct 99, 22:31
-    lv <- length(v <- as.integer(v))
-    if(any(v < 0 | v > 255))
-      stop("`v' is outside range 0..255")
-    if((r <- lv %% 4))
-      v <- c(v, rep(0,r))
-    as.integer(c(matrix(v, ncol=4) %*% 256^(0:3))- 2.^31)
-}
-
-unpack8bit <- function(v)
-{
-    ## Purpose: UnCompress vector that has been compressed by compress8to32
-    ## ----------------------------------------------------------------------
-    ## Author: Martin Mächler, Date:  5 Oct 99, 22:31
-    lv <- length(v <- as.double(2^31) + v)
-    b <- 256
-    v1 <- v %% b ; v <- as.integer(v %/% b)
-    b <- as.integer(b)
-    v2 <- v %% b ; v <- v %/% b
-    v3 <- v %% b ; v <- v %/% b
-    c(cbind(as.integer(v1),v2,v3,v))
-}
-
-wvrelease <- function(do.cat = interactive())
-{
-    wv <- list(major = 2.2, R.minor = 4)
-    if(do.cat)
-	cat("S/R wavelet software, release ", wv$major,", installed\n",
-	    "Copyright Guy Nason 1993\n",
-	    "R version ", wv$major,"-", wv$R.minor,
-	    ": Arne Kovac 1997; Martin Maechler, 1999-2000\n", sep="")
-    invisible(wv)
-}
-
-wvrelease()
-##- cat("WARNING: You are in the wavelet software distribution\n")
-##- cat("Take care not to delete any functions\n")

@@ -7,8 +7,8 @@
   on it.
 }
 \usage{
-print.imwd(x)
-print.imwdc(x)
+print.imwd(x, \dots)
+print.imwdc(x, \dots)
 }
 \arguments{
   \item{x}{an object of class \code{imwd} or \code{imwdc}, respectively}.

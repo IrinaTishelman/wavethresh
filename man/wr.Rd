@@ -2,27 +2,30 @@
 \title{Discrete wavelet transform (reconstruction).}
 \alias{wr}
 \usage{
-wr(wd.object, start.level=0, verbose=FALSE, return.object=FALSE)
+wr(wd, start.level = 0, verbose = FALSE,
+   bc = wd$bc, return.object = FALSE,
+   filter.number = wd$filter$filter.number, family = wd$filter$family)
 }
 \description{
-This function performs the reconstruction stage of Mallat's pyramid algorithm,
-i.e., the discrete inverse wavelet transform.
+  This function performs the reconstruction stage of Mallat's pyramid algorithm,
+  i.e., the discrete inverse wavelet transform.
 }
 \arguments{
-\item{wd.object}{
-  A wavelet decomposition object as returned by \code{\link{wd}},
-  see \code{\link{wd.object}}.}
-\item{start.level}{integer; the level at which to start reconstruction.
-  This is usually the first (level 0).
+  \item{wd}{A wavelet decomposition object as returned by \code{\link{wd}},
+    see \code{\link{wd.object}}.}
+  \item{start.level}{integer; the level at which to start reconstruction.
+    This is usually the first (level 0).}
+  \item{bc, filter.number, family}{by default part of the \code{wd}
+    object, but can specified differently by the ``knowing''.}
+  \item{verbose}{logical, controlling the printing of "informative"
+    messages whilst the computations progress.  Such messages are
+    generally annoying so it is turned off by default.}
+  \item{return.object}{logical;
+    If this is FALSE then the top level of the reconstruction is returned
+    (this is the reconstructed function at the highest resolution).
+    Otherwise if it is T the whole wd reconstructed object is returned.
+  }
 }
-\item{verbose}{logical, controlling the printing of "informative"
-  messages whilst the computations progress.  Such messages are
-  generally annoying so it is turned off by default.}
-\item{return.object}{logical;
-If this is FALSE then the top level of the reconstruction is returned
-(this is the reconstructed function at the highest resolution).
-Otherwise if it is T the whole wd reconstructed object is returned.
-}}
 \value{
 Either a vector containing the top level reconstruction or
 an object of class "wd" containing the results of the reconstruction,

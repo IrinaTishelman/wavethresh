@@ -1,14 +1,14 @@
 \name{plot.wd}
 \alias{plot.wd}
 \title{Plot Method for a `wd' object}
-\description{Plots wavelet coefficients of an object of class "wd".
+\description{Plot wavelet coefficients of an object of class \code{"wd"}.
 }
 \usage{
 plot(wd, xlabels, first.level = 1,
      main = "Wavelet Decomposition Coefficients",
      sub = wd$filter$name,
      xlab = "Translate", ylab = "Resolution Level",
-     scaling="by.level", rhlab=FALSE, sub, \dots)
+     scaling="by.level", rhlab = FALSE, \dots)
 }
 \arguments{
   \item{wd}{object of class "wd", containing a wavelet decomposition of
@@ -25,19 +25,16 @@ plot(wd, xlabels, first.level = 1,
     Either \code{"by.level"} or \code{"global"}.}
   \item{rhlab}{logical; determines whether the scale factors applied to
     each level before plotting are printed as the right hand axis.}
-  \item{sub}{
-    The subtitle of the plot. If this is missing then something useful gets
-    substituted.}
   \item{\dots}{other arguments to be supplied to \code{plot.wd}, see
     \code{\link{plot}}.}
 }
 \value{
-Axis labels to the right of the picture.  These values are the maximum
-of the absolute value of the coefficients at that resolution level.
-They are returned because they are sometimes hard to read on the plot.
+  Axis labels to the right of the picture.  These values are the maximum
+  of the absolute value of the coefficients at that resolution level.
+  They are returned because they are sometimes hard to read on the plot.
 }
 \section{Side Effects}{
-A plot of the wavelet coefficients at each resolution level is produced.
+  A plot of the wavelet coefficients at each resolution level is produced.
 }
 \details{
 The picture produced is similar to those in Donoho and Johnstone
@@ -50,11 +47,9 @@ negative coefficient plotted below it. The position of a coefficient
 along a line is indicative of the wavelet basis function's translate
 number.
 
-
 The resolution levels are labelled on the left-hand side axis,
 and the maximum values of the absolute values of the coefficients
 for the particular level form the right-hand side axis.
-
 
 The levels of coefficients can be scaled in two ways. If you are
 not interested in comparing the relative scales of coefficients

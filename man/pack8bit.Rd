@@ -33,7 +33,9 @@ unpack8bit(v)
 \seealso{\code{\link{compress}} etc for wavelet compression.}
 \examples{
 pack8bit(0:11)
-all(pack8bit(0:11) == pack8bit(0:9))
+(pack8bit(0:11) == pack8bit(0:9))# both need 3 32-bit ints; only 1st is =
+## BUG:
+all(250:255 == unpack8bit(pack8bit(250:255)))
 all(0:255 == unpack8bit(pack8bit(0:255)))
 }
 \keyword{utilities}

@@ -11,8 +11,8 @@
 }
 \usage{
 draw.wd(wd, \dots)
-draw.imwd (wd, \dots)
-draw.imwdc(wd, \dots)
+draw.imwd (wd, resolution = 128, \dots)
+draw.imwdc(wd, resolution = 128, \dots)
 }
 \arguments{
   \item{wd}{Object of class \code{wd}, \code{imwd}, or \code{imwdc},

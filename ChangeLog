@@ -1,3 +1,18 @@
+2001-01-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 2.2-5 ; Maintainer added.
+	
+	* data/00Index: lennon 
+
+	* R/release.R: outsourced from wavethresh.R
+
+	* man/(plot|print|summary)*.Rd: Many small \usage{} fixes {codoc() !}
+	* R/wavethresh.R:  <ditto>
+	
+2000-07-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/pack8bit.R: "outsourced" from wavethresh.R
+
 2000-05-15  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* Release of 2.2-4
