@@ -1,0 +1,1139 @@
+==7855== Memcheck, a memory error detector for x86-linux.
+==7855== Copyright (C) 2002-2004, and GNU GPL'd, by Julian Seward et al.
+==7855== Using valgrind-2.2.0, a program supervision framework for x86-linux.
+==7855== Copyright (C) 2000-2004, and GNU GPL'd, by Julian Seward et al.
+==7855== For more details, rerun with: -v
+==7855== 
+
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.1.0 Under development (unstable) (2004-11-03), ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ### * <HEADER>
+> ###
+> attach(NULL, name = "CheckExEnv")
+> assign(".CheckExEnv", as.environment(2), pos = length(search())) # base
+> ## add some hooks to label plot pages for base and grid graphics
+> setHook("plot.new", ".newplot.hook")
+> setHook("persp", ".newplot.hook")
+> setHook("grid.newpage", ".gridplot.hook")
+> 
+> assign("cleanEx",
++        function(env = .GlobalEnv) {
++ 	   rm(list = ls(envir = env, all.names = TRUE), envir = env)
++            RNGkind("default", "default")
++ 	   set.seed(1)
++    	   options(warn = 1)
++ 	   assign("T", delay(stop("T used instead of TRUE")),
++ 		  pos = .CheckExEnv)
++ 	   assign("F", delay(stop("F used instead of FALSE")),
++ 		  pos = .CheckExEnv)
++ 	   sch <- search()
++ 	   newitems <- sch[! sch %in% .oldSearch]
++ 	   for(item in rev(newitems))
++                eval(substitute(detach(item), list(item=item)))
++ 	   missitems <- .oldSearch[! .oldSearch %in% sch]
++ 	   if(length(missitems))
++ 	       warning("items ", paste(missitems, collapse=", "),
++ 		       " have been removed from the search path")
++        },
++        env = .CheckExEnv)
+> assign("..nameEx", "__{must remake R-ex/*.R}__", env = .CheckExEnv) # for now
+> assign("ptime", proc.time(), env = .CheckExEnv)
+> grDevices::postscript("wavethresh-Examples.ps")
+> assign("par.postscript", graphics::par(no.readonly = TRUE), env = .CheckExEnv)
+> options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
+> options(warn = 1)    
+> library('wavethresh')
+> 
+> assign(".oldSearch", search(), env = .CheckExEnv)
+> assign(".oldNS", loadedNamespaces(), env = .CheckExEnv)
+> cleanEx(); ..nameEx <- "accessC"
+> 
+> ### * accessC
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: accessC
+> ### Title: Get Smoothed Data from Wavelet Structure
+> ### Aliases: accessC
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> ## Get the 3rd level of smoothed data from a decomposition
+> accessC(wd(rnorm(2^7)), level=3)
+[1]  0.75808997  0.03884126  0.35908952  1.30042895 -0.50552765  0.94759567
+[7]  0.55298292  0.07588159
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> str(accessC(wds))
+ num [1:1024] -0.2045  0.0251  0.2616  0.1867  0.6411 ...
+> ## Plot the time series from a reconstruction
+> plot.ts(accessC(wr(wds, return.obj = TRUE)))
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "accessD"
+> 
+> ### * accessD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: accessD
+> ### Title: Get wavelet expansion coefficients from wavelet structure.
+> ### Aliases: accessD
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> 
+> ## Get the 3rd level coefficients of a decomposition
+> accessD(wds, level=3)
+[1]  -1.361680 -12.870816   5.665753   7.439577  -8.751677   3.700711  -3.117134
+[8]   4.624986
+> 
+> ## Do a qqnorm plot to assess the normality of some coefficients
+> qqnorm(accessD(wds, level=8))
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "compress.default"
+> 
+> ### * compress.default
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compress.default
+> ### Title: Compress a (Wavelet) Vector
+> ### Aliases: compress.default
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> #
+> # Compress a vector with lots of zeroes
+> #
+> str(compress(c(rep(0,100),99)))
+List of 3
+ $ position       : int 101
+ $ values         : num 99
+ $ original.length: int 101
+ - attr(*, "class")= chr "compressed"
+> ## List of 3
+> ##  $ position       : int 101
+> ##  $ values         : num 99
+> ##  $ original.length: int 101
+> ##  - attr(*, "class")= chr "compressed"
+> 
+> ## Try to compress a vector with not many zeroes
+> compress(1:10)
+$vector
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+attr(,"class")
+[1] "uncompressed"
+> ## (uncompressed)
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "compress.imwd"
+> 
+> ### * compress.imwd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compress.imwd
+> ### Title: Compression and Decompression for `imwd' Objects
+> ### Aliases: compress.imwd uncompress.imwdc
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "dof"
+> 
+> ### * dof
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dof
+> ### Title: Degrees of Freedom of Wavelet
+> ### Aliases: dof
+> ### Keywords: models
+> 
+> ### ** Examples
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> threshy <- threshold(wds)
+> 
+> # Compare degrees of freedom
+> dof(wds)        # 1024
+[1] 1024
+> dof(threshy)    # about 23
+[1] 22
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "draw.default"
+> 
+> ### * draw.default
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: draw.default
+> ### Title: Draw a Picture of a Wavelet
+> ### Aliases: draw.default
+> ### Keywords: hplot
+> 
+> ### ** Examples
+> 
+> op <- par(mfrow=c(5,2), oma = c(0,0, 4, 0),
++           mgp = c(1.2, .8, 0), mar = .1 + c(4,4, .5,1))
+> for(fn in 1:10) {
++    draw.default(filter.number= fn, col = "blue", main = NULL, xlab= "")
++    abline(h=0,v=0, lty=3, lwd=.5, col = "gray")
++ }
+> mtext(paste("draw.default(*, family = '",formals(draw.default)$family[[2]],"')"),
++       side = 3, line = 1, outer = TRUE,
++       cex = par("cex.main"), font = par("font.main"))
+> par(op)
+> 
+> # Draw a 2-dimensional Daubechies least asymmetric wavelet
+> draw.default(filter.number=6, family="DaubLeAsymm", dim=2, resolution=128)
+> 
+> 
+> 
+> graphics::par(get("par.postscript", env = .CheckExEnv))
+> cleanEx(); ..nameEx <- "draw.wd"
+> 
+> ### * draw.wd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: draw.wd
+> ### Title: Draw Wavelet Corresponding to Wavelet Object
+> ### Aliases: draw.wd draw.imwd draw.imwdc
+> ### Keywords: hplot
+> 
+> ### ** Examples
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> # Draw a picture of the wavelets that were used
+> draw(wds); abline(h=0,v=0, lty=3, lwd=.5)
+> 
+> example(imwd)
+
+imwd> data(lennon)
+
+imwd> imwdL <- imwd(lennon)
+> # Draw a picture of the 2D wavelet that used
+> draw(imwdL)
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "filter.select"
+> 
+> ### * filter.select
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: filter.select
+> ### Title: Wavelet Filter Coefficients
+> ### Aliases: filter.select
+> ### Keywords: math smooth
+> 
+> ### ** Examples
+> 
+> ## look at the filter coefficients for N=2 :
+> str(f2 <- filter.select(2))
+List of 4
+ $ H            : num [1:4]  0.483  0.837  0.224 -0.129
+ $ name         : chr "Daub cmpct on ext. phase N=2"
+ $ family       : chr "DaubExPhase"
+ $ filter.number: int 2
+> ##- List of 4
+> ##-  $ H            : num [1:4]  0.483  0.837  0.224 -0.129
+> ##-  $ name         : chr "Daub cmpct on ext. phase N=2"
+> ##-  $ family       : chr "DaubExPhase"
+> ##-  $ filter.number: num 2
+> 
+> all.equal(sum(f2 $H), sqrt(2))# TRUE
+[1] TRUE
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "first.last"
+> 
+> ### * first.last
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: first.last
+> ### Title: Build a first/last database for wavelet transforms
+> ### Aliases: first.last
+> ### Keywords: misc utilities
+> 
+> ### ** Examples
+> 
+> ## If you're twisted then you may just want to look at one of these.
+> 
+> first.last(length(filter.select(2)), 64)
+$first.last.c
+     First Last Offset
+[1,]     0    0    126
+[2,]     0    1    124
+[3,]     0    3    120
+[4,]     0    7    112
+[5,]     0   15     96
+[6,]     0   31     64
+[7,]     0   63      0
+
+$ntotal
+[1] 127
+
+$first.last.d
+     First Last Offset
+[1,]     0    0     62
+[2,]     0    1     60
+[3,]     0    3     56
+[4,]     0    7     48
+[5,]     0   15     32
+[6,]     0   31      0
+
+$ntotal.d
+[1] 63
+
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "imwd"
+> 
+> ### * imwd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: imwd
+> ### Title: 2D Discrete Wavelet Transform (Image W. Decomposition)
+> ### Aliases: imwd
+> ### Keywords: smooth nonlinear
+> 
+> ### ** Examples
+> 
+> # Do a decomposition of an image
+> #
+> data(lennon)
+> imwdL <- imwd(lennon)
+> # Look at the coefficients --> example(plot.imwd)
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "imwr.imwd"
+> 
+> ### * imwr.imwd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: imwr.imwd
+> ### Title: 2D Inverse Discrete Wavelet Transform (Image W. Reconstruction)
+> ### Aliases: imwr.imwd imwr.imwdc
+> ### Keywords: nonlinear smooth
+> 
+> ### ** Examples
+> 
+> example(imwd)
+
+imwd> data(lennon)
+
+imwd> imwdL <- imwd(lennon)
+> # Look at the error
+> summary( abs(c(imwr(imwdL) - lennon)))#around 1e-9
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+8.480e-10 2.518e-09 2.964e-09 2.838e-09 3.318e-09 3.615e-09 
+> 
+> ## Threshold after decomposing an image -- automagically compresses:
+> (tdi <- threshold(imwdL))
+Class imwdc : Compressed Discrete Image Wavelet Transform Object:
+       ~~~~~ : List with  29  components with names
+              nlevels fl.dbase filter w0Lconstant bc w0L1 w0L2 w0L3 w1L1 w1L2 w1L3 w2L1 w2L2 w2L3 w3L1 w3L2 w3L3 w4L1 w4L2 w4L3 w5L1 w5L2 w5L3 w6L1 w6L2 w6L3 w7L1 w7L2 w7L3 
+
+ $ wNLx are LONG coefficient vectors !
+ 
+summary(.):
+----------
+Compressed image wavelet decomposition structure
+Levels:  8 
+Original image was 256 x 256  pixels.
+Filter was:  Daub cmpct on ext. phase N=2 
+Boundary handling:  periodic 
+NULL
+> 
+> ## Now reconstruct;  imwr calling imwr.imwdc directly
+> filled.contour(answer <- imwr(tdi))
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "lennon"
+> 
+> ### * lennon
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: lennon
+> ### Title: Image of John Lennon
+> ### Aliases: lennon
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(lennon)
+> str(lennon)
+ int [1:256, 1:256] 178 178 180 178 179 177 177 177 176 177 ...
+> 
+> tlennon <- table(lennon)
+> plot(names(tlennon), sqrt(tlennon), type = "h",
++      ylab = "tlennon __ sqrt scaled", yaxt = "n",
++      main = "Gray value distribution of `Lennon'")
+> atl <- pretty(tlennon, 8)
+> axis(2, at=sqrt(atl), labels = formatC(atl,wid=1), las=2)
+> 
+> image(lennon, zlim = c(0, 192), col = gray(127:0/128))# white to dark
+> image(lennon, zlim = c(-10, 240), col = gray(127:0/128))
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "pack8bit"
+> 
+> ### * pack8bit
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pack8bit
+> ### Title: Packing of 8-bit Integers
+> ### Aliases: pack8bit unpack8bit
+> ### Keywords: utilities
+> 
+> ### ** Examples
+> 
+> pack8bit(0:11)
+[1] -1996094720 -1979251711 -1962408702
+> (pack8bit(0:11) == pack8bit(0:9))# both need 3 32-bit ints; only 1st is =
+[1]  TRUE FALSE FALSE
+> ## BUG:
+> all(250:255 == unpack8bit(pack8bit(250:255)))
+Warning in 250:255 == unpack8bit(pack8bit(250:255)) : 
+	 longer object length
+	is not a multiple of shorter object length
+[1] FALSE
+> stopifnot(0:255 == unpack8bit(pack8bit(0:255)))
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "plot.imwd"
+> 
+> ### * plot.imwd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.imwd
+> ### Title: Plot Method for an `imwd' object
+> ### Aliases: plot.imwd
+> ### Keywords: hplot smooth
+> 
+> ### ** Examples
+> 
+> example(imwd)
+
+imwd> data(lennon)
+
+imwd> imwdL <- imwd(lennon)
+> # See the wavelet coefficient in Mallat's form
+> c.gray <- gray(127:0 / 128)
+> plot(imwdL, col = c.gray)
+> plot(imwdL, col = c.gray, scaling = "none")
+> plot(imwdL, col = c.gray, scaling = "none", co.type = "none")
+> plot(imwdL, col = c.gray, plot.type = "cols")
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "plot.imwdc"
+> 
+> ### * plot.imwdc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.imwdc
+> ### Title: Plot Method for an `imwdc' object
+> ### Aliases: plot.imwdc
+> ### Keywords: hplot
+> 
+> ### ** Examples
+> 
+> example(imwd)
+
+imwd> data(lennon)
+
+imwd> imwdL <- imwd(lennon)
+> # Look at the error
+> ## Threshold after decomposing an image -- automagically compresses:
+> summary(tdi <- threshold(imwdL))
+Compressed image wavelet decomposition structure
+Levels:  8 
+Original image was 256 x 256  pixels.
+Filter was:  Daub cmpct on ext. phase N=2 
+Boundary handling:  periodic 
+> plot(tdi) # bug?
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "plot.wd"
+> 
+> ### * plot.wd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.wd
+> ### Title: Plot Method for a `wd' object
+> ### Aliases: plot.wd
+> ### Keywords: hplot smooth
+> 
+> ### ** Examples
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> 
+> plot(wds, rhlab = TRUE) # plotting the wavelet coefficients
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "putC"
+> 
+> ### * putC
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: putC
+> ### Title: Put Smoothed Data Into Wavelet Structure
+> ### Aliases: putC
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> ## Put the numbers 1:64 into level 6
+> summary(newds <- putC(wds, level=6, v=1:64, boundary=FALSE))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> #
+> # If you look at the C component of new, you will see that
+> # some numbers have changed at the appropriate position.
+> all.equal(wds,newds)
+[1] "Component 1: Mean relative  difference: 2.205388"
+> ##>[1] "Component C: ... difference: 2.1912"
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "putD"
+> 
+> ### * putD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: putD
+> ### Title: Put Wavelet Coefficients Into Wavelet Structure
+> ### Aliases: putD
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> 
+> ## Set all the wavelet coefficients to zero
+> for(i in 0:(wds$nlevels - 1))
++   wds <- putC(wds, level=i, v=rep(0,2^i))
+> 
+> ## and now see what you've done
+> plot(wds)
+> matplot(x, cbind(wr(wd(y)), wr(wds)), type = 'l')
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "summary.imwd"
+> 
+> ### * summary.imwd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summary.imwd
+> ### Title: Summary Methods for `imwd' and `imwdc' Object
+> ### Aliases: summary.imwd summary.imwdc
+> ### Keywords: nonlinear smooth
+> 
+> ### ** Examples
+> 
+> example(imwd)
+
+imwd> data(lennon)
+
+imwd> imwdL <- imwd(lennon)
+> summary(imwdL)
+UNcompressed image wavelet decomposition structure
+Levels:  8 
+Original image was 256 x 256  pixels.
+Filter was:  Daub cmpct on ext. phase N=2 
+Boundary handling:  periodic 
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "summary.wd"
+> 
+> ### * summary.wd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summary.wd
+> ### Title: Summary Method for `wd' (1D Wavelet) Object
+> ### Aliases: summary.wd
+> ### Keywords: nonlinear smooth
+> 
+> ### ** Examples
+> 
+> summary(wd(1:512)) # silly
+Levels:  9
+Length of original:  512
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "support"
+> 
+> ### * support
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: support
+> ### Title: Compute support of wavelet
+> ### Aliases: support
+> ### Keywords: dplot
+> 
+> ### ** Examples
+> 
+> str(support())
+List of 6
+ $ lh    : num -2
+ $ rh    : num 4
+ $ psi.lh: num -1
+ $ psi.rh: num 2
+ $ phi.lh: num 0
+ $ phi.rh: num 3
+> ## List of 6
+> ##  $ lh    : num -2
+> ##  $ rh    : num 4
+> ##  $ psi.lh: num -1
+> ##  $ psi.rh: num 2
+> ##  $ phi.lh: num 0
+> ##  $ phi.rh: num 3
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "threshold.wd"
+> 
+> ### * threshold.wd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: threshold.wd
+> ### Title: Threshold a `wd' Object (1D Wavelet)
+> ### Aliases: threshold.wd
+> ### Keywords: nonlinear smooth
+> 
+> ### ** Examples
+> 
+> # "Standard" example:
+> example(wd)
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> #
+> # Threshold it
+> #
+> (thH.wds <- threshold(wds))
+Class wd : Discrete Wavelet Transform Object:
+       ~~ : List with  6  components with names
+            C D nlevels fl.dbase filter bc 
+
+ $ C and $ D are LONG coefficient vectors !
+ 
+summary(.):
+----------
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+NULL
+> thS.wds <- threshold(wds, type="soft")
+> #
+> # Reconstruct from the thresholded coefficients
+> #
+> str(    trecH <- wr(thH.wds))
+ num [1:1024] 1.63 1.55 1.50 1.44 1.40 ...
+> summary(trecS <- wr(thS.wds))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.8956  1.9680  2.6560  2.5840  3.0810  4.6060 
+> #
+> # Plot the data, the true & reconstructed functions
+> #
+> plot(x,y, col = "gray", cex = .6) # the data
+> lines(x, fx, col="blue", lwd=1)# true function
+> lines(x, trecH, col= "orchid", lty=2, lwd=2)
+> lines(x, trecS, col= "tomato", lty=4, lwd=2)
+> legend(0,5.6, c("true", paste(c("hard","soft")," thresh.")),
++        col = c("blue","orchid","tomato"), lwd= c(1,2,2), lty = c(1,2,4))
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "uncompress.default"
+> 
+> ### * uncompress.default
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: uncompress.default
+> ### Title: Decompress a Compressed or Uncompressed Object
+> ### Aliases: uncompress.default
+> ### Keywords: manip
+> 
+> ### ** Examples
+> 
+> ## Compress a sparse vector and look at it
+> str(cv <- compress( vv <- c(rep(0,100),564) ))
+List of 3
+ $ position       : int 101
+ $ values         : num 564
+ $ original.length: int 101
+ - attr(*, "class")= chr "compressed"
+> 
+> ## Uncompress the vector, (uncompress.default is used)
+> str(ucv <- uncompress(cv))
+ num [1:101] 0 0 0 0 0 0 0 0 0 0 ...
+> all(ucv == vv)
+[1] TRUE
+> 
+> ## a bit less sparse:
+> vv[sample(seq(vv), 5)] <- 1:5
+> str(cv <- compress(vv))
+List of 3
+ $ position       : int [1:6] 20 27 38 57 90 101
+ $ values         : num [1:6] 5 1 2 3 4 564
+ $ original.length: int 101
+ - attr(*, "class")= chr "compressed"
+> all(vv == uncompress(cv))
+[1] TRUE
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "wd"
+> 
+> ### * wd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: wd
+> ### Title: Discrete Wavelet Transform (Decomposition).
+> ### Aliases: wd
+> ### Keywords: math smooth nonlinear
+> 
+> ### ** Examples
+> 
+> ## Example from Nason's 1993 report
+> f.ssl <- function(x) sin(x) + sin(2*x) + log(1+x)
+> m <- 10 ; n <- 2^m
+> x <- seq(0, 10*pi, length = n)
+> fx <- f.ssl(x)
+> y <- fx + rnorm(n, s= .3)
+> 
+> ## Decompose the test data
+> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "wr"
+> 
+> ### * wr
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: wr
+> ### Title: Discrete wavelet transform (reconstruction).
+> ### Aliases: wr
+> ### Keywords: math smooth nonlinear
+> 
+> ### ** Examples
+> 
+> # Decompose and then exactly reconstruct test.data
+> example(wd)#-> wds has wd() ressult
+
+wd> f.ssl <- function(x) sin(x) + sin(2 * x) + log(1 + 
+    x)
+
+wd> m <- 10
+
+wd> n <- 2^m
+
+wd> x <- seq(0, 10 * pi, length = n)
+
+wd> fx <- f.ssl(x)
+
+wd> y <- fx + rnorm(n, s = 0.3)
+
+wd> summary(wds <- wd(y))
+Levels:  10
+Length of original:  1024
+Filter was:  Daub cmpct on ext. phase N=2
+Boundary handling:  periodic
+> rec.wds <- wr(wds)
+> rec.wds.obj <- wr(wds, return.object = TRUE)
+> rec.wds2 <- accessC(rec.wds.obj, level=rec.wds.obj$nlevels)
+> all(rec.wds == rec.wds2)# since wr() internally uses accessC()
+[1] TRUE
+> 
+> # Look at accuracy of reconstruction
+> summary(abs(rec.wds - y)) #~ 10^-11
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+1.481e-11 2.757e-11 3.344e-11 3.307e-11 3.920e-11 5.096e-11 
+> 
+> # Reconstruct a hard.thresholded object, look at the wavelet coefficients
+> summary(thr.wds <- wr(threshold(wds, type="hard") ))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1196  1.8220  2.6470  2.5840  3.2930  5.1470 
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "wvrelease"
+> 
+> ### * wvrelease
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: wvrelease
+> ### Title: Identify version of wavelet software.
+> ### Aliases: wvrelease
+> ### Keywords: smooth nonlinear
+> 
+> ### ** Examples
+> 
+> str(r <- wvrelease())
+List of 2
+ $ major  : num 2.2
+ $ R.minor: num 8
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
+Time elapsed:  280.4 0.58 283.29 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
+==7855== 
+==7855== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 41 from 1)
+==7855== malloc/free: in use at exit: 17352299 bytes in 5758 blocks.
+==7855== malloc/free: 33766 allocs, 28008 frees, 310767124 bytes allocated.
+==7855== For counts of detected errors, rerun with: -v
+==7855== searching for pointers to 5758 not-freed blocks.
+==7855== checked 21208884 bytes.
+==7855== 
+==7855== 256 bytes in 1 blocks are possibly lost in loss record 13 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C8281C1: ImageReconstructStep (StoIRS.c:53)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 3056 bytes in 15 blocks are definitely lost in loss record 24 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C8281DA: ImageReconstructStep (StoIRS.c:58)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 3824 bytes in 15 blocks are definitely lost in loss record 25 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C8281C1: ImageReconstructStep (StoIRS.c:53)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 4768 bytes in 7 blocks are definitely lost in loss record 27 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C828210: ImageReconstructStep (StoIRS.c:68)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 6560 bytes in 8 blocks are definitely lost in loss record 28 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C82835C: ImageReconstructStep (StoIRS.c:96)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 8160 bytes in 16 blocks are definitely lost in loss record 29 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C8281F2: ImageReconstructStep (StoIRS.c:63)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 22384 bytes in 29 blocks are definitely lost in loss record 35 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827C6E: ImageDecomposeStep (ImageDecomposeStep.c:141)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 36336 bytes in 30 blocks are definitely lost in loss record 38 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827CA0: ImageDecomposeStep (ImageDecomposeStep.c:153)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 38640 bytes in 30 blocks are definitely lost in loss record 39 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827C84: ImageDecomposeStep (ImageDecomposeStep.c:147)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 47088 bytes in 33 blocks are definitely lost in loss record 42 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827C4C: ImageDecomposeStep (ImageDecomposeStep.c:135)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 676096 bytes in 7 blocks are possibly lost in loss record 43 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C82835C: ImageReconstructStep (StoIRS.c:96)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 694272 bytes in 9 blocks are possibly lost in loss record 44 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C828210: ImageReconstructStep (StoIRS.c:68)
+==7855==    by 0x1C8286CD: StoIRS (StoIRS.c:23)
+==7855==    by 0x80ACCCC: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1535)
+==7855== 
+==7855== 
+==7855== 977152 bytes in 17 blocks are possibly lost in loss record 45 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827C84: ImageDecomposeStep (ImageDecomposeStep.c:147)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 993280 bytes in 14 blocks are possibly lost in loss record 46 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827C4C: ImageDecomposeStep (ImageDecomposeStep.c:135)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 993408 bytes in 18 blocks are possibly lost in loss record 47 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827C6E: ImageDecomposeStep (ImageDecomposeStep.c:141)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== 
+==7855== 1012224 bytes in 18 blocks are possibly lost in loss record 48 of 50
+==7855==    at 0x1B901E5D: malloc (vg_replace_malloc.c:131)
+==7855==    by 0x1C827CA0: ImageDecomposeStep (ImageDecomposeStep.c:153)
+==7855==    by 0x1C8280A2: StoIDS (StoIDS.c:28)
+==7855==    by 0x80ACD52: do_dotCode (/users/ripley/R/svn/R-devel/src/main/dotcode.c:1529)
+==7855== 
+==7855== LEAK SUMMARY:
+==7855==    definitely lost: 170816 bytes in 183 blocks.
+==7855==    possibly lost:   5346688 bytes in 84 blocks.
+==7855==    still reachable: 11834795 bytes in 5491 blocks.
+==7855==         suppressed: 0 bytes in 0 blocks.
+==7855== Reachable blocks (those to which a pointer was found) are not shown.
+==7855== To see them, rerun with: --show-reachable=yes

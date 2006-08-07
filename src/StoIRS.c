@@ -50,23 +50,22 @@ void ImageReconstructStep(
 
 /* Get memory for c_in and d_in */
 
-    if ((c_in = (double *)malloc((unsigned)LengthCin*sizeof(double)))==NULL) {
+    if ((c_in = (double *)R_alloc(LengthCin, sizeof(double))) == NULL) {
 	*ierr = 1;
 	return;
     }
 
-    if ((d_in = (double *)malloc((unsigned)LengthDin*sizeof(double)))==NULL) {
+    if ((d_in = (double *)R_alloc(LengthDin, sizeof(double)))==NULL) {
 	*ierr = 2;
 	return;
     }
 
-    if ((c_out = (double *)malloc((unsigned)LengthCout*sizeof(double)))==NULL) {
+    if ((c_out = (double *)R_alloc(LengthCout, sizeof(double)))==NULL) {
 	*ierr = 3;
 	return;
     }
 
-    if ((toC = (double *)malloc((unsigned)LengthCin*LengthCout*sizeof(double)))
-	== NULL)	{
+    if ((toC = (double *)R_alloc(LengthCin*LengthCout, sizeof(double))) == NULL)	{
 	*ierr = 4;
 	return;
     }
@@ -93,8 +92,7 @@ void ImageReconstructStep(
 /* Now magically we can use c_in and d_in again, but we now need a toD
  * to store the answer in */
 
-    if ((toD = (double *)malloc((unsigned)LengthDin*LengthCout*sizeof(double)))
-	== NULL)	{
+    if ((toD = (double *)R_alloc(LengthDin*LengthCout, sizeof(double))) == NULL) {
 	*ierr = 5;
 	return;
     }

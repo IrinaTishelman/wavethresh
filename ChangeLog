@@ -1,3 +1,15 @@
+2006-08-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 2.2-9  for release
+
+	* data/lennon.rda: re-saved in newer format.
+
+2006-01-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/StoIRS.c (ImageReconstructStep): use R_alloc(), not malloc();
+		and hence plug memory leak.
+	* src/ImageDecomposeStep.c: dito
+
 2004-01-22  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* src/ImageDecomposeStep.c: stdlib.h (not malloc.h on non-Mac)
