@@ -9,8 +9,7 @@
 }
 \usage{
 \method{print}{imwd}(x, \dots)
-%not \method{} -- the two lines would look silly:
-print.imwdc(x, \dots)
+\method{print}{imwdc}(x, \dots)
 }
 \arguments{
   \item{x}{an object of class \code{imwd} or \code{imwdc}, respectively.}

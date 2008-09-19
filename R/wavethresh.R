@@ -48,7 +48,6 @@ accessD <- function(wd.obj, level, boundary = FALSE)
     }
 }
 
-###-- Consider making compress a generic
 compress <- function(x, ...) UseMethod("compress")
 
 ###-- MM: We should use rle() additionally or even instead
@@ -1030,7 +1029,7 @@ plot.wd <- function(x, xlabels, first.level = 1,
 	axis(1, at = axx)
     }
     else {
-	axx <- pretty(1:n, nint = 3)
+	axx <- pretty(1:n, n = 3)
 	if(axx[length(axx)] > n)
 	    axx[length(axx)] <- n
 	axx[axx == 0] <- 1

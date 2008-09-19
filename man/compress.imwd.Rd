@@ -47,7 +47,13 @@ Copyright Guy Nason 1993
   \code{\link{imwd.object}},\code{\link{imwdc.object}}.
 }
 \examples{
-%% add examples!!
+data(lennon)
+imwdL <- imwd(lennon)
+
+cwd <- compress(imwdL)
+uwd <- uncompress(cwd)
+stopifnot(identical(sort(names(uwd)), sort(N <- names(imwdL))),
+          all.equal(uwd[N], imwdL[N], tol = 1e-15))
 }
 \keyword{manip}
 

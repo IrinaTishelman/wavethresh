@@ -27,9 +27,9 @@ draw.imwdc(x, resolution = 128, \dots)
   \item{\dots}{further arguments to \code{\link{draw.default}}.}
 }
 \details{
-  Sometimes it is more convenient to use this function rather than
-  \code{\link{draw.default}}, since you want a picture of the wavelet
-  that did your decomposition.
+  Sometimes it is more convenient to use these methods explicitly rather
+  than the default one (\code{\link{draw.default}}), since you want a
+  picture of the wavelet that did your decomposition.
 }
 \seealso{\code{\link{draw.default}}, \code{\link{wd}}.
 }

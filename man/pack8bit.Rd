@@ -34,9 +34,9 @@ unpack8bit(v)
 \examples{
 pack8bit(0:11)
 (pack8bit(0:11) == pack8bit(0:9))# both need 3 32-bit ints; only 1st is =
-## BUG:
-all(250:255 == unpack8bit(pack8bit(250:255)))
-stopifnot(0:255 == unpack8bit(pack8bit(0:255)))
+
+## The unpack*() is inverse to pack*() only up to zero-padding to length 4*m:
+stopifnot(c(249:255, 0) == unpack8bit(pack8bit(249:255)))
 }
 \keyword{utilities}
 

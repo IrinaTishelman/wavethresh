@@ -4,8 +4,7 @@
 \title{Summary Methods for `imwd' and `imwdc'  Object}
 \usage{
 \method{summary}{imwd}(object, \dots)
-%not \method{} -- the two lines would look silly:
-summary.imwdc(object, \dots)
+\method{summary}{imwdc}(object, \dots)
 }
 \arguments{
   \item{object}{

@@ -2,11 +2,10 @@
 \alias{summary.wd}
 \title{Summary Method for `wd' (1D Wavelet) Object}
 \usage{
-summary.wd(object, \dots)
+\method{summary}{wd}(object, \dots)
 }
 \arguments{
-  \item{object}{
-    The wavelet decomposition of class \code{"wd"}.  This is assumed to
+  \item{object}{wavelet decomposition of class \code{"wd"}.  This is assumed to
     be the result of some wavelet decomposition.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
@@ -25,4 +24,4 @@ summary(wd(1:512)) # silly
 }
 \keyword{nonlinear}
 \keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.
+

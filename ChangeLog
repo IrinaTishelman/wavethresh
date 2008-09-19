@@ -1,3 +1,21 @@
+2008-09-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 2.2-10  ready for release
+
+	* src/0_call-tree.h: renamed from src/README to workaround INappropriate
+	R CMD check warning
+
+	* R/pack8bit.R (pack8bit): fix longstanding thinko: s/r/4-r/
+	* man/pack8bit.Rd: update example
+	* tests/pack.R: new file
+
+	* R/wavethresh.R (plot.wd): pretty(.) fix {from 'codetools'}
+
+	* man/compress.imwd.Rd: add example
+
+	* man/print.imwd.Rd [and others]: add \method{} markup in \usage{}
+
+
 2006-08-07  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* DESCRIPTION (Version): 2.2-9  for release

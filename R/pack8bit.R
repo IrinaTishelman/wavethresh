@@ -5,9 +5,9 @@ pack8bit <- function(v8)
     ## Author: Martin Mächler, Date:  5 Oct 99, 22:31
     lv <- length(v8 <- as.integer(v8))
     if(any(v8 < 0 | v8 > 255))
-      stop("`v8' is outside range 0..255")
+      stop("'v8' is outside range 0..255")
     if((r <- lv %% 4))
-      v8 <- c(v8, rep(0,r))
+      v8 <- c(v8, rep.int(0, 4-r))
     as.integer(c(matrix(v8, ncol=4) %*% 256^(0:3))- 2.^31)
 }
 

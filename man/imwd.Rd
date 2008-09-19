@@ -18,14 +18,13 @@ imwd(image, filter.number=2,
   integer; the filter that you wish to use to decompose the
   function. The filters are obtained from the
   \code{\link{filter.select}} function and are the compactly supported
-  orthonormal wavelets as described in Daubechies, I. % <<<< ??
-}
+  orthonormal wavelets as described in Daubechies, I.}% <<<< ?? FIXME
 \item{bc}{
-boundary treatment. The periodic (default) treatment causes the decomposition
-to act as if the function you are trying to decompose is periodic (on it's
-own interval). The other option is symmetric, which used to be the
-default. This causes the decomposition to act as if the function extended
-by symmetric reflection at each end.
+  boundary treatment. The periodic (default) treatment causes the decomposition
+  to act as if the function you are trying to decompose is periodic (on it's
+  own interval). The other option is symmetric, which used to be the
+  default. This causes the decomposition to act as if the function extended
+  by symmetric reflection at each end.
 }
 \item{verbose}{logical; if true then informative messages are printed
   whilst the computations are performed.}

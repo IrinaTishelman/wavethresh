@@ -11,9 +11,10 @@ This class of objects is typically returned from \code{\link{imwd}(.)}
 to represent a wavelet decomposition of an image (or other 2D function).
 }
 \section{METHODS}{
-The \code{"imwd"} class of objects has methods for the following generic
-functions:
-\code{plot}, \code{threshold}, \code{summary}, \code{print}, \code{draw}, \code{imwr}, \code{compress}.
+  The \code{"imwd"} class of objects has methods for the following generic
+  functions:
+  \code{plot}, \code{threshold}, \code{summary}, \code{print},
+  \code{draw}, \code{imwr}, \code{compress}.
 }
 \value{
 The following components must be included in a legitimate \code{imwd} object.
