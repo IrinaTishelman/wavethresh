@@ -47,7 +47,7 @@ accessD(wd.obj, level, boundary=FALSE)
 \seealso{
   \code{\link{wr}} and \code{\link{wd}} for background information;
   \code{\link{accessC}}, \code{\link{filter.select}},
-  \code{\link{threshold}}, \code{\link{putC}}, \code{\link{putD}}.}
+  \code{\link{threshold}}, \code{\link{putC}}, \code{\link{putD}}.
 }
 \examples{
 example(wd)

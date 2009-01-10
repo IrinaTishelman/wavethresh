@@ -49,7 +49,6 @@ matter.
   \code{\link{compressed.object}}, \code{\link{uncompressed.object}};
   \code{\link[base]{rle}} for another kind of compression.
 }
-}
 \examples{
 #
 # Compress a vector with lots of zeroes

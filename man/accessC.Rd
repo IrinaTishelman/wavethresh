@@ -77,7 +77,7 @@ use the "putC" function.
 \seealso{For background information, \code{\link{wr}} and
   \code{\link{wd}}.  Further, \code{\link{accessD}},
   \code{\link{filter.select}}, \code{\link{plot.wd}},
-  \code{\link{threshold}}, \code{\link{putC}}, \code{\link{putD}}.}
+  \code{\link{threshold}}, \code{\link{putC}}, \code{\link{putD}}.
 }
 \examples{
 ## Get the 3rd level of smoothed data from a decomposition

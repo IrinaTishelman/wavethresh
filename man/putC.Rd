@@ -1,7 +1,6 @@
 \name{putC}
 \alias{putC}
 \title{Put Smoothed Data Into Wavelet Structure}
-}
 \description{
   Makes a copy of the wd object, replaces some smoothed data in
   the copy, and then returns it.

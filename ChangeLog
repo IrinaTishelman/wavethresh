@@ -1,3 +1,9 @@
+2009-01-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 2.2-11
+
+	* man/putC.Rd etc: Rd_parse fixes
+
 2008-09-19  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* DESCRIPTION (Version): 2.2-10  ready for release
