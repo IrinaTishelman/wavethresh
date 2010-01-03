@@ -1,50 +1,30 @@
 \name{uncompress.default}
 \alias{uncompress.default}
-\title{Decompress a Compressed or Uncompressed Object}
-\description{
-  The \code{\link{compress}} function compresses a sparse vector by
-  removing zeroes.  This function performs the inverse transformation.
-}
+\title{Undo zero run-length encoding for a vector.}
 \usage{
-\method{uncompress}{default}(x, verbose = getOption("verbose"), \dots)
+\method{uncompress}{default}(v, verbose=FALSE, ...)
 }
 \arguments{
-  \item{x}{The \code{compressed} or \code{uncompressed} object to
-    uncompress.}
-  \item{verbose}{logical; if true then informative messages are printed.}
-  \item{\dots}{further arguments to be passed to or from methods.}
+\item{v}{The object to uncompress}
+\item{verbose}{Print an informative message whilst executing}
+\item{\dots}{Other arguments}
 }
-\value{The uncompressed vector.
+\description{
+This function inverts the action carried out by the
+\code{\link{compress.default}} function.
 }
 \details{
-See \code{\link{compress.default}} to see what this function does to vectors.
-The \code{uncompress.default} function takes objects that have been output
-from \code{compress.default(.)} and restores them to their original values.
-If the input to \code{compress.default} was a sparse vector, then an object
-of class \code{compressed} would be returned.  This class of object
-(see \code{\link{compressed.object}}) is a list containing the position
-and values of all the non-zero elements of the original vector. The
-\code{uncompress.default} function reconstitutes the original vector.
-
-Sometimes compression is not worthwhile (i.e. the original vector is not
-sparse enough). In this case \code{compress.default()} returns the original
-vector in a list with class \code{uncompressed}. The \code{uncompress.default()}
-function's task in this case is simple: only return the vector part of
-\code{uncompressed}.
+The inverse of \code{\link{compress.default}}
 }
-\seealso{\code{\link{compress}}, \code{\link{compressed.object}}.}
+\value{
+The uncompressed, reinstated, vector.
+}
+\seealso{\code{\link{compress.default}}, \code{\link{uncompress}}}
 \examples{
-## Compress a sparse vector and look at it
-str(cv <- compress( vv <- c(rep(0,100),564) ))
-
-## Uncompress the vector, (uncompress.default is used)
-str(ucv <- uncompress(cv))
-all(ucv == vv)
-
-## a bit less sparse:
-vv[sample(seq(vv), 5)] <- 1:5
-str(cv <- compress(vv))
-all(vv == uncompress(cv))
+uncompress(compress(c(1, rep(0,99), 1)))
+#[1] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#[38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#[75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 }
+\author{G P Nason}
 \keyword{manip}
-

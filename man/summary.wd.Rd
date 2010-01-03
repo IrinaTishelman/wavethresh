@@ -1,27 +1,35 @@
 \name{summary.wd}
 \alias{summary.wd}
-\title{Summary Method for `wd' (1D Wavelet) Object}
+\title{Print out some basic information associated with a wd object}
 \usage{
 \method{summary}{wd}(object, \dots)
 }
 \arguments{
-  \item{object}{wavelet decomposition of class \code{"wd"}.  This is assumed to
-    be the result of some wavelet decomposition.}
-  \item{\dots}{further arguments to be passed to or from methods.}
+\item{object}{The object to print a summary about}
+\item{\dots}{Other arguments}
 }
 \description{
-  The number of levels, the length of the original data sequence,
-  name of the filter and type of boundary handling are printed.
+Prints out the number of levels, the length of the original vector
+from which the object came, the type of wavelet filter associated with
+the decomposition, the type of boundary handling, the transform type
+and the date of production.
 }
-\section{RELEASE}{
-Release 2.2
-Copyright Guy Nason 1993
+\details{
+Description says all
 }
-\seealso{\code{\link{wd.object}}, \code{\link{summary}}.
+\value{
+Nothing
 }
+\seealso{\code{\link{wd}}}
 \examples{
-summary(wd(1:512)) # silly
+vwd <- wd(1:8)
+summary(vwd)
+#Levels:  3 
+#Length of original:  8 
+#Filter was:  Daub cmpct on least asymm N=10 
+#Boundary handling:  periodic 
+#Transform type:  wavelet 
+#Date:  Mon Mar  8 21:30:32 2010 
 }
-\keyword{nonlinear}
-\keyword{smooth}
-
+\author{G P Nason}
+\keyword{print}

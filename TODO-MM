@@ -1,8 +1,0 @@
-  o \keyword{.} in man/*.Rd should be better and consistent
-
-  o use \link{} better; clean up several \details{} which repeat themselves
-	{partly done, by collapsing some man pages}
-
-  o R CMD check --use-valgrind wavethresh
-		^^^^^^^^^^^^^^
-    still indicates unsolved problems in C !

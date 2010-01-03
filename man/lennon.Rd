@@ -1,31 +1,25 @@
 \name{lennon}
+\docType{data}
 \alias{lennon}
-\title{Image of John Lennon}
+\title{John Lennon image.}
 \description{
-  The \code{lennon} matrix has 256 rows and 256 columns and
-  integer values in \code{0:192} which are \emph{inverted} image gray
-  scales, i.e., 0 means white and 192 is dark.
-  There are a few dark speckles on the image.
-
-  John Lennon (19xx-19xx) was \emph{the} composer/leader of the
-  legendary Beatles.
+A 256x256 matrix. Each entry of the matrix contains an image intensity value. The whole matrix represents an image of John Lennon
+}
+\usage{
+data(lennon)
+}
+\format{
+A 256x256 matrix. Each entry of the matrix contains an image intensity value. The whole matrix represents an image of John Lennon
 }
 \source{
-  From Guy Nason, \email{G.P.Nason@bristol.ac.uk}
+The John Lennon image was supplied uncredited on certain UNIX workstations as an examples image. I am not sure who the Copyright belongs to. Please let me know if you know
 }
-\author{\R format and 8bit packing by Martin Maechler}
 \examples{
-data(lennon)
-str(lennon)
-
-tlennon <- table(lennon)
-plot(names(tlennon), sqrt(tlennon), type = "h",
-     ylab = "tlennon __ sqrt scaled", yaxt = "n",
-     main = "Gray value distribution of `Lennon'")
-atl <- pretty(tlennon, 8)
-axis(2, at=sqrt(atl), labels = formatC(atl,wid=1), las=2)
-
-image(lennon, zlim = c(0, 192), col = gray(127:0/128))# white to dark
-image(lennon, zlim = c(-10, 240), col = gray(127:0/128))
+#
+# This command produces the image seen above.
+#
+# image(lennon)
+#
 }
 \keyword{datasets}
+\author{G P Nason}

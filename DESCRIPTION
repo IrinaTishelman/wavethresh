@@ -1,12 +1,17 @@
 Package: wavethresh
-Version: 2.2-11
-Note:    ----- Version also in wvrelease() in ./R/release.R
-Date: 2009-01-10
+Version: 4.5
+Date: 01/03/2010
+Title: Wavelets statistics and transforms.
 Author: Guy Nason <G.P.Nason@Bristol.ac.uk>
-  of R-port: Arne Kovac (1997) and Martin Maechler (1999)
-Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
-Title: Software to perform wavelet statistics and transforms.
-Description: Software to perform 1-d and 2-d wavelet statistics and transforms
-Depends: R (>= 2.1.0)
-License: GPL (>= 2)
-Packaged: Sat Jan 10 15:52:38 2009; maechler
+Maintainer: Guy Nason <G.P.Nason@bristol.ac.uk>
+Depends: R (>= 2.0), MASS
+Description: Performs 1, 2 and 3D wavelet transforms, nondecimated
+        transforms, wavelet packet transforms, nondecimated wavelet
+        packet transforms, multiple wavelet transforms, complex-valued
+        wavelet transforms, wavelet shrinkage for various kinds of
+        data, locally stationary wavelet time series, nonstationary
+        multiscale transfer function modeling, density estimation.
+License: GPL-2
+Packaged: 2010-03-14 22:02:23 UTC; magpn
+Repository: CRAN
+Date/Publication: 2010-03-15 09:03:43

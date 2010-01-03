@@ -1,46 +1,47 @@
-%% $Id: draw.wd.Rd,v 1.8 2001/12/17 07:27:05 maechler Exp maechler $
 \name{draw.wd}
 \alias{draw.wd}
-\alias{draw.imwd}
-\alias{draw.imwdc}
-\title{Draw Wavelet Corresponding to Wavelet Object}
+\title{Draw mother wavelet or scaling function associated with wd object. }
 \description{
-  Draws picture of the wavelet associated with (1D or 2D) wavelet decomposition
-  object \code{wd}, as opposed to drawing \code{wd} itself (which is
-  achieved by the corresponding \code{\link{plot}} method, such as
-  \code{\link{plot.wd}}).
+This function draws the mother wavelet or scaling function associated with a \code{\link{wd.object}}. 
 }
 \usage{
-\method{draw}{wd}(x, \dots)
-%% not using \method for these: text would become confusing:
-draw.imwd (x, resolution = 128, \dots)
-draw.imwdc(x, resolution = 128, \dots)
+\method{draw}{wd}(wd, ...)
 }
 \arguments{
-  \item{x}{Object of class \code{wd}, \code{imwd}, or \code{imwdc},
-    typically from a wavelet decomposition using
-    the \code{\link{wd}}, \code{\link{imwd}}, or
-    \code{\link{threshold}} function.}
-  \item{resolution}{integer specifying the resolution to use in drawing.
-    A higher resolution gives a better quality picture but will take
-    longer to draw (especially in two dimensions).}
-  \item{\dots}{further arguments to \code{\link{draw.default}}.}
+\item{wd}{The \code{\link{wd}} class object whose associated wavelet or scaling function you wish to draw. }
+\item{\dots}{Additional arguments to pass to the \code{\link{draw.default}} function which does the drawing. In particular, arguments can be set to choose between drawing the mother wavelet and scaling function, to set the resolution of the plot, to choose between drawing one and two dimensional pictures.}
 }
 \details{
-  Sometimes it is more convenient to use these methods explicitly rather
-  than the default one (\code{\link{draw.default}}), since you want a
-  picture of the wavelet that did your decomposition.
+This function extracts the filter component from the \code{\link{wd}} object (which is constructed using the \code{\link{filter.select}} function) to decide which wavelet to draw. Once decided the \code{\link{draw.default}} function is used to actually do the drawing. 
 }
-\seealso{\code{\link{draw.default}}, \code{\link{wd}}.
+\value{
+If the \code{plot.it} argument is set to TRUE then nothing is returned. Otherwise, as with \code{\link{draw.default}}, the coordinates of what would have been plotted are returned. 
+}
+\note{If the \code{plot.it} argument is \code{TRUE} (which it is by default) a plot of the mother wavelet or scaling function is plotted on the active graphics device.}
+\section{RELEASE}{Version 2 Copyright Guy Nason 1993 }
+\seealso{
+\code{\link{filter.select}}, \code{\link{wd.object}}, \code{\link{draw.default}}. 
 }
 \examples{
-example(wd)
-# Draw a picture of the wavelets that were used
-draw(wds); abline(h=0,v=0, lty=3, lwd=.5)
+#
+# Generate some test data
+#
+test.data <- example.1()$y
+\dontrun{ts.plot(test.data)}
+#
+# Now do the discrete wavelet transform of the data using the Daubechies
+# least-asymmetric wavelet N=10 (the default arguments in
+# wd).
+#
+tdwd <- wd(test.data)
+#
+# What happens if we try to draw this new tdwd object?
+#
+\dontrun{draw(tdwd)}
+#
+# We get a picture of the wavelet that did the transform
+#
 
-example(imwd)
-# Draw a picture of the 2D wavelet that used
-draw(imwdL)
 }
 \keyword{hplot}
-% Converted by Sd2Rd version 0.3-3.
+\author{G P Nason}

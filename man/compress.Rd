@@ -1,29 +1,30 @@
 \name{compress}
 \alias{compress}
-\title{Compression - Generic function (wavelet)}
+\title{Compress objects}
+\description{
+Compress objects.
+ 
+This function is generic. 
+
+Particular methods exist. For the \code{\link{imwd}} class object this generic function uses \code{\link{compress.imwd}}. There is a default compression method: \code{\link{compress.default}} that works on vectors. 
+}
 \usage{
-compress(x, \dots)
+compress(\dots)
 }
 \arguments{
-  \item{x}{an \R object.}
-  \item{\dots}{methods may have additional arguments.}
+\item{\dots}{See individual help pages for details. }
 }
-\description{
-  Compresses \code{x} (typically by removing zeroes).
-  This is the generic function.
+\details{
+See individual method help pages for operation and examples
 }
-\details{Functions with names beginning in \code{compress.} will be
-  methods for this function,
-
-  See their individual help pages, e.g.,
-  \code{\link{compress.imwd}}, \code{\link{compress.default}}, for operation.
+\value{
+A compressed version of the input. 
 }
-\value{a compressed version of the supplied argument.
+\section{RELEASE}{Version 2.0 Copyright Guy Nason 1993}
+\seealso{
+\code{\link{compress.default}}, \code{\link{compress.imwd}}, \code{\link{imwd}}, \code{\link{imwd.object}}, \code{\link{imwdc.object}}, \code{\link{threshold.imwd}} 
 }
-\section{RELEASE}{
-Release 2.2
-Copyright Guy Nason 1993
-}
-\seealso{\code{\link{threshold}}, \code{\link{uncompress}}.}
 \keyword{manip}
 \keyword{utilities}
+
+\author{G P Nason}

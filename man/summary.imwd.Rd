@@ -1,31 +1,34 @@
 \name{summary.imwd}
 \alias{summary.imwd}
-\alias{summary.imwdc}
-\title{Summary Methods for `imwd' and `imwdc'  Object}
+\title{Print out some basic information associated with an imwd object}
 \usage{
 \method{summary}{imwd}(object, \dots)
-\method{summary}{imwdc}(object, \dots)
 }
 \arguments{
-  \item{object}{
-    The image wavelet decomposition of class "imwd" or "imwdc", respectively.
-    This is assumed to be the result of some image wavelet decomposition.}
-  \item{\dots}{further arguments to be passed to or from methods.}
+\item{object}{The object to print a summary about}
+\item{\dots}{Other arguments}
 }
 \description{
-  The number of levels, the dimension of the original image,
-  name of the filter and the type of boundary handling are printed.
+Prints out the number of levels, the dimensions of the original image
+from which the object came, the type of wavelet filter associated with
+the decomposition, the type of boundary handling.
 }
-\section{RELEASE}{
-  Release 2.2, Copyright Guy Nason 1993
+\details{
+Description says all
 }
-\seealso{
-\code{\link{summary}}, \code{\link{imwd.object}}, \code{\link{imwdc.object}}.
+\value{
+Nothing
 }
+\seealso{\code{\link{imwd}}, \code{\link{threshold.imwd}}}
 \examples{
-example(imwd)
-summary(imwdL)
+m <- matrix(rnorm(32*32),nrow=32)
+mimwd <- imwd(m)
+summary(mimwd)
+#UNcompressed image wavelet decomposition structure
+#Levels:  5 
+#Original image was 32 x 32  pixels.
+#Filter was:  Daub cmpct on least asymm N=10 
+#Boundary handling:  periodic 
 }
-\keyword{nonlinear}
-\keyword{smooth}
-% Converted by Sd2Rd version 0.3-3.
+\author{G P Nason}
+\keyword{print}

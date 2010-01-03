@@ -1,26 +1,32 @@
 \name{uncompress}
 \alias{uncompress}
-\title{Decompression - Generic Function (Wavelet)}
+\title{Uncompress objects}
 \description{
-  Decompresses \code{x}  by padding with zeroes
-  This is the generic function.
+Uncompress objects.
+ 
+This function is generic. 
+
+Particular methods exist. For the \code{\link{imwdc.object}} class object this
+generic function uses \code{\link{uncompress.imwdc}}.
+There is a default uncompression method:
+\code{\link{uncompress.default}} that works on vectors. 
 }
 \usage{
-uncompress(x, \dots)
+uncompress(\dots)
 }
 \arguments{
-  \item{x}{an \R object.}
-  \item{\dots}{methods may have additional arguments.}
+\item{\dots}{See individual help pages for details. }
 }
-\value{an uncompressed version of the supplied argument.}
-\details{Functions with names beginning in \code{uncompress.} will be
-  methods for this function,
-
-  See their individual help pages, e.g.,
-  \code{\link{uncompress.imwdc}}, \code{\link{uncompress.default}},
-  for operation.
+\details{
+See individual method help pages for operation and examples
 }
-\seealso{\code{\link{compress}}.}
+\value{
+A uncompressed version of the input. 
+}
+\section{RELEASE}{Version 2.0 Copyright Guy Nason 1993}
+\seealso{
+\code{\link{uncompress.default}}, \code{\link{uncompress.imwdc}}, \code{\link{imwd}}, \code{\link{imwd.object}}, \code{\link{imwdc.object}}, \code{\link{threshold.imwd}} 
+}
 \keyword{manip}
 \keyword{utilities}
-
+\author{G P Nason}

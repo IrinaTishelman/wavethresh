@@ -1,108 +1,71 @@
-% $Id: draw.default.Rd,v 1.6 2001/12/17 07:27:09 maechler Exp maechler $
 \name{draw.default}
 \alias{draw.default}
-\title{Draw a Picture of a Wavelet}
+\title{Draw picture of a wavelet or scaling function. }
 \description{
-  Draws pictures of basic (Daubechies') wavelets in the wavethresh package.
+This function can produce pictures of one- or two-dimensional wavelets or scaling functions at various levels of resolution. 
 }
 \usage{
-\method{draw}{default}(x = filter.number, filter.number = 2,
-     family = c("DaubExPhase", "DaubLeAsymm"),
-     resolution = 1024, verbose = FALSE, plot = TRUE,
-     main = paste("Wavelet Picture", if(enhance) " (Enhanced)", sep=""),
-     sub = zwd$filter$name, xlab = "x", ylab = expression(psi(x)), dimension = 1,
-     twodplot = persp, enhance = TRUE, efactor = 0.05, \dots)
+\method{draw}{default}(filter.number = 10, family = "DaubLeAsymm", resolution = 8192,
+    verbose = FALSE, plot.it = TRUE, main = "Wavelet Picture", sub = zwd$
+    filter$name, xlab = "x", ylab = "psi", dimension = 1, twodplot
+     = persp, enhance = TRUE, efactor = 0.05, scaling.function = FALSE, 
+    \dots)
 }
 \arguments{
-  \item{x, filter.number}{integer; number of the filter in the wavelet
-    family specified.  The range of possible numbers depends on the family.}
-  \item{family}{character, the family of wavelets to use, defaults to
-    the first of the list shown above.}
-  \item{resolution}{integer specifying the resolution to use in drawing
-    pictures.  A higher resolution gives a better quality picture but
-    will take longer to draw (especially in two dimensions).}
-  \item{verbose}{logical, if \code{TRUE}, report the progress of drawing.}
-  \item{plot}{logical, if true then plot the
-    appropriate wavelet on the current active graphics device, otherwise
-    the information about the wavelet is returned.}
-  \item{main, sub}{main and sub-title for the plot, see \code{\link{title}}.}
-  \item{xlab, ylab}{labels for the x and y axis.}
-  \item{dimension}{
-    If this is 1, then a one-dimensional version of the wavelet is drawn,
-    if this is 2, then a two-d picture is drawn with the \code{twodplot} function.
-  }
-  \item{twodplot}{function such as \code{\link{persp}} that can do
-    something interesting with a matrix.}
-  \item{enhance}{logical; with Daubechies' wavelets their effective
-    support is much less than their actual support.
-    If \code{enhance} is true, the function tries to draw
-    the wavelet on its effective support.}
-  \item{efactor}{numeric, defining the effective support.
-    Define z0 to be efactor times the maximum absolute value of the
-    wavelet w(x). Define the set \eqn{A = \{ x: |w(x)| > z0 \}}, and the
-    effective support is the smallest interval (in 1D, square in 2D)
-    containing A.
-  }
-  \item{\dots}{further arguments to \code{plot} or \code{twodplot}.}
-}
-\value{
-  If \code{plot} is false then no actual drawing is done, however, a list is
-  returned with \code{dimension + 1} components:
-  If \code{dimension} is one, the list has components x and y, representing the
-  domain of definition (or effective support) of the wavelet and the
-  value of the wavelet at x.
-  \cr
-  If \code{dimension == 2}, the list has three components x,y and z.
-}
-\section{Side Effects}{
-  a picture of a wavelet is drawn on the currently active graphics device
-  if plot=TRUE.
+\item{filter.number }{This selects the index number of the wavelet or scaling function you want to draw (from within the wavelet family).}
+\item{family}{specifies the family of wavelets that you want to draw. The options are "DaubExPhase" and "DaubLeAsymm".}
+\item{resolution }{specifies the resolution that the wavelet or scaling function is computed to. It does not necessarily mean that you see all of these points as if the enhance option is TRUE then some function points are omitted.}
+\item{verbose}{Controls the printing of "informative" messages whilst the computations progress. Such messages are generally annoying so it is turned off by default.}
+\item{plot.it }{If TRUE then this function attempts to plot the function (i.e. draw it on a graphics device which should be active). If FALSE then this function returns the coordinates of the object that would have been plotted.}
+\item{main}{a main title for the plot}
+\item{sub}{a subtitle for the plot.}
+\item{xlab}{a label string for the x-axis}
+\item{ylab}{a label string for the y-axis}
+\item{dimension }{whether to make a picture of the one-dimensional wavelet or the two-dimensional wavelet.}
+\item{twodplot }{which function to use to produce the two-dimensional plot if dimension=2. The function you supply should accept data just like the contour or persp functions supplied with S-Plus.}
+\item{enhance}{If this argument is TRUE then the plot is enhanced in the following way. Many of Daubechies' compactly supported wavelets are near to zero on a reasonable proportion of their support. So if such a wavelet is plotted quite a lot of it looks to be near zero and the interesting detail seems quite small. This function chooses a nice range on which to plot the central parts of the function and the function is plotted on this range.}
+\item{efactor}{Variable which controls the range of plotting associated with the enhance option above. Any observations smaller than efactor times the range of the absolute function values are deemed to be too small. Then the largest range of ``non-small'' values is selected to be plotted.}
+\item{scaling.function }{If this argument is TRUE the scaling function is plotted otherwise the mother wavelet is plotted.}
+\item{\dots}{other arguments you can supply to the plot routine embedded within this function.}
+
 }
 \details{
-For Daubechies' compactly supported wavelets there is no known closed form
-expression. However, it is possible to make use of the inverse wavelet
-transform to draw pictures of the wavelets. The idea is to set
-all but one wavelet coefficient equal to zero and that one coefficient
-equal to one in a wavelet expansion.
-Then the inverse transform (reconstruction) is applied to the expansion
-and a picture of one wavelet is produced.
-
-A method similar to the one we present here is presented in Daubechies (1992)
-in Section~6.5 on the cascade algorithm.
-
-The principle is simple, but the implementation to get good pictures is
-surprisingly tricky. Ideally you want to put in the non-zero coefficient
-at the lowest resolution level as possible, this will give you as much
-detail as possible. However, the support of some of the large-scale
-wavelets is greater than the union of the supports of all the high-resolution
-small-scale wavelets and so it may not be possible to draw a complete wavelet.
-
-This function analyses the supports of the wavelets at different levels
-and finds a coefficient to set to one by choosing the wavelet at the lowest
-possible resolution and whose support is within the union of supports of
-the highest resolution wavelets. If there is
-a choice of such wavelets, then the middle-most one is selected.
+The algorithm underlying this function produces a picture of the wavelet or scaling function by first building a \code{wavelet decomposition} object of the correct size (i.e. \code{correct resolution}) and setting all entries equal to zero. Then one coefficient at a carefully selected resolution level is set to one and the decomposition is inverted to obtain a picture of the wavelet. 
 }
-\section{RELEASE}{
-  Release 2.2
-  Copyright Guy Nason 1993
-}
-\seealso{\code{\link{draw}}, \code{\link{draw.wd}} etc.
+\value{
+If \code{plot.it=FALSE} then usually a list containing coordinates of the object that \emph{would} have been plotted is returned. This can be useful if you don't want S-Plus to do the plotting or you wish to use the coordinates of the wavelets for other purposes.} 
+
+\note{A plot is produced of the wavelet or scaling function if \code{plot.it=TRUE}.} 
+\section{RELEASE}{Version 3.5.3 Copyright Guy Nason 1994 }
+\seealso{
+\code{\link{filter.select}}, \code{\link{ScalingFunction}},\code{\link{wd}}, \code{\link{wd.object}}, \code{\link{wr}}, \code{\link{wr.wd}}. 
 }
 \examples{
-op <- par(mfrow=c(5,2), oma = c(0,0, 4, 0),
-          mgp = c(1.2, .8, 0), mar = .1 + c(4,4, .5,1))
-for(fn in 1:10) {
-   draw.default(filter.number= fn, col = "blue", main = NULL, xlab= "")
-   abline(h=0,v=0, lty=3, lwd=.5, col = "gray")
-}
-mtext(paste("draw.default(*, family = '",formals(draw.default)$family[[2]],"')"),
-      side = 3, line = 1, outer = TRUE,
-      cex = par("cex.main"), font = par("font.main"))
-par(op)
-
-# Draw a 2-dimensional Daubechies least asymmetric wavelet
-draw.default(filter.number=6, family="DaubLeAsymm", dim=2, resolution=128)
+#
+# First make sure that your favourite graphics device is open
+# otherwise S-Plus will complain.
+#
+# Let's draw a one-dimensional Daubechies least-asymmetric wavelet
+# N=10
+#
+\dontrun{draw.default(filter.number=10, family="DaubLeAsymm")}
+#
+# Wow. What a great picture!
+#
+# Now how about a one-dimensional Daubechies extremal-phase scaling function
+# with N=2
+#
+\dontrun{draw.default(filter.number=2, family="DaubExPhase")}
+#
+# Excellent! Now how about a two-dimensional Daubechies least-asymmetric
+# N=6 wavelet
+#
+# N.b. we'll also reduce the resolution down a bit. If we used the default
+# resolution of 8192 this would be probably too much for most computers.
+#
+\dontrun{draw.default(filter.number=6, family="DaubLeAsymm", dimension=2, res=256)}
+#
+# What a pretty picture!
 }
 \keyword{hplot}
-% Converted by Sd2Rd version 0.3-3.
+\author{G P Nason}

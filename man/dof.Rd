@@ -1,31 +1,53 @@
 \name{dof}
 \alias{dof}
-\title{Degrees of Freedom of Wavelet}
+\title{Compute number of non-zero coefficients in wd object}
+\description{
+Compute number of non-zero coefficients in \code{\link{wd}} object
+}
 \usage{
 dof(wd)
 }
-\description{Compute degrees of freedom for wavelet thresholding model.}
 \arguments{
-  \item{wd}{The wavelet object}
-}
-\value{The number of degrees of freedom.
+\item{wd}{A \code{wavelet decomposition} object (such as that returned by the \code{\link{wd}} function).}
 }
 \details{
-  The wavelet thresholding is a non-linear transform and \code{dof} returns
-  the approximate number of degrees of freedom.
+Very simple function that counts the number of non-zero coefficients in a \code{\link{wd}} class object. 
 }
-\references{see \code{\link{wd}} for a list.
+\value{
+An integer that represents the number of non-zero coefficients in the input \code{\link{wd}} object. 
 }
+\section{RELEASE}{Version 3.0 Copyright Guy Nason 1994 }
 \seealso{
-\code{\link{threshold}}
+\code{\link{wd}}, \code{\link{wd.object}}, \code{\link{threshold}}, \code{\link{threshold.wd}}. 
 }
 \examples{
-example(wd)
-threshy <- threshold(wds)
-
-# Compare degrees of freedom
-dof(wds)	# 1024
-dof(threshy)    # about 23
+#
+# Let's generate some purely random numbers!!
+#
+myrandom <- rnorm(512)
+#
+# Take the discrete wavelet transform
+#
+myrandomWD <- wd(myrandom)
+#
+# How many coefficients are non-zero?
+#
+dof(myrandomWD)
+# [1] 512
+#
+# All of them were nonzero!
+#
+# Threshold it
+#
+myrandomWDT <- threshold(myrandomWD, policy="universal")
+#
+# Now lets see how many are nonzero
+#
+dof(myrandomWDT)
+# [1] 8
+#
+# Wow so 504 of the coefficients were set to zero! Spooky!
+#
 }
 \keyword{models}
-
+\author{G P Nason}

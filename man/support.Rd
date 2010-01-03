@@ -1,60 +1,73 @@
 \name{support}
 \alias{support}
-\title{Compute support of wavelet}
-\description{
-  Computes the support of a wavelet
-}
+\title{Returns support of compactly supported wavelets.}
 \usage{
-support(filter.number = 2, family = c("DaubExPhase", "DaubLeAsymm"),
-        m = 0, n = 0)
+support(filter.number=10, family="DaubLeAsymm", m=0, n=0)
 }
 \arguments{
-  \item{filter.number}{integer; the number within the wavelet family whose
-    support you wish to compute.}
-  \item{family}{character string giving the family of wavelets that should
-    be used.}
-  \item{m}{the dilation number.}
-  \item{n}{the translation number.}
+\item{filter.number}{The member index of a wavelet within the family.
+	For Daubechies' compactly supported wavelet this is the number of
+	vanishing moments which is related to the smoothness.
+	See \code{\link{filter.select}} for more information on the
+	wavelets.}
+\item{family}{The family of wavelets.
+	See \code{\link{filter.select}} for more information on the wavelets.}
+\item{m}{Optional scale value (in usual wavelet terminology this is j)}
+\item{n}{Optional translation value (in usual wavelet terminology, this is k)}
 }
-\value{
-  A list containing the support of the wavelets.  The list contains
-  the following components:
-  \item{lh}{The left-hand end of the interval of the support of the wavelet.}
-  \item{rh}{The right-hand end}
-  \item{psi.lh}{The left-hand end of the support of the mother wavelet}
-  \item{psi.rh}{The right-hand end}
-  \item{phi.lh}{The left-hand end of the support of the scale function
-    (father wavelet)}
-  \item{phi.rh}{The right-hand end}
+
+\description{
+Returns the support for compactly supported wavelets. This information is useful for drawing wavelets for annotating axes.
 }
 \details{
-To draw a wavelet it is important to know it's support.  \code{support}
-provides this information. If a new family of wavelets is added then their
-support needs to be determined and this function modified.
-This function needn't be called by the user in normal use.
-If the wavelet's aren't compactly supported then the support will not
-be a simple closed interval!
+It is useful to know the support of a wavelet when drawing it to annotate
+labels. Other functions, such as wavelet density estimation
+(\code{\link{CWavDE}}), also use this information.
 }
-\section{RELEASE}{
-Release 2.2
-Copyright Guy Nason 1993
+\value{
+A list with the following components (each one is a single numeric value)
+\item{lh}{Left hand support of the wavelet with scale m and translation n.
+	These values change as m and n (although when m=0 the function
+	confusingly returns the next coarser wavelet where you might
+	expect it to return the mother. The mother is indexed by m=-1)}
+\item{rh}{As lh but returns the rh end.}
+\item{psi.lh}{left hand end of the support interval for the mother wavelet
+	(remains unchanged no matter what m or n are)}
+\item{psi.rh}{right hand end of the support interval for the mother wavelet
+	(remains unchanged no matter what m or n are)}
+\item{phi.lh}{left hand end of the support interval for the father wavelet
+	(remains unchanged no matter what m or n are)}
+\item{phi.rh}{right hand end of the support interval for the father wavelet (remains unchanged no matter what m or n are)}
 }
-\section{BUGS}{
-As the example shows below, when m=0 and n=0 the lh and rh don't show
-the mother wavelet's support, but the wavelet above the mother wavelet.
-The calling functions allow for this.
-}
-\seealso{\code{\link{wr}}, \code{\link{draw}}.
-}
+\seealso{
+\code{\link{CWavDE}},
+\code{\link{draw.default}},
+\code{\link{filter.select}}}
 \examples{
-str(support())
-## List of 6
-##  $ lh    : num -2
-##  $ rh    : num 4
-##  $ psi.lh: num -1
-##  $ psi.rh: num 2
-##  $ phi.lh: num 0
-##  $ phi.rh: num 3
+#
+# What is the support of a Haar wavelet?
+#
+support(filter.number=1, family="DaubExPhase", m=0, n=0)
+#$lh
+#[1] 0
+#
+#$rh
+#[1] 2
+#
+#$psi.lh
+#[1] 0
+#
+#$psi.rh
+#[1] 1
+#
+#$phi.lh
+#[1] 0
+#
+#$phi.rh
+#[1] 1
+#
+# So the mother and father wavelet have support [0,1]
+#
 }
-\keyword{dplot}
-% Converted by Sd2Rd version 0.3-3.
+\author{G P Nason}
+\keyword{math}
