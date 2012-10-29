@@ -24,7 +24,7 @@ function(timeseries, response, filter.number = 10., family =
 	# Now extract the ``best'' 1D variables.
 	#
 	tw2m <- #
-	wpst2m(wpst = twpst, trans = trans)
+	wpst2m(wpstobj = twpst, trans = trans)
 	tbm <- #
 	bestm(tw2m, y = response, percentage = percentage)
 	#
@@ -59,7 +59,7 @@ function(newTS, wpstRO)
 	npkts <- length(goodpkt)
 	ndata <- length(newTS)
 	m <- matrix(0., nrow = ndata, ncol = npkts)
-	J <- nlevels(newwpst)
+	J <- nlevelsWT(newwpst)
 	grot <- compgrot(J, filter.number=wpstRO$filter$filter.number,
 		family=wpstRO$filter$family)
 	for(i in 1.:npkts) {
@@ -115,8 +115,8 @@ function(wpstobj, trans = identity)
 	#
 	#	nlevels	The number of levels
 	#
-	J <- nlev <- nlevels(wpstobj)
-	grot <- compgrot(J, filter = wpstobj$filter$filter.number,
+	J <- nlev <- nlevelsWT(wpstobj)
+	grot <- compgrot(J, filter.number = wpstobj$filter$filter.number,
 		family = wpstobj$filter$family)
 	nbasis <- 2. * (2.^nlev - 1.)
 	ndata <- 2.^nlev

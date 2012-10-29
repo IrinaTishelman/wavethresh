@@ -9,8 +9,8 @@ The coefficients from a non-decimated wavelet packet object, \code{\link{wpst}},
 }
 \arguments{
 \item{wpst}{Non-decimated wavelet packet object from which you wish to extract time-ordered coefficients.}
-\item{level}{The resolution level that you wish to extract. This can range from zero (the coarsest coefficients) to nlevels-1(wstobj) which are the finest scale coefficients.}
-\item{index}{The wavelet packet index that you require (sequency ordering). This can range from 0 (father wavelet coeffcients) to \code{2^(nlevels - level) - 1}, i.e. the maximum is dependent on the resolution level.}
+\item{level}{The resolution level that you wish to extract. This can range from zero (the coarsest coefficients) to nlevelsWT-1(wstobj) which are the finest scale coefficients.}
+\item{index}{The wavelet packet index that you require (sequency ordering). This can range from 0 (father wavelet coeffcients) to \code{2^(nlevelsWT - level) - 1}, i.e. the maximum is dependent on the resolution level.}
 \item{\dots}{any other arguments}
 }
 \details{The \code{\link{wpst}} function performs a non-decimated wavelet packet transform. This function extracts the coefficients at a particular resolution level specified by level in time order. 

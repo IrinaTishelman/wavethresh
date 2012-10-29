@@ -39,7 +39,7 @@ BabyModel
 #Fisher's discrimination: done
 #BP component has the following information
 #BP class object. Contains "best basis" information
-#Components of object:[1] "nlevels"     "BasisMatrix" "level"       "pkt"         "basiscoef"
+#Components of object:[1] "nlevelsWT"     "BasisMatrix" "level"       "pkt"         "basiscoef"
 #[6] "groups"
 #Number of levels  8
 #List of "best" packets

@@ -228,7 +228,7 @@ function(hrproj, filter.number=hrproj$filter$filter.number,
                 nlevels=nrow(fl.dbase$first.last.d), fl.dbase=fl.dbase,
                 filter=filter, type=type, bc=bc, date=date())
     class(l) <- "wd"
-    for(level in 1:nlevels(l)) {
+    for(level in 1:nlevelsWT(l)) {
         covar <- image.decomp[[lt.to.name(level - 1, "DD")]]
         l <- putD.wd(l, level-1, covar[,1], boundary=TRUE)
     }
@@ -338,7 +338,7 @@ function(wd, start.level=0, verbose=FALSE, bc=wd$bc, return.object=FALSE,
         stop("wd is not of class wd")
     if(start.level < 0)
         stop("start.level must be nonnegative")
-    if(start.level >= nlevels(wd))
+    if(start.level >= nlevelsWT(wd))
         stop("start.level must be less than the number of levels")
     if(is.null(wd$filter$filter.number))
         stop("NULL filter.number for wd")
@@ -355,13 +355,13 @@ function(wd, start.level=0, verbose=FALSE, bc=wd$bc, return.object=FALSE,
 
     if(verbose == TRUE)
         cat("...done\nFirst/last database...")
-    r.first.last.c <- wd$fl.dbase$first.last.c[(start.level+1):(nlevels(wd)+1), ]
+    r.first.last.c <- wd$fl.dbase$first.last.c[(start.level+1):(nlevelsWT(wd)+1), ]
     ntotal <- r.first.last.c[1,3] + r.first.last.c[1,2] -
                                                r.first.last.c[1,1] + 1
     names(ntotal) <- NULL
     C <- accessC(wd, level = start.level, boundary = TRUE)
     C <- c(rep(0, length = (ntotal - length(C))), C)
-    nlevels <- nlevels(wd) - start.level
+    nlevels <- nlevelsWT(wd) - start.level
     error <- 0
 
 # Load object code
@@ -412,7 +412,7 @@ function(wd, start.level=0, verbose=FALSE, bc=wd$bc, return.object=FALSE,
         first.last.d=wd$fl.dbase$ first.last.d, ntotal.d=wd$fl.dbase$ntotal.d)
     if(!is.complex(wd$D)) {
         l <- list(C=wavelet.reconstruction$C, D=wavelet.reconstruction$D,
-                    fl.dbase=fl.dbase, nlevels=nlevels(wavelet.reconstruction),
+                    fl.dbase=fl.dbase, nlevels=nlevelsWT(wavelet.reconstruction),
                     filter=filter, type=type, bc=bc, date=date())
     }
     class(l) <- "wd"
@@ -551,7 +551,7 @@ function(q)
 
 "plotdenwd" <-
 function(wd, xlabvals, xlabchars, ylabchars, first.level=0,
-    top.level=nlevels(wd) - 1,
+    top.level=nlevelsWT(wd) - 1,
     main="Wavelet Decomposition Coefficients", scaling="global", rhlab=FALSE,
     sub, NotPlotVal=0.005, xlab="Translate",
     ylab="Resolution Level", aspect="Identity", ...)
@@ -563,7 +563,7 @@ function(wd, xlabvals, xlabchars, ylabchars, first.level=0,
     else if(ctmp != "wd")
         stop("wd is not of class wd")
 
-    levels <- nlevels(wd)
+    levels <- nlevelsWT(wd)
     nlevels <- levels - first.level
     cfac <- top.level - (levels-1)
 
@@ -643,7 +643,7 @@ function(wd, xlabvals, xlabchars, ylabchars, first.level=0,
             axx <- xix
             if(type == "wavelet")
                 axx <- xix/2
-            axl <- signif(lx, dig = 2)
+            axl <- signif(lx, digits = 2)
             axis(1, at = axx, labels = axl)
         }
     }
@@ -738,7 +738,7 @@ function(data, filter.number = 10, family = "DaubLeAsymm",
 
 # Check that we have a power of 2 data elements if not using zero bcs
     if(bc=="periodic" || bc=="symmetric") {
-        nlevels <- nlevels(data)
+        nlevels <- nlevelsWT(data)
         if(is.na(nlevels)) stop("Data length is not power of two")
     }
 
@@ -813,7 +813,7 @@ function(data, filter.number = 10, family = "DaubLeAsymm",
     if(is.null(filter$G)) {
         l <- list(C = wavelet.decomposition$C, D =
             wavelet.decomposition$D, nlevels =
-            nlevels(wavelet.decomposition), fl.dbase = fl.dbase,
+            nlevelsWT(wavelet.decomposition), fl.dbase = fl.dbase,
             filter = filter, type = type, bc = bc, date = date())
     }
     class(l) <- "wd"

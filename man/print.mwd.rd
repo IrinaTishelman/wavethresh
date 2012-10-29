@@ -35,7 +35,7 @@ tmp <- mwd(rnorm(32))
 tmp
 # Class 'mwd' : Discrete Multiple Wavelet Transform Object:
 #	 ~~~  : List with 10 components with names
-#		 C D nlevels ndata filter fl.dbase type bc prefilter date 
+#		 C D nlevelsWT ndata filter fl.dbase type bc prefilter date 
 # 
 # $ C and $ D are LONG coefficient vectors !
 # 

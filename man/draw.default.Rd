@@ -9,6 +9,7 @@ This function can produce pictures of one- or two-dimensional wavelets or scalin
     verbose = FALSE, plot.it = TRUE, main = "Wavelet Picture", sub = zwd$
     filter$name, xlab = "x", ylab = "psi", dimension = 1, twodplot
      = persp, enhance = TRUE, efactor = 0.05, scaling.function = FALSE, 
+	type="l",
     \dots)
 }
 \arguments{
@@ -26,6 +27,7 @@ This function can produce pictures of one- or two-dimensional wavelets or scalin
 \item{enhance}{If this argument is TRUE then the plot is enhanced in the following way. Many of Daubechies' compactly supported wavelets are near to zero on a reasonable proportion of their support. So if such a wavelet is plotted quite a lot of it looks to be near zero and the interesting detail seems quite small. This function chooses a nice range on which to plot the central parts of the function and the function is plotted on this range.}
 \item{efactor}{Variable which controls the range of plotting associated with the enhance option above. Any observations smaller than efactor times the range of the absolute function values are deemed to be too small. Then the largest range of ``non-small'' values is selected to be plotted.}
 \item{scaling.function }{If this argument is TRUE the scaling function is plotted otherwise the mother wavelet is plotted.}
+\item{type}{The \code{type} argument supplied to the plot command}
 \item{\dots}{other arguments you can supply to the plot routine embedded within this function.}
 
 }

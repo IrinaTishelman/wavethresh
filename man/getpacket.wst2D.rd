@@ -9,8 +9,8 @@ This function extracts and returns a packet of coefficients from a two-dimension
 }
 \arguments{
 \item{wst2D}{2D non-decimated wavelet object from which you wish to extract a packet from.} 
-\item{level}{The resolution level of the coefficients that you wish to extract. Can range from 0 to \code{\link{nlevels}}(wpst)-1.} 
-\item{index}{The index number within the resolution level of the packet of coefficients that you wish to extract. Index is a base-4 number which is r digits long. Each digit can be 0, 1, 2 or 3 corresponding to no shifts, horizontal shift, vertical shift or horizontal and vertical shifts. The number r indicates the depth of the resolution level from the data resolution i.e. where \code{r = nlevels - level}.
+\item{level}{The resolution level of the coefficients that you wish to extract. Can range from 0 to \code{\link{nlevelsWT}}(wpst)-1.} 
+\item{index}{The index number within the resolution level of the packet of coefficients that you wish to extract. Index is a base-4 number which is r digits long. Each digit can be 0, 1, 2 or 3 corresponding to no shifts, horizontal shift, vertical shift or horizontal and vertical shifts. The number r indicates the depth of the resolution level from the data resolution i.e. where \code{r = nlevelsWT - level}.
  
 Where there is a string of more than one digit the left most digits correspond to finest scale shift selection, the right most digits to the coarser scales (I think).}
 \item{type}{This is a one letter character string: one of "S", "H", "V" or "D" for the smooth coefficients, horizontal, vertical or diagonal detail.} 
@@ -50,7 +50,7 @@ myrwst2D <- wst2D(myrand)
 # Let's access the finest scale detail, not shifted in the vertical
 # direction.
 #
-getpacket(myrwst2D, nlevels(myrwst2D)-1, index=0, type="V")
+getpacket(myrwst2D, nlevelsWT(myrwst2D)-1, index=0, type="V")
 #           [,1]       [,2] 
 #[1,] -0.1626819 -1.3244064
 #

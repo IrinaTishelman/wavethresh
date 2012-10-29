@@ -5,14 +5,14 @@
 This function provides various ways to threshold a \code{\link{wd}} class object. 
 }
 \usage{
-\method{threshold}{wd}(wd, levels = 3:(nlevels(wd) - 1), type = "soft", policy = "sure",
+\method{threshold}{wd}(wd, levels = 3:(nlevelsWT(wd) - 1), type = "soft", policy = "sure",
         by.level = FALSE, value = 0, dev = madmad, boundary = FALSE, verbose = FALSE,
         return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01, Q = 0.05, OP1alpha = 0.05, 
         alpha = 0.5, beta = 1, C1 = NA, C2 = NA, C1.start = 100, \dots)
 }
 \arguments{
 \item{wd}{The DWT wavelet decomposition object that you wish to threshold.}
-\item{levels}{a vector of integers which determines which scale levels are thresholded in the decomposition. Each integer in the vector must refer to a valid level in the \code{\link{wd}} object supplied. This is usually any integer from 0 to \code{\link{nlevels}}(wd)-1 inclusive. Only the levels in this vector contribute to the computation of the threshold and its application.}
+\item{levels}{a vector of integers which determines which scale levels are thresholded in the decomposition. Each integer in the vector must refer to a valid level in the \code{\link{wd}} object supplied. This is usually any integer from 0 to \code{\link{nlevelsWT}}(wd)-1 inclusive. Only the levels in this vector contribute to the computation of the threshold and its application.}
 \item{type}{determines the type of thresholding this can be "hard" or "soft".}
 \item{policy}{selects the technique by which the threshold value is selected. Each policy corresponds to a method in the literature. At present the different policies are: "\code{universal}", "\code{LSuniversal}", "\code{\link{sure}}", "\code{BayesThresh}", "\code{cv}", "\code{fdr}", "\code{op1}", "\code{op2}", "\code{manual}", "\code{mannum}" and "\code{probability}". The policies are described in detail below.}
 \item{by.level}{If FALSE then a global threshold is computed on and applied to all scale levels defined in \code{levels}. If TRUE a threshold is computed and applied separately to each scale level.}
@@ -42,9 +42,9 @@ There are many components to a successful thresholding procedure. Some component
 Some issues to watch for: 
 
 \describe{
-\item{levels}{The default of \code{levels = 3:(wd$nlevels - 1)} for the \code{levels} option most certainly does not work globally for all data problems and situations. The level at which thresholding begins (i.e. the given threshold and finer scale wavelets) is called the \emph{primary resolution} and is unique to a particular problem. In some ways choice of the primary resolution is very similar to choosing the bandwidth in kernel regression albeit on a logarithmic scale. See Hall and Patil, (1995) and Hall and Nason (1997) for more information. For each data problem you need to work out which is the best primary resolution. This can be done by gaining experience at what works best, or using prior knowledge. It is possible to "automatically" choose a "best" primary resolution using cross-validation (but not in WaveThresh). 
+\item{levels}{The default of \code{levels = 3:(wd$nlevelsWT - 1)} for the \code{levels} option most certainly does not work globally for all data problems and situations. The level at which thresholding begins (i.e. the given threshold and finer scale wavelets) is called the \emph{primary resolution} and is unique to a particular problem. In some ways choice of the primary resolution is very similar to choosing the bandwidth in kernel regression albeit on a logarithmic scale. See Hall and Patil, (1995) and Hall and Nason (1997) for more information. For each data problem you need to work out which is the best primary resolution. This can be done by gaining experience at what works best, or using prior knowledge. It is possible to "automatically" choose a "best" primary resolution using cross-validation (but not in WaveThresh). 
 
-Secondly the levels argument computes and applies the threshold at the levels specified in the \code{levels} argument. It does this for all the levels specified. Sometimes, in wavelet shrinkage, the threshold is computed using only the finest scale coefficients (or more precisely the estimate of the overall noise level). If you want your threshold variance estimate only to use the finest scale coefficients (e.g. with universal thresholding) then you will have to apply the \code{threshold.wd} function twice. Once (with levels set equal to \code{\link{nlevels}}(wd)-1 and with \code{return.threshold=TRUE} to return the threshold computed on the finest scale and then apply the threshold function with the manual option supplying the value of the previously computed threshold as the value options.} 
+Secondly the levels argument computes and applies the threshold at the levels specified in the \code{levels} argument. It does this for all the levels specified. Sometimes, in wavelet shrinkage, the threshold is computed using only the finest scale coefficients (or more precisely the estimate of the overall noise level). If you want your threshold variance estimate only to use the finest scale coefficients (e.g. with universal thresholding) then you will have to apply the \code{threshold.wd} function twice. Once (with levels set equal to \code{\link{nlevelsWT}}(wd)-1 and with \code{return.threshold=TRUE} to return the threshold computed on the finest scale and then apply the threshold function with the manual option supplying the value of the previously computed threshold as the value options.} 
 
 \item{by.level}{for a \code{\link{wd}} object which has come from data with noise that is correlated then you should have a threshold computed for each resolution level. See the paper by Johnstone and Silverman, 1997.} 
 }
@@ -103,7 +103,7 @@ ynwd <- wd(ynoise)
 # so we can watch the process.
 #
 ynwdT1 <- threshold(ynwd, policy="universal", dev=madmad,
-		levels= nlevels(ynwd)-1, return.threshold=TRUE,
+		levels= nlevelsWT(ynwd)-1, return.threshold=TRUE,
 	verbose=TRUE)
 # threshold.wd:
 # Argument checking
@@ -118,7 +118,7 @@ ynwdT1 <- threshold(ynwd, policy="universal", dev=madmad,
 # Now let's apply this threshold to all levels in the noisy wavelet object
 #
 ynwdT1obj <- threshold(ynwd, policy="manual", value=ynwdT1,
-	levels=0:(nlevels(ynwd)-1))
+	levels=0:(nlevelsWT(ynwd)-1))
 #
 # And let's plot it
 #

@@ -7,11 +7,11 @@ This function extracts and returns arrays of wavelet coefficients, corresponding
 The pyramid of coefficients in a wavelet decomposition (returned from the \code{\link{wd3D}} function, say) are packed into a single array in \code{WaveThresh3}.
 }
 \usage{
-\method{accessD}{wd3D}(obj, level = nlevels(obj)-1, block, \dots)
+\method{accessD}{wd3D}(obj, level = nlevelsWT(obj)-1, block, \dots)
 } 
 \arguments{
 \item{obj}{3D Wavelet decomposition object from which you wish to extract the wavelet coefficients.}
-\item{level}{The resolution level at which you wish to extract coefficients. The minimum level you can enter is 0, the largest is one less than the number of nlevels stored in the obj object.}
+\item{level}{The resolution level at which you wish to extract coefficients. The minimum level you can enter is 0, the largest is one less than the number of nlevelsWT stored in the obj object.}
 \item{block}{if block is missing then a list containing all of the wavelet coefficient blocks GGG, GGH, GHG, GHH, HGG, HGH, HHG (and HHH, if level=0) is returned. Otherwise block should be one of the character strings GGG, GGH, GHG, GHH, HGG, HGH, HHG and then only that sub-block is returned from the resolution level specified.}
 \item{\dots}{any other arguments}
 }
@@ -42,7 +42,7 @@ awd3D <- wd3D(a)
 #
 # How many levels does this object have?
 #
-nlevels(awd3D)
+nlevelsWT(awd3D)
 # [1] 3
 #
 # So conceivably we could access levels 0, 1 or 2.

@@ -3,7 +3,7 @@
 \title{Plot the wavelet coefficients of a p.d.f.}
 \usage{
 plotdenwd(wd, xlabvals, xlabchars, ylabchars, first.level=0,
-	top.level=nlevels(wd)-1,
+	top.level=nlevelsWT(wd)-1,
 	main="Wavelet Decomposition Coefficients", scaling="global",
 	rhlab=FALSE, sub, NotPlotVal=0.005, xlab="Translate",
 	ylab="Resolution Level", aspect="Identity", \dots)

@@ -31,7 +31,7 @@ vwst <- wst(DJ.EX()$heavi)
 vwst
 #Class 'wst' : Stationary Wavelet Transform Object:
 #       ~~~  : List with 5 components with names
-#              wp Carray nlevels filter date 
+#              wp Carray nlevelsWT filter date 
 #
 #$wp and $Carray are the coefficient matrices
 #

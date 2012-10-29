@@ -44,7 +44,7 @@ A list of class w2m with the following components:
 	supplied matrix}
 \item{pktix}{The original wavelet packet indices corresponding to each packet}
 \item{level}{As \code{pktix} but for the wavelet packet levels}
-\item{nlevels}{The number of resolution levels in the original wavelet
+\item{nlevelsWT}{The number of resolution levels in the original wavelet
 	packet object}
 \item{cv}{The ordered correlations}
 }

@@ -8,7 +8,7 @@
   particular resolution level.
 }
 \usage{
-\method{accessC}{wd}(wd, level = nlevels(wd), boundary=FALSE, aspect, \dots)
+\method{accessC}{wd}(wd, level = nlevelsWT(wd), boundary=FALSE, aspect, \dots)
 
 }
 \arguments{

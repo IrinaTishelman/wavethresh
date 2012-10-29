@@ -11,7 +11,7 @@ putDwd3Dcheck(lti, dima, block, nlx)
 \item{lti}{At which level of the \code{\link{wd3D.object}} you wish to insert a block of coefficients.}
 \item{dima}{A vector, of length 3, which specifies the dimension of the block to insert.} 
 \item{block}{A character string which specifies which block is being inserted (one of GGG, GGH, GHG, GHH, HGG, HGH, HHG, or HHH).}
-\item{nlx}{The number of levels in the \code{\link{wd3D.object}} that you wish to insert the coefficients into (can be obtained using the \code{\link{nlevels}} function). }
+\item{nlx}{The number of levels in the \code{\link{wd3D.object}} that you wish to insert the coefficients into (can be obtained using the \code{\link{nlevelsWT}} function). }
 }
 \details{
 This function merely checks that the dimensions and sizes of the array to be inserted into a \code{\link{wd3D.object}} using the \code{\link{putD.wd3D}} function are correct. 

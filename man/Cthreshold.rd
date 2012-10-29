@@ -2,7 +2,7 @@
 \alias{Cthreshold}
 \title{Calls C code to threshold wd class object.}
 \usage{
-Cthreshold(wd, thresh.type = "soft", value = 0, levels = 3:(nlevels(wd) - 1)) 
+Cthreshold(wd, thresh.type = "soft", value = 0, levels = 3:(nlevelsWT(wd) - 1)) 
 }
 \arguments{
 \item{wd}{The wavelet object that you wish to threshold.}

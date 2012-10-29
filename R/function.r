@@ -18,7 +18,7 @@ function(wp, verbose = FALSE, zilchtol = 1e-08,entropy = Shannon.entropy)
 #   Including the original data set there are nlevels levels. Labelled
 #   0,...,nlevels-1. Level nlevels-1 is the original data set.
 #
-    nlevels <- nlevels(wp)
+    nlevels <- nlevelsWT(wp)
     for(i in 1:(nlevels - 1)) {
         NPBaseLev <- 2^(nlevels - i)
         PKLength <- 2^i
@@ -82,7 +82,7 @@ UseMethod("AvBasis")
 "AvBasis.wst"<-
 function(wst, Ccode = TRUE, ...)
 {
-    nlevels <- nlevels(wst)
+    nlevels <- nlevelsWT(wst)
     if(is.null(wst$filter$G)) {
         if(Ccode == FALSE) {
             answer <- av.basis(wst, level = nlevels - 1, ix1 = 0, 
@@ -130,7 +130,7 @@ function(wst, Ccode = TRUE, ...)
         if(aobj$error != 0)
             stop(paste("av_basisWRAP returned error code", aobj$
                 error))
-        answer <- complex(real = aobj$answerR, im = aobj$answerI)
+        answer <- complex(real = aobj$answerR, imaginary = aobj$answerI)
     }
     answer
 }
@@ -162,14 +162,14 @@ function(data, alpha = 0.5, beta = 1, filter.number = 8, family = "DaubLeAsymm",
 #
     ywd <- wd(data, filter.number = filter.number, family = family, bc = bc
         )
-    sigma <- sqrt(dev(accessD(ywd, level = (nlevels(ywd) - 1))))
+    sigma <- sqrt(dev(accessD(ywd, level = (nlevelsWT(ywd) - 1))))
     uvt <- threshold(ywd, policy = "universal", type = "soft", dev = dev, 
-        by.level = FALSE, levels = (nlevels(ywd) - 1), return.threshold = TRUE)
+        by.level = FALSE, levels = (nlevelsWT(ywd) - 1), return.threshold = TRUE)
     universal <- threshold(ywd, policy = "manual", value = uvt, type = 
-        "soft", dev = dev, levels = j0:(nlevels(ywd) - 1))
-    nsignal <- rep(0, nlevels(ywd))
-    sum2 <- rep(0, nlevels(ywd))
-    for(j in 0:(nlevels(ywd) - 1)) {
+        "soft", dev = dev, levels = j0:(nlevelsWT(ywd) - 1))
+    nsignal <- rep(0, nlevelsWT(ywd))
+    sum2 <- rep(0, nlevelsWT(ywd))
+    for(j in 0:(nlevelsWT(ywd) - 1)) {
         coefthr <- accessD(universal, level = j)
         nsignal[j + 1] <- sum(abs(coefthr) > 0)
         if(nsignal[j + 1] > 0)
@@ -177,19 +177,19 @@ function(data, alpha = 0.5, beta = 1, filter.number = 8, family = "DaubLeAsymm",
     }
     C <- seq(1000, 15000, 50)
     l <- rep(0, length(C))
-    lev <- seq(0, nlevels(ywd) - 1)
+    lev <- seq(0, nlevelsWT(ywd) - 1)
     v <- 2^( - alpha * lev)
     for(i in 1:length(C)) {
-        l[i] <- 0.5 * sum(- nsignal * (log(sigma^2 + C[i] * v) + 2 * log(pnorm(( - sigma * sqrt(2 * log(2^nlevels(ywd))))/
+        l[i] <- 0.5 * sum(- nsignal * (log(sigma^2 + C[i] * v) + 2 * log(pnorm(( - sigma * sqrt(2 * log(2^nlevelsWT(ywd))))/
             sqrt(sigma^2 + C[i] * v)))) - sum2/2/(sigma^2 + C[i] * v))
     }
     C1 <- C[l == max(l)]
     tau2 <- C1 * v
-    p <- 2 * pnorm(( - sigma * sqrt(2 * log(2^nlevels(ywd))))/sqrt(sigma^2 + 
+    p <- 2 * pnorm(( - sigma * sqrt(2 * log(2^nlevelsWT(ywd))))/sqrt(sigma^2 + 
         tau2))
     if(beta == 1)
-        C2 <- sum(nsignal/p)/nlevels(ywd)
-    else C2 <- (1 - 2^(1 - beta))/(1 - 2^((1 - beta) * nlevels(ywd))) * sum(
+        C2 <- sum(nsignal/p)/nlevelsWT(ywd)
+    else C2 <- (1 - 2^(1 - beta))/(1 - 2^((1 - beta) * nlevelsWT(ywd))) * sum(
             nsignal/p)
     pr <- pmin(1, C2 * 2^( - beta * lev))
     rat <- tau2/(sigma^2 + tau2)    #
@@ -197,7 +197,7 @@ function(data, alpha = 0.5, beta = 1, filter.number = 8, family = "DaubLeAsymm",
 #----------------------Bayesian Thresholding------------------------------------
 #
     bayesian <- ywd
-    for(j in 0:(nlevels(ywd)- 1)) {
+    for(j in 0:(nlevelsWT(ywd)- 1)) {
         coef <- accessD(ywd, level = j)
         w <- (1 - pr[j + 1])/pr[j + 1]/sqrt((sigma^2 * rat[j + 1])/tau2[
             j + 1]) * exp(( - rat[j + 1] * coef^2)/2/sigma^2)
@@ -246,7 +246,7 @@ function(w2d, mincor = 0.69999999999999996)
     pktix <- pktix[sv]
     corvec <- corvec[sv]
     sl <- rev(sort.list(corvec))
-    l <- list(nlevels = nlevels(w2d), BasisMatrix = m[, sl], level = level[
+    l <- list(nlevels = nlevelsWT(w2d), BasisMatrix = m[, sl], level = level[
         sl], pkt = pktix[sl], basiscoef = corvec[sl], groups = w2d$groups)
     class(l) <- "BP"
     l
@@ -266,13 +266,13 @@ function(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family =
     ywd <- wd(ynoise, filter.number = filter.number, family = family, 
         verbose = CallsVerbose)
     univ.threshold <- threshold(ywd, type = thresh.type, return.threshold
-         = TRUE, lev = ll:(nlevels(ywd)- 1), verbose = CallsVerbose, 
+         = TRUE, lev = ll:(nlevelsWT(ywd)- 1), verbose = CallsVerbose, 
         policy = "universal")[1]
     if(verbose == 1) {
         cat("Universal threshold: ", univ.threshold, "\n")
         cat("Now doing universal threshold reconstruction...")
     }
-    yuvtwd <- threshold(ywd, type = thresh.type, lev = ll:(nlevels(ywd)- 1),
+    yuvtwd <- threshold(ywd, type = thresh.type, lev = ll:(nlevelsWT(ywd)- 1),
         verbose = CallsVerbose, policy = "universal")
     if(verbose == 1)
         cat("done\nNow reconstructing...")
@@ -348,7 +348,7 @@ function(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family =
 #   Now do the reconstuction using xvthresh
 #
     xvwd <- threshold(ywd, policy = "manual", value = ans$xvthresh, type = 
-        thresh.type, lev = ll:(nlevels(ywd)- 1))
+        thresh.type, lev = ll:(nlevelsWT(ywd)- 1))
     xvwddof <- dof(xvwd)
     xvwr <- wr(xvwd)
     if(plot.it == TRUE)
@@ -501,10 +501,10 @@ function(noisy, value = 1, filter.number = 10, family = "DaubLeAsymm",
         nlevels - 1)))
 }
 "Cthreshold"<-
-function(wd, thresh.type = "soft", value = 0, levels = 3:(nlevels(wd)- 1))
+function(wd, thresh.type = "soft", value = 0, levels = 3:(nlevelsWT(wd)- 1))
 {
     D <- wd$D
-    Dlevels <- nlevels(wd)- 1
+    Dlevels <- nlevelsWT(wd)- 1
     error <- 0
     ntt <- switch(thresh.type,
         hard = 1,
@@ -599,7 +599,7 @@ function(noisy, ll = 3, type = "soft", filter.number = 10, family =
     "DaubLeAsymm", tol = 0.01, verbose = 0)
 {
     noisywd <- wd(noisy, filter.number = filter.number, family = family)
-    softuv <- threshold(noisywd, levels = ll:(nlevels(noisywd)- 1), type = 
+    softuv <- threshold(noisywd, levels = ll:(nlevelsWT(noisywd)- 1), type = 
         "soft", policy = "universal", dev = madmad, return.thresh = TRUE)
     H <- filter.select(filter.number = filter.number, family = family)$H
     ntt <- switch(type,
@@ -670,7 +670,7 @@ function(ndata, threshold, levels, family = "DaubLeAsymm", filter.number = 10,
 #
 # Build odd thresholded estimate, then, threshold and rebuild
 #
-    odataWST <- wst(odata, filter = filter.number, family = family)
+    odataWST <- wst(odata, filter.number = filter.number, family = family)
     odataWSTt <- threshold.wst(odataWST, levels = levels, policy = "manual",
         value = threshold, verbose = thverb)
     if(InverseType == "average")
@@ -696,7 +696,7 @@ function(ndata, threshold, levels, family = "DaubLeAsymm", filter.number = 10,
 #
 # Build even thresholded estimate, then, threshold and rebuild
 #
-    edataWST <- wst(edata, filter = filter.number, family = family)
+    edataWST <- wst(edata, filter.number = filter.number, family = family)
     edataWSTt <- threshold.wst(edataWST, levels = levels, policy = "manual",
         value = threshold, verbose = thverb)
     if(InverseType == "average")
@@ -756,10 +756,10 @@ UseMethod("InvBasis")
 "InvBasis.wp"<-
 function(wp, nvwp, pktlist, verbose = FALSE, ...)
 {
-    nlev <- nlevels(wp)
+    nlev <- nlevelsWT(wp)
     if(missing(pktlist)) {
         pktlist <- print.nvwp(nvwp, printing = FALSE)
-        if(nlev != nlevels(nvwp)) {
+        if(nlev != nlevelsWT(nvwp)) {
             stop("The node vector you supplied cannot have arisen from the wavelet packet object you supplied as they have different numbers of levels"
                 )
         }
@@ -851,7 +851,7 @@ function(wst, nv, ...)
 #
 #   blevel is the bottom level in the decomposition
 #
-    blevel <- nlevels(nv) - nrsteps #
+    blevel <- nlevelsWT(nv) - nrsteps #
 #
 #   Now extract the data and put it all in a vector
 #
@@ -912,7 +912,7 @@ UseMethod("LocalSpec")
 function(wdS, lsmooth = "none", nlsmooth = FALSE, prefilter = TRUE, verbose = FALSE, 
     lw.number = wdS$filter$filter.number, lw.family = wdS$filter$family, 
     nlw.number = wdS$filter$filter.number, nlw.family = wdS$filter$family, 
-    nlw.policy = "LSuniversal", nlw.levels = 0:(nlevels(wdS) - 1), nlw.type
+    nlw.policy = "LSuniversal", nlw.levels = 0:(nlevelsWT(wdS) - 1), nlw.type
      = "hard", nlw.by.level = FALSE, nlw.value = 0, nlw.dev = var, nlw.boundary
      = FALSE, nlw.verbose = FALSE, nlw.cvtol = 0.01, nlw.Q = 0.050000000000000003, 
     nlw.alpha = 0.050000000000000003, nlw.transform = I, nlw.inverse = I, 
@@ -928,7 +928,7 @@ function(wdS, lsmooth = "none", nlsmooth = FALSE, prefilter = TRUE, verbose = FA
             )
     else if(wdS$type != "station")
         stop("swd type should be station (nondecimated)")
-    lnlevels <- nlevels(wdS)
+    lnlevels <- nlevelsWT(wdS)
     N <- 2^lnlevels
     if(verbose == TRUE) cat("Original data length was:", N, "\n")   #
 #
@@ -1079,8 +1079,8 @@ function(wdS, lsmooth = "none", nlsmooth = FALSE, prefilter = TRUE, verbose = FA
 #
             if(debug.spectrum == TRUE)
                 spectrum(v, spans = c(11, 9, 7))
-            realwd <- wd(v, filter = lw.number, family = lw.family)
-            realwd <- nullevels(realwd, levels = (i + 1):(nlevels(
+            realwd <- wd(v, filter.number = lw.number, family = lw.family)
+            realwd <- nullevels(realwd, levels = (i + 1):(nlevelsWT(
                 realwd) - 1))
             v <- wr(realwd)
             if(debug.spectrum == TRUE && i != 0)
@@ -1108,7 +1108,7 @@ function(wdS, lsmooth = "none", nlsmooth = FALSE, prefilter = TRUE, verbose = FA
                 cat(i, " ")
             v <- accessD(wdS, level = i)
             v <- nlw.transform(v)
-            vwd <- wd(v, filter = nlw.number, family = nlw.family)
+            vwd <- wd(v, filter.number = nlw.number, family = nlw.family)
             vwdt <- threshold(vwd, levels = nlw.levels, type = 
                 nlw.type, policy = nlw.policy, by.level = 
                 nlw.by.level, value = nlw.value, dev = nlw.dev, 
@@ -1135,7 +1135,7 @@ UseMethod("MaNoVe")
 "MaNoVe.wp"<-
 function(wp, verbose = FALSE, ...)
 {
-    nlevels <- nlevels(wp)
+    nlevels <- nlevelsWT(wp)
     LengthData <- dim(wp$wp)[[2]]
     upperctrl <- rep(0, LengthData - 1)
     upperl <- upperctrl
@@ -1182,7 +1182,7 @@ function(wst, entropy = Shannon.entropy, verbose = FALSE, stopper = FALSE, alg =
     if(alg == "C") {
         if(verbose == TRUE)
             cat("Using C code version\n")
-        nlevels <- nlevels(wst) 
+        nlevels <- nlevelsWT(wst) 
     #       node.vector <- vector("list", nlevels)
 #       matchcodes <- c("S", "L", "R")
         LengthData <- dim(wst$wp)[[2]]
@@ -1225,7 +1225,7 @@ function(wst, entropy = Shannon.entropy, verbose = FALSE, stopper = FALSE, alg =
     else {
         if(verbose == TRUE)
             cat("Using S code version\n")
-        nlevels <- nlevels(wst)
+        nlevels <- nlevelsWT(wst)
         node.vector <- vector("list", nlevels)
         matchcodes <- c("S", "L", "R")
         for(i in 0:(nlevels - 1)) {
@@ -1298,9 +1298,10 @@ function(wst, entropy = Shannon.entropy, verbose = FALSE, stopper = FALSE, alg =
 }
 "PsiJ"<-
 function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH
-     = 2000)
+     = 100000, verbose=FALSE)
 {
-    cat("Computing PsiJ\n")
+    if (verbose==TRUE)
+	    cat("Computing PsiJ\n")
     now <- proc.time()[1:2]
     if(J >= 0)
         stop("J must be negative integer")
@@ -1312,9 +1313,11 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH
 #   See if matrix already exists. If so, return it
 #
     if(exists(Psiorig)) {
-        cat("Returning precomputed version\n")
+	if (verbose==TRUE)
+		cat("Returning precomputed version\n")
         speed <- proc.time()[1:2] - now
-        cat("Took ", sum(speed), " seconds\n")
+	if (verbose==TRUE)
+		cat("Took ", sum(speed), " seconds\n")
         return(get(Psiorig))
     }
     H <- filter.select(filter.number = filter.number, family = family)$H
@@ -1337,7 +1340,8 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH
         stop(paste("Error code was ", answer$error))
     }
     speed <- proc.time()[1:2] - now
-    cat("Took ", sum(speed), " seconds\n")
+    if (verbose==TRUE)
+	    cat("Took ", sum(speed), " seconds\n")
     m <- vector("list",  - J)
     lj <- c(0, cumsum(2 * answer$rlvec - 1))
     for(j in 1:( - J))
@@ -1662,12 +1666,12 @@ function(ynoise, x = 1:length(ynoise), filter.number = 10, family =
     ywd <- wd(ynoise, filter.number = filter.number, family = family, 
         verbose = CallsVerbose)
     univ.threshold <- threshold(ywd, type = thresh.type, return.threshold
-         = TRUE, lev = ll:(nlevels(ywd) - 1), verbose = CallsVerbose)[1]
+         = TRUE, lev = ll:(nlevelsWT(ywd) - 1), verbose = CallsVerbose)[1]
     if(verbose == 1) {
         cat("Universal threshold: ", univ.threshold, "\n")
         cat("Now doing universal threshold reconstruction...")
     }
-    yuvtwd <- threshold(ywd, type = thresh.type, lev = ll:(nlevels(ywd) - 1),
+    yuvtwd <- threshold(ywd, type = thresh.type, lev = ll:(nlevelsWT(ywd) - 1),
         verbose = CallsVerbose)
     if(verbose == 1)
         cat("done\nNow reconstructing...")
@@ -1768,7 +1772,7 @@ function(ynoise, x = 1:length(ynoise), filter.number = 10, family =
     else if(verbose == 1)
         cat("\n")
     xvwd <- threshold(ywd, policy = "manual", value = x1, type = 
-        thresh.type, lev = ll:(nlevels(ywd)- 1))
+        thresh.type, lev = ll:(nlevelsWT(ywd)- 1))
     xvwddof <- dof(xvwd)
     xvwr <- wr(xvwd)
     if(plot.it == TRUE)
@@ -1810,7 +1814,7 @@ function(wst, all = FALSE, ...)
 function(...)
 UseMethod("accessC")
 "accessC.mwd"<-
-function(mwd, level = nlevels(mwd), ...)
+function(mwd, level = nlevelsWT(mwd), ...)
 {
 #
 #  Get smoothed data from multiple wavelet structure.
@@ -1822,7 +1826,7 @@ function(mwd, level = nlevels(mwd), ...)
         stop("mwd is not of class mwd")
     if(level < 0)
         stop("Must have a positive level")
-    else if(level > nlevels(mwd))
+    else if(level > nlevelsWT(mwd))
         stop("Cannot exceed maximum number of levels")
     level <- level + 1
     first.last.c <- mwd$fl.dbase$first.last.c
@@ -1834,7 +1838,7 @@ function(mwd, level = nlevels(mwd), ...)
     return(coeffs)
 }
 "accessC.wd"<-
-function(wd, level = nlevels(wd), boundary = FALSE, aspect = "Identity", ...)
+function(wd, level = nlevelsWT(wd), boundary = FALSE, aspect = "Identity", ...)
 {
     if(IsEarly(wd)) {
         ConvertMessage()
@@ -1847,8 +1851,8 @@ function(wd, level = nlevels(wd), boundary = FALSE, aspect = "Identity", ...)
         stop("wd is not of class wd")
     if(level < 0)
         stop("Must have a positive level")
-    else if(level > nlevels(wd))
-        stop(paste("Cannot exceed maximum number of levels", nlevels(wd)
+    else if(level > nlevelsWT(wd))
+        stop(paste("Cannot exceed maximum number of levels", nlevelsWT(wd)
             ))
     if(wd$bc == "interval") {
         if(level != wd$current.scale)
@@ -1879,7 +1883,7 @@ function(wd, level = nlevels(wd), boundary = FALSE, aspect = "Identity", ...)
             if(type == "wavelet")
                 n <- 2^(level - 1)
             else if(type == "station")
-                n <- 2^nlevels(wd)
+                n <- 2^nlevelsWT(wd)
             else stop("Unknown type component")
             coefs <- wd$C[(offset.level + 1 - first.level):(
                 offset.level + n - first.level)]
@@ -1908,7 +1912,7 @@ function(wst, level, aspect = "Identity", ...)
 # Get all coefficients at a particular level
 # First work out how many packets there are at this level
 #
-    nlevels <- nlevels(wst)
+    nlevels <- nlevelsWT(wst)
     if(level < 0)
         stop("level must nonnegative")
     else if(level > nlevels)
@@ -1937,7 +1941,7 @@ function(mwd, level, ...)
         stop("mwd is not of class mwd")
     if(level < 0)
         stop("Must have a positive level")
-    else if(level > (nlevels(mwd) - 1))
+    else if(level > (nlevelsWT(mwd) - 1))
         stop("Cannot exceed maximum number of levels")
     level <- level + 1
     first.last.d <- mwd$fl.dbase$first.last.d
@@ -1962,7 +1966,7 @@ function(wd, level, boundary = FALSE, aspect = "Identity", ...)
         stop("wd is not of class wd")
     if(level < 0)
         stop("Must have a positive level")
-    else if(level > (nlevels(wd) - 1))
+    else if(level > (nlevelsWT(wd) - 1))
         stop(paste("Cannot exceed maximum number of levels: ", wd$
             nlevels - 1))
     if(wd$bc == "interval") {
@@ -1993,7 +1997,7 @@ function(wd, level, boundary = FALSE, aspect = "Identity", ...)
                 n <- last.level - first.level + 1
         }
         else if(type == "station")
-            n <- 2^nlevels(wd)
+            n <- 2^nlevelsWT(wd)
         else stop("Unknown type component")
         if(wd$bc != "interval")
             coefs <- wd$D[(offset.level + 1 - first.level):(
@@ -2011,14 +2015,14 @@ function(wd, level, boundary = FALSE, aspect = "Identity", ...)
     }
 }
 "accessD.wd3D"<-
-function(obj, level = nlevels(obj) - 1, block, ...)
+function(obj, level = nlevelsWT(obj) - 1, block, ...)
 {
     if(level < 0)
         stop(paste("Level cannot be accessed. You tried to access level",
             level, ". The minimum is zero"))
-    else if(level >= nlevels(obj))
+    else if(level >= nlevelsWT(obj))
         stop(paste("Level cannot be accessed. You tried to access level",
-            level, ". The maximum level is", nlevels(obj) - 1))
+            level, ". The maximum level is", nlevelsWT(obj) - 1))
     halfsize <- 2^level
     size <- dim(obj$a)[1]
     GHH <- HGH <- GGH <- HHG <- GHG <- HGG <- GGG <- array(0, dim = rep(
@@ -2076,7 +2080,7 @@ function(wp, level, ...)
 # Get all coefficients at a particular level
 # First work out how many packets there are at this level
 #
-    nlev <- nlevels(wp)
+    nlev <- nlevelsWT(wp)
     if(level < 0)
         stop("level must nonnegative")
     else if(level > nlev - 1)
@@ -2087,7 +2091,7 @@ function(wp, level, ...)
 "accessD.wpst"<-
 function(wpst, level, index, ...)
 {
-    nlev <- nlevels(wpst)
+    nlev <- nlevelsWT(wpst)
     if(level < 0)
         stop("Level must be greater than or equal to 0")
     else if(level >= nlev)
@@ -2135,7 +2139,7 @@ function(wst, level, aspect = "Identity", ...)
 # Get all coefficients at a particular level
 # First work out how many packets there are at this level
 #
-    nlevels <- nlevels(wst)
+    nlevels <- nlevelsWT(wst)
     if(level < 0)
         stop("level must nonnegative")
     else if(level > nlevels - 1)
@@ -2159,7 +2163,7 @@ function(irregwd.structure, level, boundary = FALSE)
         stop("irregwd.structure is not of class irregwd")
     if(level < 0)
         stop("Must have a positive level")
-    else if(level > (nlevels(irregwd.structure) - 1))
+    else if(level > (nlevelsWT(irregwd.structure) - 1))
         stop("Cannot exceed maximum number of levels")
     level <- level + 1
     first.last.d <- irregwd.structure$fl.dbase$first.last.d
@@ -2226,7 +2230,7 @@ UseMethod("basisplot")
 function(x, num = min(10, length(BP$level)), ...)
 {
 	BP <- x
-    plotpkt(nlevels(BP))
+    plotpkt(nlevelsWT(BP))
     dnsvec <- BP$basiscoef[1:num]
     dnsvec <- dnsvec/max(abs(dnsvec))
     for(i in 1:num)
@@ -2236,7 +2240,7 @@ function(x, num = min(10, length(BP$level)), ...)
 function(x, draw.mode = FALSE, ...)
 {
 	wp <- x
-    J <- nlevels(wp)
+    J <- nlevelsWT(wp)
     oldl <- -1
     zero <- rep(0, 2^J)
     rh <- 2^(J - 1)
@@ -2356,27 +2360,27 @@ function(x, verbose = FALSE, ...)
         stop("imwd has no class")
     else if(ctmp != "imwd")
         stop("imwd is not of class imwd")
-    squished <- list(nlevels = nlevels(x), fl.dbase = x$fl.dbase, 
+    squished <- list(nlevels = nlevelsWT(x), fl.dbase = x$fl.dbase, 
         filter = x$filter, w0Lconstant = x$w0Lconstant, type = 
         x$type, bc = x$bc)    #
 #
 #   Go round loop compressing each set of coefficients
 #
-    for(level in 0:(nlevels(x) - 1)) {
+    for(level in 0:(nlevelsWT(x) - 1)) {
         if(verbose == TRUE)
             cat("Level ", level, "\n\t")
         nm <- lt.to.name(level, "CD")
         if(verbose == TRUE)
             cat("CD\t")
-        squished[[nm]] <- compress.default(x[[nm]], ver = verbose)
+        squished[[nm]] <- compress.default(x[[nm]], verbose = verbose)
         nm <- lt.to.name(level, "DC")
         if(verbose == TRUE)
             cat("\tDC\t")
-        squished[[nm]] <- compress.default(x[[nm]], ver = verbose)
+        squished[[nm]] <- compress.default(x[[nm]], verbose = verbose)
         nm <- lt.to.name(level, "DD")
         if(verbose == TRUE)
             cat("\tDD\t")
-        squished[[nm]] <- compress.default(x[[nm]], ver = verbose)
+        squished[[nm]] <- compress.default(x[[nm]], verbose = verbose)
     }
     class(squished) <- c("imwdc")
     if(verbose == TRUE)
@@ -2425,20 +2429,20 @@ function(wd, ...)
 #
     if(wd$type != "station") stop(
             "Object to convert must be of type \"station\" ")
-    n <- 2^nlevels(wd)
+    n <- 2^nlevelsWT(wd)
     dummy <- rep(0, n)
-    tmpwst <- wst(dummy, filter = wd$filter$filter.number, family = wd$
+    tmpwst <- wst(dummy, filter.number = wd$filter$filter.number, family = wd$
         filter$family)
     tmpwst$date <- wd$date  #
 #
 #   Now we've got the skeleton let's fill in all the details.
 #
-    arrvec <- getarrvec(nlevels(wd), sort = FALSE)
-    for(lev in (nlevels(wd) - 1):1) {
+    arrvec <- getarrvec(nlevelsWT(wd), sort = FALSE)
+    for(lev in (nlevelsWT(wd) - 1):1) {
         ds <- accessD.wd(wd, level = lev)
         cs <- accessC.wd(wd, level = lev)
-        ds <- ds[arrvec[, nlevels(wd) - lev]]
-        cs <- cs[arrvec[, nlevels(wd) - lev]]
+        ds <- ds[arrvec[, nlevelsWT(wd) - lev]]
+        cs <- cs[arrvec[, nlevelsWT(wd) - lev]]
         tmpwst <- putD(tmpwst, level = lev, v = ds)
         tmpwst <- putC(tmpwst, level = lev, v = cs)
     }
@@ -2446,15 +2450,15 @@ function(wd, ...)
 #
 #   And put final level in for Cs and Ds (for wst only)
 #
-    tmpwst <- putC(tmpwst, level = nlevels(wd), v = accessC(wd, level = wd$
+    tmpwst <- putC(tmpwst, level = nlevelsWT(wd), v = accessC(wd, level = wd$
         nlevels))   #
-    tmpwst <- putD(tmpwst, level = nlevels(wd), v = accessC(wd, level = wd$
+    tmpwst <- putD(tmpwst, level = nlevelsWT(wd), v = accessC(wd, level = wd$
         nlevels))   #
 #
 #   And zeroth level
 #
     tmpwst <- putC(tmpwst, level = 0, v = accessC(wd, level = 0))
-    arrvec <- sort.list(levarr(1:n, lev = nlevels(wd)))
+    arrvec <- sort.list(levarr(1:n, levstodo = nlevelsWT(wd)))
     tmpwst <- putD(tmpwst, level = 0, v = accessD(wd, level = 0)[arrvec])
     tmpwst
 }
@@ -2468,20 +2472,20 @@ function(wst, ...)
 #
 # First create object of same size and type of desired return object.
 #
-    n <- 2^nlevels(wst)
+    n <- 2^nlevelsWT(wst)
     dummy <- rep(0, n)
-    tmpwd <- wd(dummy, type = "station", filter = wst$filter$filter.number, 
+    tmpwd <- wd(dummy, type = "station", filter.number = wst$filter$filter.number, 
         family = wst$filter$family)
     tmpwd$date <- wst$date  #
 #
 #   Now we've got the skeleton let's fill in all the details.
 #
-    arrvec <- getarrvec(nlevels(wst))
-    for(lev in (nlevels(wst) - 1):1) {
+    arrvec <- getarrvec(nlevelsWT(wst))
+    for(lev in (nlevelsWT(wst) - 1):1) {
         ds <- accessD.wst(wst, level = lev)
         cs <- accessC.wst(wst, level = lev)
-        ds <- ds[arrvec[, nlevels(wst) - lev]]
-        cs <- cs[arrvec[, nlevels(wst) - lev]]
+        ds <- ds[arrvec[, nlevelsWT(wst) - lev]]
+        cs <- cs[arrvec[, nlevelsWT(wst) - lev]]
         ixs <- putD(tmpwd, level = lev, v = ds, index = TRUE)
         tmpwd$D[ixs$ix1:ixs$ix2] <- ds
         ixs <- putC(tmpwd, level = lev, v = cs, index = TRUE)
@@ -2491,13 +2495,13 @@ function(wst, ...)
 #
 #   And put final level in for Cs
 #
-    tmpwd <- putC(tmpwd, level = nlevels(wst), v = accessC(wst, level = wst$
+    tmpwd <- putC(tmpwd, level = nlevelsWT(wst), v = accessC(wst, level = wst$
         nlevels))   #
 #
 #   And zeroth level
 #
     tmpwd <- putC(tmpwd, level = 0, v = accessC(wst, level = 0))
-    arrvec <- levarr(1:n, lev = nlevels(wst))
+    arrvec <- levarr(1:n, levstodo = nlevelsWT(wst))
     tmpwd <- putD(tmpwd, level = 0, v = accessD(wst, level = 0)[arrvec])
     tmpwd
 }
@@ -2514,7 +2518,7 @@ function(wd)
 #
 # Count number of non-zero coefficients
 #
-        nlev <- nlevels(wd) #
+        nlev <- nlevelsWT(wd) #
 #
 #   nnonzero counts the number of nonzero coefficients
 #   This is already 1, since the C contains first level constant
@@ -2538,7 +2542,7 @@ UseMethod("draw")
 function(filter.number = 10, family = "DaubLeAsymm", resolution = 8192, verbose
      = FALSE, plot.it = TRUE, main = "Wavelet Picture", sub = zwd$filter$name, 
     xlab = "x", ylab = "psi", dimension = 1, twodplot = persp, enhance = TRUE, 
-    efactor = 0.050000000000000003, scaling.function = FALSE, ...)
+    efactor = 0.050000000000000003, scaling.function = FALSE, type="l", ...)
 {
     if(is.na(IsPowerOfTwo(resolution)))
         stop("Resolution must be a power of two")
@@ -2676,7 +2680,7 @@ function(filter.number = 10, family = "DaubLeAsymm", resolution = 8192, verbose
         if(plot.it == TRUE) {
             if(dimension == 1)
                 plot(x = x, y = zwr, main = main, sub = sub, 
-                  xlab = xlab, ylab = ylab, type = "l", ...)
+                  xlab = xlab, ylab = ylab, type = type, ...)
             else if(dimension == 2) {
                 twodplot(x = x, y = x, z = outer(zwr, zwr), 
                   xlab = xlab, ylab = xlab, zlab = ylab, ...)
@@ -2712,7 +2716,7 @@ function(filter.number = 10, family = "DaubLeAsymm", resolution = 8192, verbose
             family, resolution = resolution)
         if(plot.it == TRUE) {
             plot(x = phi$x, y = phi$y, main = main, sub = sub, xlab
-                 = xlab, ylab = ylab, type = "l", ...)
+                 = xlab, ylab = ylab, type = type, ...)
         }
         else return(list(x = phi$x, y = phi$y))
     }
@@ -2722,14 +2726,14 @@ function(wd, resolution = 128, ...)
 {
     filter <- wd$filter
     draw.default(filter.number = filter$filter.number, family = filter$
-        family, dim = 2, resolution = resolution, ...)
+        family, dimension = 2, resolution = resolution, ...)
 }
 "draw.imwdc"<-
 function(wd, resolution = 128, ...)
 {
     filter <- wd$filter
     draw.default(filter.number = filter$filter.number, family = filter$
-        family, dim = 2, resolution = resolution, ...)
+        family, dimension = 2, resolution = resolution, ...)
 }
 "draw.mwd"<-
 function(mwd, phi = 0, psi = 0, return.funct = FALSE, ...)
@@ -2844,7 +2848,7 @@ function(level, index, filter.number = 10, family = "DaubLeAsymm", resolution
 #
 # Now set up the packet list
 #
-    nlev <- nlevels(zwp)
+    nlev <- nlevelsWT(zwp)
     npkts <- 2^(nlev - level)
     levvec <- rep(level, npkts)
     pkt <- 0:(npkts - 1)
@@ -2859,7 +2863,7 @@ function(level, index, filter.number = 10, family = "DaubLeAsymm", resolution
 "ewspec"<-
 function(x, filter.number = 10, family = "DaubLeAsymm", UseLocalSpec = TRUE, DoSWT
      = TRUE, WPsmooth = TRUE, verbose = FALSE, smooth.filter.number = 10, 
-    smooth.family = "DaubLeAsymm", smooth.levels = 3:(nlevels(WPwst) - 1), 
+    smooth.family = "DaubLeAsymm", smooth.levels = 3:(nlevelsWT(WPwst) - 1), 
     smooth.dev = madmad, smooth.policy = "LSuniversal", smooth.value = 0, 
     smooth.by.level = FALSE, smooth.type = "soft", smooth.verbose = FALSE, 
     smooth.cvtol = 0.01, smooth.cvnorm = l2norm, smooth.transform = I, 
@@ -2887,7 +2891,7 @@ function(x, filter.number = 10, family = "DaubLeAsymm", UseLocalSpec = TRUE, DoS
         xwdWP <- LocalSpec(xwdS, lsmooth = "none", nlsmooth = FALSE)
     }
     else xwdWP <- x
-    J <- nlevels(xwdWP) #
+    J <- nlevelsWT(xwdWP) #
 #
 # Compute the vSNK matrix
 #
@@ -3518,11 +3522,11 @@ function(wp, level, index, ...)
 {
     if(class(wp) != "wp")
         stop("wp object is not of class wp")
-    if(level > nlevels(wp))
+    if(level > nlevelsWT(wp))
         stop("Not that many levels in wp object")
     unit <- 2^level
     LocalIndex <- unit * index + 1
-    if(index > 2^(nlevels(wp) - level) - 1) {
+    if(index > 2^(nlevelsWT(wp) - level) - 1) {
         cat("Index was too high, maximum for this level is ", 2^(wp$
             nlevels - level) - 1, "\n")
         stop("Error occured")
@@ -3535,7 +3539,7 @@ function(wp, level, index, ...)
 "getpacket.wpst"<-
 function(wpst, level, index, ...)
 {
-    nlev <- nlevels(wpst)
+    nlev <- nlevelsWT(wpst)
     if(level < 0)
         stop("Level must be greater than or equal to 0")
     else if(level > nlev)
@@ -3570,7 +3574,7 @@ function(wst, level, index, type = "D", aspect = "Identity", ...)
 "getpacket.wst2D"<-
 function(wst2D, level, index, type = "S", Ccode = TRUE, ...)
 {
-    nlev <- nlevels(wst2D)
+    nlev <- nlevelsWT(wst2D)
     if(level > nlev - 1)
         stop(paste("Maximum level is ", nlev - 1, " you supplied ", 
             level))
@@ -3653,7 +3657,7 @@ function(x, strut = 10, type = "D", transform = I, ...)
 {
     if(x$type != "station")
         stop("You have not supplied a nondecimated wd object")
-    nlev <- nlevels(x)
+    nlev <- nlevelsWT(x)
     if(type == "D" ) {
         m <- matrix(0, nrow = nlev, ncol = 2^nlev)
         for(i in 0:(nlev - 1)) {
@@ -3682,7 +3686,7 @@ function(x, nv, strut = 10, type = "D", transform = I, ...)
     m <- x$wp
     mC <- x$Carray
     nr <- nrow(m)
-    nlev <- nlevels(x)
+    nlev <- nlevelsWT(x)
     mz <- matrix(0, nrow = nrow(mC), ncol = ncol(mC))
     if(!missing(nv)) {
         pknums <- print.nv(nv, printing = FALSE)$indexlist
@@ -3854,7 +3858,7 @@ function(imwd, bc = imwd$bc, verbose = FALSE, ...)
 #
 # Ok, go round loop doing reconstructions
 #
-    for(level in seq(2, 1 + nlevels(imwd))) {
+    for(level in seq(2, 1 + nlevelsWT(imwd))) {
         if(verbose == TRUE)
             cat(level - 1, " ")
         LengthCin <- first.last.c[level - 1, 2] - first.last.c[level - 
@@ -3897,7 +3901,7 @@ function(imwd, bc = imwd$bc, verbose = FALSE, ...)
     }
     if(verbose == TRUE)
         cat("\nReturning image\n")  # Return the image
-    matrix(ImCC, nrow = 2^(nlevels(imwd)))
+    matrix(ImCC, nrow = 2^(nlevelsWT(imwd)))
 }
 "imwr.imwdc"<-
 function(imwd, verbose = FALSE, ...)
@@ -4025,7 +4029,7 @@ function(gd, filter.number = 2, family = "DaubExPhase", bc = "periodic",
 #
 # Check that we have a power of 2 data elements
 #
-    nlevels <- nlevels(data)    #
+    nlevels <- nlevelsWT(data)    #
     if(is.na(nlevels)) stop("Data length is not power of two")  
     # Check for correct type
 #
@@ -4133,15 +4137,16 @@ function(gd, filter.number = 2, family = "DaubExPhase", bc = "periodic",
     if(is.null(filter$G)) {
         l <- list(C = wavelet.decomposition$C, D = 
             wavelet.decomposition$D, c = tmp$c * (tmp$c > 0), 
-            nlevels = nlevels(wavelet.decomposition), fl.dbase = 
+            nlevels = nlevelsWT(wavelet.decomposition), fl.dbase = 
             fl.dbase, filter = filter, type = type, bc = bc, date
              = date())
     }
     else {
-        l <- list(C = complex(real = wavelet.decomposition$CR, im = 
+        l <- list(C = complex(real = wavelet.decomposition$CR,
+		imaginary = 
             wavelet.decomposition$CI), D = complex(real = 
-            wavelet.decomposition$DR, im = wavelet.decomposition$DI
-            ), nlevels = nlevels(wavelet.decomposition), fl.dbase = 
+            wavelet.decomposition$DR, imaginary = wavelet.decomposition$DI
+            ), nlevels = nlevelsWT(wavelet.decomposition), fl.dbase = 
             fl.dbase, filter = filter, type = type, bc = bc, date
              = date())
     }
@@ -4226,7 +4231,7 @@ function(timeseries, groups, filter.number = 10, family = "DaubExPhase", mincor
 #
 # Now convert this to a w2d object including the group information.
 #
-    tw2d <- wpst2discr(wpst = twpst, groups = groups)   #
+    tw2d <- wpst2discr(wpstobj = twpst, groups = groups)   #
 #
 # Now extract the best 1D classifying columns.
 #
@@ -4884,7 +4889,7 @@ function(mwd, prefilter.type = mwd$prefilter, verbose = FALSE, start.level = 0,
         stop("Input must have class mwd")
     if(mwd$prefilter != prefilter.type)
         warning("The pre/postfilters are inconsistent\n")
-    if(start.level < 0 || start.level >= nlevels(mwd)) stop(
+    if(start.level < 0 || start.level >= nlevelsWT(mwd)) stop(
             "Start.level out of range\n")   #
 # keep the value of the Cs at level 0 reset all the others
 #
@@ -4908,7 +4913,7 @@ function(mwd, prefilter.type = mwd$prefilter, verbose = FALSE, start.level = 0,
         lengthc = as.integer(mwd$fl.dbase$ntotal),
         D = as.double(mwd$D),
         lengthd = as.integer(mwd$fl.dbase$ntotal.d),
-        nlevels = as.integer(nlevels(mwd)),
+        nlevels = as.integer(nlevelsWT(mwd)),
         nphi = as.integer(mwd$filter$nphi),
         npsi = as.integer(mwd$filter$npsi),
         ndecim = as.integer(mwd$filter$ndecim),
@@ -4923,7 +4928,7 @@ function(mwd, prefilter.type = mwd$prefilter, verbose = FALSE, start.level = 0,
         offsetd = as.integer(mwd$fl.dbase$first.last.d[, 3]),
         nbc = as.integer(nbc),
         startlevel = as.integer(start.level), PACKAGE = "wavethresh")
-    ndata <- mwd$filter$ndecim^nlevels(mwd)* mwd$filter$nphi
+    ndata <- mwd$filter$ndecim^nlevelsWT(mwd)* mwd$filter$nphi
     reconstr$C <- matrix(reconstr$C, nrow = mwd$filter$nphi)
     if(returnC == TRUE) {
         if(verbose == TRUE)
@@ -4932,9 +4937,9 @@ function(mwd, prefilter.type = mwd$prefilter, verbose = FALSE, start.level = 0,
     }
     if(verbose == TRUE)
         cat(" O.K.\nApply post filter...")
-    ndata <- mwd$filter$ndecim^nlevels(mwd)* mwd$filter$nphi
+    ndata <- mwd$filter$ndecim^nlevelsWT(mwd)* mwd$filter$nphi
     data <- mpostfilter(reconstr$C, prefilter.type, mwd$filter$type, mwd$
-        filter$nphi, mwd$filter$npsi, mwd$filter$ndecim, nlevels(mwd), 
+        filter$nphi, mwd$filter$npsi, mwd$filter$ndecim, nlevelsWT(mwd), 
         verbose)
     if(verbose == TRUE)
         cat(" O.K.\nReturning data\n")
@@ -4957,9 +4962,9 @@ function(s, x)
     index <- (1:length(ans))[m == ans]
     return(y[index])
 }
-"nlevels"<-
+"nlevelsWT"<-
 function(...)
-UseMethod("nlevels")
+UseMethod("nlevelsWT")
 
 #"nlevels.default"<-
 #function(object, ...)
@@ -4973,7 +4978,7 @@ UseMethod("nlevels")
 
 #MAN: changed function below to cope with $nlevels deprecation (R-2.6.0 onwards).
 
-"nlevels.default"<-
+"nlevelsWT.default"<-
 function(object, ...)
 {
 if (is.list(object)){
@@ -5007,7 +5012,7 @@ UseMethod("nullevels")
 "nullevels.imwd"<-
 function(imwd, levelstonull, ...)
 {
-    nlevels <- nlevels(imwd)
+    nlevels <- nlevelsWT(imwd)
     if(max(levelstonull) > nlevels - 1)
         stop(paste("Illegal level to null, maximum is ", nlevels - 1))
     if(min(levelstonull) < 0)
@@ -5025,7 +5030,7 @@ function(imwd, levelstonull, ...)
 "nullevels.wd"<-
 function(wd, levelstonull, ...)
 {
-    nlevels <- nlevels(wd)
+    nlevels <- nlevelsWT(wd)
     if(max(levelstonull) > nlevels - 1)
         stop(paste("Illegal level to null, maximum is ", nlevels - 1))
     if(min(levelstonull) < 0)
@@ -5092,12 +5097,12 @@ function(x, scaling = "by.level", co.type = "abs", package = "R",
         stop("imwd is not of class imwd")
     if(x$type == "station" && plot.type == "mallat")
         stop("Cannot do Mallat type plot on nondecimated wavelet object")
-    Csize <- 2^(nlevels(x))
+    Csize <- 2^(nlevelsWT(x))
     m <- matrix(0, nrow = Csize, ncol = Csize)
     first.last.d <- x$fl.dbase$first.last.d
     first.last.c <- x$fl.dbase$first.last.c
     if(plot.type == "mallat") {
-        for(level in (nlevels(x)):1) {
+        for(level in (nlevelsWT(x)):1) {
             ndata <- 2^(level - 1)
             firstD <- first.last.d[level, 1]
             lastD <- first.last.d[level, 2]
@@ -5192,16 +5197,16 @@ function(x, scaling = "by.level", co.type = "abs", package = "R",
         }
         if(package == "R") {
             image(m, xaxt = "n", yaxt = "n",...)
-            axis(1, at = c(0, 2^((nlevels(x)- 3):(nlevels(x)))
+            axis(1, at = c(0, 2^((nlevelsWT(x)- 3):(nlevelsWT(x)))
                 ))
-            axis(2, at = c(0, 2^((nlevels(x)- 3):(nlevels(x)))
+            axis(2, at = c(0, 2^((nlevelsWT(x)- 3):(nlevelsWT(x)))
                 ))
         }
         else return(m)
     }
     else if(plot.type == "cols") {
         oldpar <- par(mfrow = arrangement, pty = "s")
-        for(level in (nlevels(x):1)) {
+        for(level in (nlevelsWT(x):1)) {
             ndata <- 2^(level - 1)
             firstD <- first.last.d[level, 1]
             lastD <- first.last.d[level, 2]
@@ -5284,7 +5289,7 @@ function (x, xlabels, first.level = 1, main = "Wavelet Decomposition Coefficient
     iwd <- x
     wd <- x
     class(wd) <- "wd"
-    levels <- nlevels(wd)
+    levels <- nlevelsWT(wd)
     nlevels <- levels - first.level
     n <- 2^(levels - 1)
     if (missing(sub)) 
@@ -5303,7 +5308,7 @@ function (x, xlabels, first.level = 1, main = "Wavelet Decomposition Coefficient
         if (axx[length(axx)] > n) 
             axx[length(axx)] <- n
         axx[axx == 0] <- 1
-        axl <- signif(xlabels[axx], dig = 3)
+        axl <- signif(xlabels[axx], digits = 3)
         axis(1, at = axx, labels = axl)
     }
     x <- 1:n
@@ -5360,7 +5365,7 @@ function(x, first.level = 1, main = "Wavelet Decomposition Coefficients",
         stop("object is of class wd use plot.wd or plot")
     else if(ctmp != "mwd")
         stop("object is not of class mwd")
-    nlevels <- nlevels(x)- first.level
+    nlevels <- nlevelsWT(x)- first.level
     mx <- x$ndata
     xlabs <- seq(0, mx/2, length = 5)
     plot(c(0, 0, mx, mx), c(0, nlevels + 1, nlevels + 1, 0), type = "n", 
@@ -5376,19 +5381,19 @@ function(x, first.level = 1, main = "Wavelet Decomposition Coefficients",
     axr <- NULL
     if(scaling == "global") {
         my <- 0
-        for(i in ((nlevels(x)- 1):first.level)) {
+        for(i in ((nlevelsWT(x)- 1):first.level)) {
             y <- c(accessD(x, i))
             my <- max(c(my, abs(y)))
         }
     }
     if(scaling == "compensated") {
         my <- 0
-        for(i in ((nlevels(x)- 1):first.level)) {
+        for(i in ((nlevelsWT(x)- 1):first.level)) {
             y <- c(accessD(x, i)) * x$filter$ndecim^(i/2)
             my <- max(c(my, abs(y)))
         }
     }
-    for(i in ((nlevels(x)- 1):first.level)) {
+    for(i in ((nlevelsWT(x)- 1):first.level)) {
         y <- c(accessD(x, i))
         ly <- length(y)
         n <- ly/npsi
@@ -5414,7 +5419,7 @@ function(x, first.level = 1, main = "Wavelet Decomposition Coefficients",
 "plot.nvwp"<-
 function(x, ...)
 {
-    plotpkt(nlevels(x))
+    plotpkt(nlevelsWT(x))
     pktlist <- print.nvwp(x, printing = FALSE)
     for(i in 1:length(pktlist$level))
         addpkt(pktlist$level[i], pktlist$pkt[i], 1, col = 1)
@@ -5437,7 +5442,7 @@ function(x, xlabvals, xlabchars, ylabchars, first.level = 0, main =
         stop("wd has no class")
     else if(ctmp != "wd")
         stop("wd is not of class wd")
-    levels <- nlevels(x)
+    levels <- nlevelsWT(x)
     if(x$bc == "interval") {
         if(first.level < x$current.scale)
             warning(paste("plot.wd plotted from level", x$
@@ -5508,7 +5513,7 @@ function(x, xlabvals, xlabchars, ylabchars, first.level = 0, main =
             axx <- xix
             if(type == "wavelet")
                 axx <- xix/2
-            axl <- signif(lx, dig = 2)
+            axl <- signif(lx, digits = 2)
             axis(1, at = axx, labels = axl)
         }
     }
@@ -5572,7 +5577,7 @@ function(x, xlabvals, xlabchars, ylabchars, first.level = 0, main =
         }
     }
     if(rhlab == TRUE)
-        axis(4, at = 1:length(axr), labels = signif(axr, 3))
+        axis(4, at = 1:length(axr), labels = signif(axr, digits=3))
     axr
 }
 "plot.wp"<-
@@ -5589,7 +5594,7 @@ function(x, nvwp = NULL, main = "Wavelet Packet Decomposition", sub,
         stop("wp has no class")
     else if(ctmp != "wp")
         stop("wp is not of class wp")
-    levels <- nlevels(x)
+    levels <- nlevelsWT(x)
     dotted.turn.on <- levels - dotted.turn.on
     N <- 2^levels   # The number of original data points
 #
@@ -5767,7 +5772,7 @@ function(x, main = "Nondecimated Wavelet (Packet) Decomposition", sub,
         stop("wst has no class")
     else if(ctmp != "wst")
         stop("wst is not of class wst")
-    levels <- nlevels(x)
+    levels <- nlevelsWT(x)
     dotted.turn.on <- levels - dotted.turn.on
     if(is.complex(x$wp) && aspect == "Identity")
         aspect <- "Mod"
@@ -5863,7 +5868,7 @@ function(x, main = "Nondecimated Wavelet (Packet) Decomposition", sub,
 "plot.wst2D"<-
 function(x, plot.type = "level", main = "", ...)
 {
-    nlev <- nlevels(x)
+    nlev <- nlevelsWT(x)
     sz <- dim(x$wst2D)[2]
     if(plot.type == "level") {
         for(i in 0:(nlev - 1)) {
@@ -5888,7 +5893,7 @@ function(x, ...)
     cat("BP class object. Contains \"best basis\" information\n")
     cat("Components of object:")
     print(names(x))
-    cat("Number of levels ", nlevels(x), "\n")
+    cat("Number of levels ", nlevelsWT(x), "\n")
     cat("List of \"best\" packets\n")
     m <- cbind(x$level, x$pkt, x$basiscoef)
     dimnames(m) <- list(NULL, c("Level id", "Packet id", "Basis coef"))
@@ -5948,7 +5953,7 @@ function(x, printing = TRUE, verbose = FALSE, ...)
     cntr <- 0
     power <- 1
     rvector <- 0
-    for(i in (nlevels(x)- 1):0) {
+    for(i in (nlevelsWT(x)- 1):0) {
         nl <- node.vector[[i + 1]]
         action <- nl$upperctrl[acsel + 1]
         actent <- nl$upperl[acsel + 1]
@@ -5980,7 +5985,7 @@ function(x, printing = TRUE, verbose = FALSE, ...)
 "print.nvwp"<-
 function(x, printing = TRUE, ...)
 {
-    nlev <- nlevels(x)
+    nlev <- nlevelsWT(x)
     pkt <- NULL
     level <- NULL
     decompose <- x$node.list[[nlev]]$upperctrl
@@ -6027,7 +6032,7 @@ function(x, ...)
     cat("A composite object containing the components\n")
     cat("\t")
     print(names(x))
-    cat("Number of levels: ", nlevels(x), "\n")
+    cat("Number of levels: ", nlevelsWT(x), "\n")
     cat("Number of data points: ", nrow(x$m), "\n")
     cat("Number of bases: ", ncol(x$m), "\n")
     cat("Groups vector: ")
@@ -6157,13 +6162,13 @@ function(mwd, level, M, boundary = FALSE, index = FALSE, ...)
         stop("mwd is not class mwd object")
     if(level < 0)
         stop("level too small")
-    else if(level > nlevels(mwd))
+    else if(level > nlevelsWT(mwd))
         stop("level too big")
     flc <- mwd$fl.dbase$first.last.c[level + 1,  ]
     if(boundary == FALSE) {
         if(mwd$type == "wavelet")
             n <- 2^level
-        else n <- 2^nlevels(mwd)
+        else n <- 2^nlevelsWT(mwd)
         i1 <- flc[3] + 1 - flc[1]
         i2 <- flc[3] + n - flc[1]
     }
@@ -6193,8 +6198,8 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
         stop("wd is not class wd object")
     if(level < 0)
         stop("level should be zero or larger")
-    else if(level > nlevels(wd))
-        stop(paste("Level should be less than or equal to ", nlevels(wd
+    else if(level > nlevelsWT(wd))
+        stop(paste("Level should be less than or equal to ", nlevelsWT(wd
             )))
     if(wd$bc == "interval") {
         if(level != wd$current.scale)
@@ -6219,7 +6224,7 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
     if(boundary == FALSE) {
         if(wd$type == "wavelet")
             n <- 2^level
-        else n <- 2^nlevels(wd)
+        else n <- 2^nlevelsWT(wd)
         i1 <- flc[3] + 1 - flc[1]
         i2 <- flc[3] + n - flc[1]
     }
@@ -6250,7 +6255,7 @@ function(wst, level, value, ...)
 # Get all coefficients at a particular level
 # First work out how many packets there are at this level
 #
-    nlevels <- nlevels(wst)
+    nlevels <- nlevelsWT(wst)
     if(2^nlevels != length(value))
         stop("Input data value of wrong length")
     wst$Carray[level + 1,  ] <- value
@@ -6274,13 +6279,13 @@ function(mwd, level, M, boundary = FALSE, index = FALSE, ...)
         stop("mwd is not class mwd object")
     if(level < 0)
         stop("level too small")
-    else if(level >= nlevels(mwd))
+    else if(level >= nlevelsWT(mwd))
         stop("level too big")
     fld <- mwd$fl.dbase$first.last.d[level + 1,  ]
     if(boundary == FALSE) {
         if(mwd$type == "wavelet")
             n <- 2^level
-        else n <- 2^nlevels(mwd)
+        else n <- 2^nlevelsWT(mwd)
         i1 <- fld[3] + 1 - fld[1]
         i2 <- fld[3] + n - fld[1]
     }
@@ -6310,8 +6315,8 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
         stop("wd is not class wd object")
     if(level < 0)
         stop("level too small")
-    else if(level > nlevels(wd)- 1)
-        stop(paste("Level too big. Maximum level is ", nlevels(wd)- 1))
+    else if(level > nlevelsWT(wd)- 1)
+        stop(paste("Level too big. Maximum level is ", nlevelsWT(wd)- 1))
     if(wd$bc == "interval") {
         level <- level - wd$current.scale
         objname <- deparse(substitute(wd))
@@ -6327,7 +6332,7 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
     if(boundary == FALSE) {
         if(wd$type == "wavelet")
             n <- 2^level
-        else n <- 2^nlevels(wd)
+        else n <- 2^nlevelsWT(wd)
         if(wd$bc == "interval")
             n <- fld[2] - fld[1] + 1
         i1 <- fld[3] + 1 - fld[1]
@@ -6351,7 +6356,7 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
 function(x, v, ...)
 {
     truesize <- dim(x$a)[1]
-    nlx <- nlevels(x)
+    nlx <- nlevelsWT(x)
     vlev <- v$lev
     va <- v$a
     putDwd3Dcheck(lti = vlev, dima = dim(va), block = v$block, nlx = nlx)
@@ -6384,7 +6389,7 @@ function(wp, level, value, ...)
 # Insert coefficients "value" into "wp" at resolution "level".
 # First work out how many packets there are at this level
 #
-    nlev <- nlevels(wp)
+    nlev <- nlevelsWT(wp)
     if(2^nlev != length(value))
         stop("Input data value of wrong length")
     wp$wp[level + 1,  ] <- value
@@ -6398,7 +6403,7 @@ function(wst, level, value, ...)
 # Get all coefficients at a particular level
 # First work out how many packets there are at this level
 #
-    nlevels <- nlevels(wst)
+    nlevels <- nlevelsWT(wst)
     if(2^nlevels != length(value))
         stop("Input data value of wrong length")
     wst$wp[level + 1,  ] <- value
@@ -6432,11 +6437,11 @@ function(wp, level, index, packet, ...)
 #   cat("PUTPACKET: Level:", level, " Index:", index, " Pack Length ", 
 #       length(packet), "\n")
     if(class(wp) != "wp") stop("wp object is not of class wp")
-    if(level > nlevels(wp))
+    if(level > nlevelsWT(wp))
         stop("Not that many levels in wp object")
     unit <- 2^level
     LocalIndex <- unit * index + 1
-    if(index > 2^(nlevels(wp)- level) - 1) {
+    if(index > 2^(nlevelsWT(wp)- level) - 1) {
         cat("Index was too high, maximum for this level is ", 2^(wp$
             nlevels - level) - 1, "\n")
         stop("Error occured")
@@ -6460,7 +6465,7 @@ function(wst, level, index, packet, ...)
 function(wst2D, level, index, type = "S", packet, Ccode = TRUE, ...)
 {
     cellength <- 2^level
-    nlev <- nlevels(wst2D)
+    nlev <- nlevelsWT(wst2D)
     if(!is.matrix(packet))
         stop("packet should be a matrix")
     nr <- nrow(packet)
@@ -6641,7 +6646,7 @@ function(requestJ, filter.number, family)
     sl <- search()
     cand <- character(0)
     for(i in 1:length(sl))
-        cand <- c(cand, objects(name = sl[i], pat = ps))
+        cand <- c(cand, objects(name = sl[i], pattern = ps))
     if(length(cand) == 0)
         return(NULL)
     cand <- substring(cand, first = 4)
@@ -6675,9 +6680,9 @@ function(noisy, value = 1, filter.number = 10, family = "DaubLeAsymm",
 #
 #   Do decomposition of odd
 #
-    oddwd <- wd(oodd, filter = filter.number, family = family)
+    oddwd <- wd(oodd, filter.number = filter.number, family = family)
     oddwdt <- threshold(oddwd, policy = "manual", value = value, type = 
-        thresh.type, lev = ll:(nlevels(oddwd)- 1))
+        thresh.type, lev = ll:(nlevelsWT(oddwd)- 1))
     oddwr <- wr(oddwdt) #
 # Interpolate evens
 #
@@ -6687,9 +6692,9 @@ function(noisy, value = 1, filter.number = 10, family = "DaubLeAsymm",
 #   ts.plot(oddwr, main = paste("Odd plot, ssq=", ssq1)) #
 #   Now do decomposition of even
 #
-    evenwd <- wd(oeven, filter = filter.number, family = family)
+    evenwd <- wd(oeven, filter.number = filter.number, family = family)
     evenwdt <- threshold(evenwd, policy = "manual", value = value, type = 
-        thresh.type, lev = ll:(nlevels(evenwd)- 1))
+        thresh.type, lev = ll:(nlevelsWT(evenwd)- 1))
     evenwr <- wr(evenwdt)   #
 #
 #   Inerpolate odds
@@ -6698,7 +6703,7 @@ function(noisy, value = 1, filter.number = 10, family = "DaubLeAsymm",
     oint <- oint[1:(length(oint) - 1)]
     ssq2 <- ssq(oint, evenwr)   
     #   ts.plot(evenwr, main = paste("Even plot, ssq=", ssq2))
-    answd <- wd(noisy, filter = filter.number, family = family)
+    answd <- wd(noisy, filter.number = filter.number, family = family)
     return(ssq = (ssq1 + ssq2)/2, df = dof(threshold(answd, policy = 
         "manual", value = value, type = thresh.type, lev = ll:(answd$
         nlevels - 1))))
@@ -6730,10 +6735,10 @@ function(object, ...)
     else if(ctmp != "imwd")
         stop("imwd is not of class imwd")
     first.last.c <- object$fl.dbase$first.last.c
-    pix <- first.last.c[nlevels(object)+ 1, 2] - first.last.c[nlevels(object)+ 
+    pix <- first.last.c[nlevelsWT(object)+ 1, 2] - first.last.c[nlevelsWT(object)+ 
         1, 1] + 1
     cat("UNcompressed image wavelet decomposition structure\n")
-    cat("Levels: ", nlevels(object), "\n")
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Original image was", pix, "x", pix, " pixels.\n")
     cat("Filter was: ", object$filter$name, "\n")
     cat("Boundary handling: ", object$bc, "\n")
@@ -6751,10 +6756,10 @@ function(object, ...)
     else if(ctmp != "imwdc")
         stop("imwdc is not of class imwdc")
     first.last.c <- object$fl.dbase$first.last.c
-    pix <- first.last.c[nlevels(object)+ 1, 2] - first.last.c[nlevels(object)+ 
+    pix <- first.last.c[nlevelsWT(object)+ 1, 2] - first.last.c[nlevelsWT(object)+ 
         1, 1] + 1
     cat("Compressed image wavelet decomposition structure\n")
-    cat("Levels: ", nlevels(object), "\n")
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Original image was", pix, "x", pix, " pixels.\n")
     cat("Filter was: ", object$filter$name, "\n")
     cat("Boundary handling: ", object$bc, "\n")
@@ -6768,7 +6773,7 @@ function(object, ...)
     else if(ctmp != "mwd")
         stop("Input must have class mwd")
     cat("Length of original: ", object$ndata, "\n")
-    cat("Levels: ", nlevels(object), "\n")
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Filter was: ", object$filter$name, "\n")
     cat("Scaling fns: ", object$filter$nphi, "\n")
     cat("Wavelet fns: ", object$filter$npsi, "\n")
@@ -6787,8 +6792,8 @@ function(object, ...)
     }
     if(object$bc != "interval")
         pix <- length(accessC(object))
-    else pix <- 2^nlevels(object)
-    cat("Levels: ", nlevels(object), "\n")
+    else pix <- 2^nlevelsWT(object)
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Length of original: ", pix, "\n")
     cat("Filter was: ", object$filter$name, "\n")
     cat("Boundary handling: ", object$bc, "\n")
@@ -6806,7 +6811,7 @@ function(object, ...)
         ConvertMessage()
         stop()
     }
-    cat("Levels: ", nlevels(object), "\n")
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Filter number was: ", object$filter.number, "\n")
     cat("Filter family was: ", object$family, "\n")
     cat("Date: ", object$date, "\n")
@@ -6819,7 +6824,7 @@ function(object, ...)
         stop()
     }
     wpdim <- dim(object$wp)
-    cat("Levels: ", nlevels(object), "\n")
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Length of original: ", wpdim[2], "\n")
     cat("Filter was: ", object$filter$name, "\n")
 }
@@ -6830,8 +6835,8 @@ function(object, ...)
         ConvertMessage()
         stop()
     }
-    pix <- 2^nlevels(object)
-    cat("Levels: ", nlevels(object), "\n")
+    pix <- 2^nlevelsWT(object)
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Length of original: ", pix, "\n")
     cat("Filter was: ", object$filter$name, "\n")
     cat("Date: ", object$date[1], "\n")
@@ -6846,8 +6851,8 @@ function(object, ...)
         ConvertMessage()
         stop()
     }
-    pix <- 2^nlevels(object)
-    cat("Levels: ", nlevels(object), "\n")
+    pix <- 2^nlevelsWT(object)
+    cat("Levels: ", nlevelsWT(object), "\n")
     cat("Length of original: ", pix, "\n")
     cat("Filter was: ", object$filter$name, "\n")
     cat("Date: ", object$date[1], "\n")
@@ -6858,7 +6863,7 @@ function(object, ...)
 "summary.wst2D"<-
 function(object, ...)
 {
-    nlev <- nlevels(object)
+    nlev <- nlevelsWT(object)
     cat("Levels: ", nlev, "\n")
     cat("Length of original: ", 2^nlev, "x", 2^nlev, "\n")
     cat("Filter was: ", object$filter$name, "\n")
@@ -6922,7 +6927,7 @@ function(x)
 function(...)
 UseMethod("threshold")
 "threshold.imwd"<-
-function(imwd, levels = 3:(nlevels(imwd)- 1), type = "hard", policy = 
+function(imwd, levels = 3:(nlevelsWT(imwd)- 1), type = "hard", policy = 
     "universal", by.level = FALSE, value = 0, dev = var, verbose = FALSE, 
     return.threshold = FALSE, compression = TRUE, Q = 0.050000000000000003, ...)
 {
@@ -6945,9 +6950,9 @@ function(imwd, levels = 3:(nlevels(imwd)- 1), type = "hard", policy =
     r <- range(levels)
     if(r[1] < 0)
         stop("levels out of range, level too small")
-    if(r[2] > nlevels(imwd)- 1)
+    if(r[2] > nlevelsWT(imwd)- 1)
         stop("levels out of range, level too big")
-    if(r[1] > nlevels(imwd)- 1) {
+    if(r[1] > nlevelsWT(imwd)- 1) {
         warning("no thresholding done")
         return(imwd)
     }
@@ -6957,7 +6962,7 @@ function(imwd, levels = 3:(nlevels(imwd)- 1), type = "hard", policy =
     }
     nthresh <- length(levels)
     d <- NULL
-    n <- 2^(2 * nlevels(imwd))  #
+    n <- 2^(2 * nlevelsWT(imwd))  #
 #       Decide which policy to adopt
 #               The next if-else construction should define a vector called
 #               "thresh" that contains the threshold value for each level
@@ -7199,7 +7204,7 @@ function(imwdc, verbose = FALSE, ...)
     return(threshold(imwd, verbose = TRUE, ...))
 }
 "threshold.irregwd"<-
-function(irregwd, levels = 3:(nlevels(wd)- 1), type = "hard", policy = 
+function(irregwd, levels = 3:(nlevelsWT(wd)- 1), type = "hard", policy = 
     "universal", by.level = FALSE, value = 0, dev = var, boundary = FALSE, verbose
      = FALSE, return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01, Q = 
     0.050000000000000003, alpha = 0.050000000000000003, ...)
@@ -7233,9 +7238,9 @@ function(irregwd, levels = 3:(nlevels(wd)- 1), type = "hard", policy =
     r <- range(levels)
     if(r[1] < 0)
         stop("levels out of range, level too small")
-    if(r[2] > nlevels(wd)- 1)
+    if(r[2] > nlevelsWT(wd)- 1)
         stop("levels out of range, level too big")
-    if(r[1] > nlevels(wd)- 1) {
+    if(r[1] > nlevelsWT(wd)- 1) {
         warning("no thresholding done")
         return(wd)
     }
@@ -7243,7 +7248,7 @@ function(irregwd, levels = 3:(nlevels(wd)- 1), type = "hard", policy =
         warning("no thresholding done")
         return(wd)
     }
-    n <- 2^nlevels(wd)
+    n <- 2^nlevelsWT(wd)
     nthresh <- length(levels)   #
 # Estimate sigma
     if(by.level == FALSE) {
@@ -7529,7 +7534,7 @@ function(irregwd, levels = 3:(nlevels(wd)- 1), type = "hard", policy =
     wd
 }
 "threshold.mwd"<-
-function(mwd, levels = 3:(nlevels(mwd)- 1), type = "hard", policy = "universal",
+function(mwd, levels = 3:(nlevelsWT(mwd)- 1), type = "hard", policy = "universal",
     boundary = FALSE, verbose = FALSE, return.threshold = FALSE, threshold = 0, covtol
      = 1.0000000000000001e-09, robust = TRUE, return.chisq = FALSE, bivariate = TRUE, ...)
 {
@@ -7555,14 +7560,14 @@ function(mwd, levels = 3:(nlevels(mwd)- 1), type = "hard", policy = "universal",
             )
     if(type != "hard" && type != "soft")
         stop("Only hard or soft thresholding at present")
-    nlevels <- nlevels(mwd)
+    nlevels <- nlevelsWT(mwd)
     npsi <- mwd$filter$npsi
     r <- range(levels)
     if(r[1] < 0)
         stop("levels out of range, level too small")
-    if(r[2] > nlevels(mwd)- 1)
+    if(r[2] > nlevelsWT(mwd)- 1)
         stop("levels out of range, level too big")
-    if(r[1] > nlevels(mwd)- 1) {
+    if(r[1] > nlevelsWT(mwd)- 1) {
         warning("no thresholding done, returning input")
         return(mwd)
     }
@@ -7721,7 +7726,7 @@ function(mwd, levels = 3:(nlevels(mwd)- 1), type = "hard", policy = "universal",
     return(mwd)
 }
 "threshold.wd"<-
-function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure", 
+function(wd, levels = 3:(nlevelsWT(wd)- 1), type = "soft", policy = "sure", 
     by.level = FALSE, value = 0, dev = madmad, boundary = FALSE, verbose = FALSE, 
     return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01, Q = 
     0.050000000000000003, OP1alpha = 0.050000000000000003, alpha = 0.5, 
@@ -7755,10 +7760,10 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
     if(r[1] < 0)
         stop("levels out of range, level too small. Minimum level is 0"
             )
-    if(r[2] > nlevels(wd) - 1)
+    if(r[2] > nlevelsWT(wd) - 1)
         stop(paste("levels out of range, level too big. Maximum level is",
-            nlevels(wd) - 1))
-    if(r[1] > nlevels(wd)- 1) {
+            nlevelsWT(wd) - 1))
+    if(r[1] > nlevelsWT(wd)- 1) {
         warning("no thresholding done")
         return(wd)
     }
@@ -7767,7 +7772,7 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
         return(wd)
     }
     d <- NULL
-    n <- 2^nlevels(wd)
+    n <- 2^nlevelsWT(wd)
     nthresh <- length(levels)   #
 #
 #   Check to see if we're thresholding a complex wavelet transform.
@@ -7941,7 +7946,7 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
             stop("parameter beta is negative")
         nthresh <- length(levels)
         nsignal <- rep(0, nthresh)
-        noise.level <- sqrt(dev(accessD(wd, level = (nlevels(wd)- 1))))
+        noise.level <- sqrt(dev(accessD(wd, level = (nlevelsWT(wd)- 1))))
         v <- 2^( - alpha * levels)
         if(is.na(C1)) {
 #
@@ -7971,7 +7976,7 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
 		 fntoopt <- function(C, nsignal, noise.level, wd, sum2, v)				{
 			ans<- nsignal * (log(noise.level^2 + C^2 * 
 			  v) - 2 * log(pnorm(( - noise.level * sqrt(2 * 
-			  log(2^nlevels(wd))))/sqrt(noise.level^2 + C^2 * 
+			  log(2^nlevelsWT(wd))))/sqrt(noise.level^2 + C^2 * 
 			  v)))) + sum2/(noise.level^2 + C^2 * v)
 			sum(ans)
 			
@@ -7988,7 +7993,7 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
             p <- 2 * pnorm(( - noise.level * sqrt(2 * log(2^wd$
                 nlevels)))/sqrt(noise.level^2 + tau2))
             if(beta == 1)
-                C2 <- sum(nsignal/p)/nlevels(wd)
+                C2 <- sum(nsignal/p)/nlevelsWT(wd)
             else C2 <- (1 - 2^(1 - beta))/(1 - 2^((1 - beta) * wd$
                   nlevels)) * sum(nsignal/p)
         }
@@ -8052,7 +8057,7 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
             }
             if(length(value) != 1)
                 stop("Length of value should be 1")
-            noise.level <- sqrt(dev(accessD(wd, level = (nlevels(wd)-
+            noise.level <- sqrt(dev(accessD(wd, level = (nlevelsWT(wd)-
                 1))))
             minit <- length(d)
             dinit <- d
@@ -8250,7 +8255,7 @@ function(wd, levels = 3:(nlevels(wd)- 1), type = "soft", policy = "sure",
     wd
 }
 "threshold.wd3D"<-
-function(wd3D, levels = 3:(nlevels(wd3D)- 1), type = "hard", policy = 
+function(wd3D, levels = 3:(nlevelsWT(wd3D)- 1), type = "hard", policy = 
     "universal", by.level = FALSE, value = 0, dev = var, verbose = FALSE, 
     return.threshold = FALSE, ...)
 {
@@ -8272,10 +8277,10 @@ function(wd3D, levels = 3:(nlevels(wd3D)- 1), type = "hard", policy =
     r <- range(levels)
     if(r[1] < 0)
         stop("levels out of range, level too small")
-    if(r[2] > nlevels(wd3D) - 1)
+    if(r[2] > nlevelsWT(wd3D) - 1)
         stop(paste("levels out of range, level too big. Maximum level is ",
-            nlevels(wd3D) - 1))
-    if(r[1] > nlevels(wd3D) - 1) {
+            nlevelsWT(wd3D) - 1))
+    if(r[1] > nlevelsWT(wd3D) - 1) {
         warning("no thresholding done")
         return(wd3D)
     }
@@ -8284,7 +8289,7 @@ function(wd3D, levels = 3:(nlevels(wd3D)- 1), type = "hard", policy =
         return(wd3D)
     }
     d <- NULL
-    n <- (2^nlevels(wd3D))^3
+    n <- (2^nlevelsWT(wd3D))^3
     nthresh <- length(levels)   #
 #
 #
@@ -8378,7 +8383,7 @@ function(wd3D, levels = 3:(nlevels(wd3D)- 1), type = "hard", policy =
     wd3D
 }
 "threshold.wp"<-
-function(wp, levels = 3:(nlevels(wp) - 1), dev = madmad, policy = "universal", 
+function(wp, levels = 3:(nlevelsWT(wp) - 1), dev = madmad, policy = "universal", 
     value = 0, by.level = FALSE, type = "soft", verbose = FALSE, return.threshold
      = FALSE, cvtol = 0.01, cvnorm = l2norm, add.history = TRUE, ...)
 {
@@ -8388,8 +8393,8 @@ function(wp, levels = 3:(nlevels(wp) - 1), dev = madmad, policy = "universal",
     rn <- range(levels)
     if(rn[1] < 0)
         stop("all selected levels must be larger than zero")
-    if(rn[2] > nlevels(wp) - 1)
-        stop(paste("all selected levels must be smaller than", nlevels(
+    if(rn[2] > nlevelsWT(wp) - 1)
+        stop(paste("all selected levels must be smaller than", nlevelsWT(
             wp) - 1))
     nr <- nrow(wp$wp)
     nc <- ncol(wp$wp)   #
@@ -8471,7 +8476,7 @@ function(wp, levels = 3:(nlevels(wp) - 1), dev = madmad, policy = "universal",
     wp
 }
 "threshold.wst"<-
-function(wst, levels = 3:(nlevels(wst) - 1), dev = madmad, policy = "universal",
+function(wst, levels = 3:(nlevelsWT(wst) - 1), dev = madmad, policy = "universal",
     value = 0, by.level = FALSE, type = "soft", verbose = FALSE, return.threshold
      = FALSE, cvtol = 0.01, cvnorm = l2norm, add.history = TRUE, ...)
 {
@@ -8482,8 +8487,8 @@ function(wst, levels = 3:(nlevels(wst) - 1), dev = madmad, policy = "universal",
     rn <- range(levels)
     if(rn[1] < 0)
         stop("all selected levels must be larger than zero")
-    if(rn[2] > nlevels(wst) - 1)
-        stop(paste("all selected levels must be smaller than", nlevels(
+    if(rn[2] > nlevelsWT(wst) - 1)
+        stop(paste("all selected levels must be smaller than", nlevelsWT(
             wst) - 1))
     nr <- nrow(wst$wp)
     nc <- ncol(wst$wp)  #
@@ -8599,7 +8604,7 @@ function(wst, levels = 3:(nlevels(wst) - 1), dev = madmad, policy = "universal",
                 warning(
                   "Taking minimum level as first level for level-dependent cross-validation"
                   )
-            levels <- min(levels):(nlevels(wst) - 1)
+            levels <- min(levels):(nlevelsWT(wst) - 1)
             threshv <- wstCVl(ndata = ynoise, ll = min(levels), 
                 type = type, filter.number = wst$filter$
                 filter.number, family = wst$filter$family, tol
@@ -8822,36 +8827,36 @@ function(x, verbose = FALSE, ...)
         stop("imwd has no class")
     else if(ctmp != c("imwdc"))
         stop("imwd is not of class imwdc")
-    unsquished <- list(nlevels = nlevels(x), fl.dbase = x$fl.dbase, 
+    unsquished <- list(nlevels = nlevelsWT(x), fl.dbase = x$fl.dbase, 
         filter = x$filter, w0Lconstant = x$w0Lconstant, bc = x$
         bc, type = x$type)   #
 #
 #       Go round loop compressing each set of coefficients
 #
-    for(level in 0:(nlevels(x)- 1)) {
+    for(level in 0:(nlevelsWT(x)- 1)) {
         if(verbose == TRUE)
             cat("Level ", level, "\n\t")
         nm <- lt.to.name(level, "CD")
         if(verbose == TRUE)
             cat("CD\t")
-        unsquished[[nm]] <- uncompress.default(x[[nm]], ver = 
+        unsquished[[nm]] <- uncompress.default(x[[nm]], verbose = 
             verbose)
         nm <- lt.to.name(level, "DC")
         if(verbose == TRUE)
             cat("\tDC\t")
-        unsquished[[nm]] <- uncompress.default(x[[nm]], ver = 
+        unsquished[[nm]] <- uncompress.default(x[[nm]], verbose = 
             verbose)
         nm <- lt.to.name(level, "DD")
         if(verbose == TRUE)
             cat("\tDD\t")
-        unsquished[[nm]] <- uncompress.default(x[[nm]], ver = 
+        unsquished[[nm]] <- uncompress.default(x[[nm]], verbose = 
             verbose)
     }
     class(unsquished) <- "imwd"
     if(verbose == TRUE)
         cat("Overall inflation: Was: ", w <- object.size(x), " Now:",
             s <- object.size(unsquished), " (", signif((100 * s)/w, 
-            3), "%)\n")
+            digits=3), "%)\n")
     unsquished
 }
 "wavegrow"<-
@@ -8885,8 +8890,8 @@ function(n = 64, filter.number = 10, family = "DaubLeAsymm", type = "wavelet",
     gd2 <- dev.list()[ndev]
     v <- rnorm(n, sd = 1e-10)
     vwr <- v
-    vwdS <- wd(v, filter = filter.number, family = family, type = type)
-    toplev <- nlevels(vwdS) - 1
+    vwdS <- wd(v, filter.number = filter.number, family = family, type = type)
+    toplev <- nlevelsWT(vwdS) - 1
     ans <- "y"
     while(ans == "y" | ans == "yes" | ans == "Y") {
         dev.set(which = gd1)
@@ -8930,7 +8935,7 @@ function(n = 64, filter.number = 10, family = "DaubLeAsymm", type = "wavelet",
             dev.set(which = gd2)
             if(restart == TRUE) {
                 v <- rep(1, n)
-                vwdS <- wd(v, filter = filter.number, family = 
+                vwdS <- wd(v, filter.number = filter.number, family = 
                   family, type = type)
             }
         }
@@ -8938,7 +8943,7 @@ function(n = 64, filter.number = 10, family = "DaubLeAsymm", type = "wavelet",
         ans <- readline()
         if(ans == "y" | ans == "yes" | ans == "Y") {
             v <- rnorm(n, sd = 1e-10)
-            vwdS <- wd(v, filter = filter.number, family = family, 
+            vwdS <- wd(v, filter.number = filter.number, family = family, 
                 type = type)
         }
     }
@@ -8956,7 +8961,7 @@ function(data, filter.number = 10, family = "DaubLeAsymm", type = "wavelet", bc
 #
 # Check that we have a power of 2 data elements
 #
-    nlevels <- nlevels(data)
+    nlevels <- nlevelsWT(data)
     if(is.na(nlevels)) stop("Data length is not power of two")  #
 #
 # Check for correct type
@@ -9080,14 +9085,14 @@ function(data, filter.number = 10, family = "DaubLeAsymm", type = "wavelet", bc
     if(is.null(filter$G)) {
         l <- list(C = wavelet.decomposition$C, D = 
             wavelet.decomposition$D, nlevels = 
-            nlevels(wavelet.decomposition), fl.dbase = fl.dbase, 
+            nlevelsWT(wavelet.decomposition), fl.dbase = fl.dbase, 
             filter = filter, type = type, bc = bc, date = date())
     }
     else {
-        l <- list(C = complex(real = wavelet.decomposition$CR, im = 
+        l <- list(C = complex(real = wavelet.decomposition$CR, imaginary = 
             wavelet.decomposition$CI), D = complex(real = 
-            wavelet.decomposition$DR, im = wavelet.decomposition$DI
-            ), nlevels = nlevels(wavelet.decomposition), fl.dbase = 
+            wavelet.decomposition$DR, imaginary = wavelet.decomposition$DI
+            ), nlevels = nlevelsWT(wavelet.decomposition), fl.dbase = 
             fl.dbase, filter = filter, type = type, bc = bc, date
              = date())
     }
@@ -9188,7 +9193,7 @@ function(data, filter.number = 10, family = "DaubLeAsymm", verbose = FALSE)
 "wpst"<-
 function(data, filter.number = 10, family = "DaubLeAsymm", FinishLevel = 0)
 {
-    nlev <- nlevels(data)
+    nlev <- nlevelsWT(data)
     n <- length(data)
     if(FinishLevel < 0)
         stop("FinishLevel must be larger than zero")
@@ -9264,7 +9269,7 @@ function(wpstobj, groups)
 #
 #
 #
-    J <- nlev <- nlevels(wpstobj)
+    J <- nlev <- nlevelsWT(wpstobj)
     grot <- compgrot(J, filter.number=2)
     nbasis <- 2 * (2^nlev - 1)
     ndata <- 2^nlev
@@ -9317,7 +9322,7 @@ function(newTS, wpstDO)
     npkts <- length(goodpkt)
     ndata <- length(newTS)
     m <- matrix(0, nrow = ndata, ncol = npkts)
-    J <- nlevels(newwpst)
+    J <- nlevelsWT(newwpst)
     grot <- compgrot(J, filter.number=2)
     for(i in 1:npkts) {
         j <- goodlevel[i]
@@ -9384,7 +9389,7 @@ function(wd, start.level = 0, verbose = FALSE, bc = wd$bc, return.object = FALSE
         stop("wd is not of class wd")
     if(start.level < 0)
         stop("start.level must be nonnegative")
-    if(start.level >= nlevels(wd))
+    if(start.level >= nlevelsWT(wd))
         stop("start.level must be less than the number of levels")
     if(is.null(wd$filter$filter.number))
         stop("NULL filter.number for wd")
@@ -9415,7 +9420,7 @@ function(wd, start.level = 0, verbose = FALSE, bc = wd$bc, return.object = FALSE
     names(ntotal) <- NULL
     C <- accessC(wd, level = start.level, boundary = TRUE)
     C <- c(rep(0, length = (ntotal - length(C))), C)
-    Nlevels <- nlevels(wd)- start.level
+    Nlevels <- nlevelsWT(wd)- start.level
     error <- 0  #
 #
 #   Load object code
@@ -9488,14 +9493,14 @@ function(wd, start.level = 0, verbose = FALSE, bc = wd$bc, return.object = FALSE
     if(!is.complex(wd$D)) {
         l <- list(C = wavelet.reconstruction$C, D = 
             wavelet.reconstruction$D, fl.dbase = fl.dbase, nlevels
-             = nlevels(wd), filter = filter, type = type, bc = bc, 
+             = nlevelsWT(wd), filter = filter, type = type, bc = bc, 
             date = date())
     }
     else {
-        l <- list(C = complex(real = wavelet.reconstruction$CR, im = 
+        l <- list(C = complex(real = wavelet.reconstruction$CR, imaginary = 
             wavelet.reconstruction$CI), D = complex(real = 
-            wavelet.reconstruction$DR, im = wavelet.reconstruction$
-            DI), fl.dbase = fl.dbase, nlevels = nlevels(wd), filter
+            wavelet.reconstruction$DR, imaginary = wavelet.reconstruction$
+            DI), fl.dbase = fl.dbase, nlevels = nlevelsWT(wd), filter
              = filter, type = type, bc = bc, date = date())
     }
     class(l) <- "wd"
@@ -9591,9 +9596,9 @@ function(data, filter.number = 10, family = "DaubLeAsymm", verbose = FALSE)
             byrow = TRUE)
     }
     else {
-        newdata <- complex(real = wavelet.station$newdataR, im = 
+        newdata <- complex(real = wavelet.station$newdataR, imaginary = 
             wavelet.station$newdataI)
-        Carray <- complex(real = wavelet.station$CaR, im = 
+        Carray <- complex(real = wavelet.station$CaR, imaginary = 
             wavelet.station$CaI)
         wpm <- matrix(newdata, ncol = DataLength, byrow = TRUE)
         Carray <- matrix(Carray, ncol = DataLength, byrow = TRUE)
@@ -9655,23 +9660,23 @@ function(ndata, ll = 3, type = "soft", filter.number = 10, family =
         x2 <- bx
         x1 <- bx - C * (bx - ax)
     }
-    fa <- GetRSSWST(ndata, thresh = ax, levels = levels, type = type, 
+    fa <- GetRSSWST(ndata, threshold = ax, levels = levels, type = type, 
         filter.number = filter.number, family = family, norm = norm, 
         verbose = verbose, InverseType = InverseType)
     cat("Done 1\n")
-    fb <- GetRSSWST(ndata, thresh = bx, levels = levels, type = type, 
+    fb <- GetRSSWST(ndata, threshold = bx, levels = levels, type = type, 
         filter.number = filter.number, family = family, norm = norm, 
         verbose = verbose, InverseType = InverseType)
     cat("Done 2\n")
-    fc <- GetRSSWST(ndata, thresh = cx, levels = levels, type = type, 
+    fc <- GetRSSWST(ndata, threshold = cx, levels = levels, type = type, 
         filter.number = filter.number, family = family, norm = norm, 
         verbose = verbose, InverseType = InverseType)
     cat("Done 3\n")
-    f1 <- GetRSSWST(ndata, thresh = x1, levels = levels, type = type, 
+    f1 <- GetRSSWST(ndata, threshold = x1, levels = levels, type = type, 
         filter.number = filter.number, family = family, norm = norm, 
         verbose = verbose, InverseType = InverseType)
     cat("Done 4\n")
-    f2 <- GetRSSWST(ndata, thresh = x2, levels = levels, type = type, 
+    f2 <- GetRSSWST(ndata, threshold = x2, levels = levels, type = type, 
         filter.number = filter.number, family = family, norm = norm, 
         verbose = verbose, InverseType = InverseType)
     cat("Done 5\n")
@@ -9692,12 +9697,12 @@ function(ndata, ll = 3, type = "soft", filter.number = 10, family =
             x1 <- x2
             x2 <- R * x1 + C * x3
             f1 <- f2
-            f2 <- GetRSSWST(ndata, thresh = x2, levels = levels, 
+            f2 <- GetRSSWST(ndata, threshold = x2, levels = levels, 
                 type = type, filter.number = filter.number, 
                 family = family, norm = norm, verbose = verbose,
                 InverseType = InverseType)
             if(verbose == 2) {
-                cat("SSQ: ", signif(f2, 3), "\n")
+                cat("SSQ: ", signif(f2, digits=3), "\n")
             }
             else if(verbose == 1)
                 cat(".")
@@ -9712,12 +9717,12 @@ function(ndata, ll = 3, type = "soft", filter.number = 10, family =
             x2 <- x1
             x1 <- R * x2 + C * x0
             f2 <- f1
-            f1 <- GetRSSWST(ndata, thresh = x1, levels = levels, 
+            f1 <- GetRSSWST(ndata, threshold = x1, levels = levels, 
                 type = type, filter.number = filter.number, 
                 family = family, norm = norm, verbose = verbose,
                 InverseType = InverseType)
             if(verbose == 2)
-                cat("SSQ: ", signif(f1, 3), "\n")
+                cat("SSQ: ", signif(f1, digits=3), "\n")
             else if(verbose == 1)
                 cat(".")
             xkeep <- c(xkeep, x1)
@@ -9746,7 +9751,7 @@ function(ndata, ll = 3, type = "soft", filter.number = 10, family =
 #
 #   Now threshold the top level using universal thresholding
 #
-    nwstT <- threshold(nwstT, type = type, levels = nlevels(nwstT) - 1, 
+    nwstT <- threshold(nwstT, type = type, levels = nlevelsWT(nwstT) - 1, 
         policy = "universal", dev = uvdev)
     xvwr <- AvBasis.wst(nwstT)
     list(ndata = ndata, xvwr = xvwr, xvwrWSTt = nwstT, uvt = uv, xvthresh
@@ -9779,9 +9784,9 @@ function(ndata, ll = 3, type = "soft", filter.number = 10, family =
         value = x1, verbose = thverb)   #
 #       Now threshold the top level using universal thresholding
 #
-    lastuvt <- threshold(xvwrWSTt, type = type, levels = nlevels(xvwrWSTt) - 
+    lastuvt <- threshold(xvwrWSTt, type = type, levels = nlevelsWT(xvwrWSTt) - 
         1, policy = "universal", dev = uvdev, return.thresh = TRUE)
-    xvwrWSTt <- threshold(xvwrWSTt, type = type, levels = nlevels(xvwrWSTt) -
+    xvwrWSTt <- threshold(xvwrWSTt, type = type, levels = nlevelsWT(xvwrWSTt) -
         1, policy = "manual", value = lastuvt)
     xvwr <- AvBasis.wst(xvwrWSTt)
     list(ndata = ndata, xvwr = xvwr, xvwrWSTt = xvwrWSTt, uvt = uv, 
@@ -9802,7 +9807,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
     scaling.function = FALSE)
 {
     WV <- draw.default(filter.number = filter.number, family = family, 
-        plot.it = FALSE, enhance = FALSE, res = 32768, scaling.function = 
+        plot.it = FALSE, enhance = FALSE, resolution = 32768, scaling.function = 
         scaling.function)
     intfn <- function(x, moment, xwv, ywv)
     {
@@ -9815,6 +9820,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    cat("WaveThresh: R wavelet software, release 4.5, installed\n")
-    cat("Copyright Guy Nason and others 1993-2010\n")
+    message("WaveThresh: R wavelet software, release 4.6, installed\n")
+    message("Copyright Guy Nason and others 1993-2012\n")
+    message("Note: nlevels has been renamed to nlevelsWT\n")
 }

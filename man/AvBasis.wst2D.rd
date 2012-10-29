@@ -17,7 +17,7 @@ The packet-ordered 2D non-decimated wavelet transform computed by \code{\link{ws
 \bold{Basis averaging}. Rather than select \emph{a} basis it is often useful to preserve information from all of the bases. For examples, in curve estimation, after thresholding, the coefficients are coefficients of an estimate of the truth with respect to all of the shifted basis functions. Rather than select one of them we can average over all estimates. This sometimes gives a better curve estimate and can, for examples, get rid of Gibbs effects. See Coifman and Donoho (1995) for more information on how to do curve estimation using the packet ordered non-decimated wavelet transform, thresholding and basis averaging. See Lang et al. (1995) for further details of surface/image estimation using the 2D non-decimated DWT. 
 }
 \value{
-A square matrix of dimension $2^nlevels$ containing the average-basis ``reconstruction'' of the \code{\link{wst2D}} object. 
+A square matrix of dimension $2^nlevelsWT$ containing the average-basis ``reconstruction'' of the \code{\link{wst2D}} object. 
 }
 \section{RELEASE}{Version 3.9 Copyright Guy Nason 1998}
 \seealso{

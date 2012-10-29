@@ -39,7 +39,7 @@ A vector containing the packet of wavelet packet coefficients that you wished to
 }
 \section{RELEASE}{Version 3.9 Copyright Guy Nason 1998 }
 \seealso{
-\code{\link{wp}}, \code{\link{putpacket.wp}}, \code{\link{basisplot.wp}}, \code{\link{draw.wp}}, \code{\link{InvBasis.wp}}, \code{\link{MaNoVe.wp}}, \code{nlevels.wp}, \code{\link{plot.wp}}. \code{\link{threshold.wp}}. 
+\code{\link{wp}}, \code{\link{putpacket.wp}}, \code{\link{basisplot.wp}}, \code{\link{draw.wp}}, \code{\link{InvBasis.wp}}, \code{\link{MaNoVe.wp}}, \code{nlevelsWT.wp}, \code{\link{plot.wp}}. \code{\link{threshold.wp}}. 
 }
 \examples{
 #

@@ -32,7 +32,7 @@ The last thing this function does is call \code{\link{summary.wst2D}} so the ret
 #uawst2D
 #Class 'wst2D' : 2D Stationary Wavelet Transform Object:
 #       ~~~~~  : List with 4 components with names
-#              wst2D nlevels filter date 
+#              wst2D nlevelsWT filter date 
 #
 #$wst2D is the coefficient array
 #

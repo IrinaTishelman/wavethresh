@@ -37,7 +37,7 @@ A list with the following components
 data with the given threshold and thresholding options. (Although this is not really used for anything).}
 \item{value}{The value argument that was specified.}
 \item{type}{the \code{thresh.type} argument that was specified.}
-\item{lev}{The vector \code{ll:(nlevels(noisy)-1)} (i.e. the levels that were thresholded).}
+\item{lev}{The vector \code{ll:(nlevelsWT(noisy)-1)} (i.e. the levels that were thresholded).}
 }
 \seealso{\code{\link{Crsswav}},\code{\link{threshold.wd}}, \code{\link{WaveletCV}}}
 \author{G P Nason}

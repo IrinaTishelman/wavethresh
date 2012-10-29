@@ -11,7 +11,7 @@ This function computes the Nason and Silverman raw or smoothed wavelet periodogr
   verbose=FALSE, lw.number=wdS$filter$filter.number,
   lw.family=wdS$filter$family, nlw.number=wdS$filter$filter.number,
   nlw.family=wdS$filter$family, nlw.policy="LSuniversal",
-  nlw.levels=0:(nlevels(wdS) - 1), nlw.type="hard", nlw.by.level=FALSE,
+  nlw.levels=0:(nlevelsWT(wdS) - 1), nlw.type="hard", nlw.by.level=FALSE,
   nlw.value=0, nlw.dev=var, nlw.boundary=FALSE, nlw.verbose=FALSE,
   nlw.cvtol=0.01, nlw.Q=0.05, nlw.alpha=0.05, nlw.transform=I,
   nlw.inverse=I, debug.spectrum=FALSE, \dots)

@@ -9,8 +9,8 @@ This function replaces a packet of coefficients from a two-dimensional non-decim
 }
 \arguments{
 \item{wst2D}{2D non-decimated wavelet object containing the coefficients you wish to replace.}
-\item{level}{The resolution level of the coefficients that you wish to replace. Can range from 0 to \code{nlevels(wpst)-1}.}
-\item{index}{The index number within the resolution level of the packet of coefficients that you wish to replace. Index is a base-4 number which is \code{r} digits long. Each digit can be 0, 1, 2 or 3 corresponding to no shifts, horizontal shift, vertical shift or horizontal and vertical shifts. The number \code{r} indicates the depth of the resolution level from the data resolution i.e. where \code{r = nlevels - level}.
+\item{level}{The resolution level of the coefficients that you wish to replace. Can range from 0 to \code{nlevelsWT(wpst)-1}.}
+\item{index}{The index number within the resolution level of the packet of coefficients that you wish to replace. Index is a base-4 number which is \code{r} digits long. Each digit can be 0, 1, 2 or 3 corresponding to no shifts, horizontal shift, vertical shift or horizontal and vertical shifts. The number \code{r} indicates the depth of the resolution level from the data resolution i.e. where \code{r = nlevelsWT - level}.
  
 Where there is a string of more than one digit the left most digits correspond to finest scale shift selection, the right most digits to the coarser scales (I think).}
 \item{packet}{A square matrix of dimension \code{2^level} which contains the new coefficients that you wish to insert.} \item{type}{This is a one letter character string: one of "S", "H", "V" or "D" for the smooth coefficients, horizontal, vertical or diagonal detail.}
@@ -50,7 +50,7 @@ myrwst2D <- wst2D(myrand)
 # Let's access the finest scale detail, not shifted in the vertical
 # direction.
 #
-getpacket(myrwst2D, nlevels(myrwst2D)-1, index=0, type="V")
+getpacket(myrwst2D, nlevelsWT(myrwst2D)-1, index=0, type="V")
 #           [,1]       [,2] 
 #[1,] -0.1626819 -1.3244064
 #[2,]  1.4113247 -0.7383336
@@ -58,12 +58,12 @@ getpacket(myrwst2D, nlevels(myrwst2D)-1, index=0, type="V")
 # Let's put some zeros in instead...
 #
 zmat <- matrix(c(0,0,0,0), 2,2)
-newwst2D <- putpacket(myrwst2D, nlevels(myrwst2D)-1,
+newwst2D <- putpacket(myrwst2D, nlevelsWT(myrwst2D)-1,
 	index=0, packet=zmat, type="V")
 #
 # And now look at the same packet as before
 #
-getpacket(myrwst2D, nlevels(myrwst2D)-1, index=0, type ="V")
+getpacket(myrwst2D, nlevelsWT(myrwst2D)-1, index=0, type ="V")
 #     [,1] [,2] 
 #[1,]    0    0
 #[2,]    0    0

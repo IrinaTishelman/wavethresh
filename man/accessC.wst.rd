@@ -9,7 +9,7 @@
 }
 \arguments{
 \item{wst}{Packet ordered non-decimated wavelet object from which you wish to extract the smoothed or original data (if the object is directly from a packet ordered non-decimated wavelet transform of some data).}
-\item{level}{The level that you wish to extract. This can range from zero (the coarsest coefficients) to nlevels(wstobj) which returns the original data.}
+\item{level}{The level that you wish to extract. This can range from zero (the coarsest coefficients) to nlevelsWT(wstobj) which returns the original data.}
 \item{aspect}{Applies function to coefficients before return. Supplied
 	as a character string which gets converted to a function.
 	For example "Mod" which returns the absolute values of the coefficients}

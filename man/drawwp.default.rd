@@ -25,7 +25,7 @@ inverts the transform.
 A vector containing the "y" values of the required wavelet packet. 
 }
 \seealso{\code{\link{draw.wp}},\code{\link{InvBasis}},
-\code{\link{nlevels}},
+\code{\link{nlevelsWT}},
 \code{\link{putpacket}},
 \code{\link{wp}}}
 \author{G P Nason}

@@ -7,7 +7,7 @@ This function computes discrete autocorrelation wavelets.
 The inner products of the discrete autocorrelation wavelets are computed by the routine \code{\link{ipndacw}}. 
 }
 \usage{
-PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH=2000)
+PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH=100000, verbose=FALSE)
 }
 \arguments{
 \item{J}{Discrete autocorrelation wavelets will be computed for scales -1 up to scale J. This number should be a negative integer.}
@@ -15,6 +15,7 @@ PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH=2000)
 \item{family}{The family of wavelet used to compute the discrete autocorrelation wavelets.}
 \item{tol}{In the brute force computation for Daubechies compactly supported wavelets many inner product computations are performed. This tolerance discounts any results which are smaller than \code{tol} which effectively defines how long the inner product/autocorrelation products are.}
 \item{OPLENGTH}{This integer variable defines some workspace of length OPLENGTH. The code uses this workspace. If the workspace is not long enough then the routine will stop and probably tell you what OPLENGTH should be set to.}
+\item{verbose}{If \code{TRUE} then informative error messages are printed.}
 }
 \details{
 This function computes the discrete autocorrelation wavelets. It does not have any direct use for time-scale analysis (e.g. \code{\link{ewspec}}). However, it is useful to be able to numerically compute the discrete autocorrelation wavelets for arbitrary wavelets and scales as there are still unanswered theoretical questions concerning the wavelets. The method is a brute force -- a more elegant solution would probably be based on interpolatory schemes. 

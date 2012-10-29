@@ -87,7 +87,7 @@ An object of class \code{wpstRO} containing the following items
 \item{pktix}{Another index vector, this time referring to the original
 	wavelet packet object, not the matrix in which they subsequently
 	got stored}
-\item{nlevels}{The number of resolution levels in the original wavelet
+\item{nlevelsWT}{The number of resolution levels in the original wavelet
 	packet object}
 \item{cv}{The correlation vector. These are the values of the correlations
 	of the packets with the response, then sorted in terms of decreasing

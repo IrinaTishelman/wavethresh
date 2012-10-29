@@ -42,7 +42,7 @@ class(lmdT)
 uncompress(lmdT)
 #Class 'imwd' : Discrete Image Wavelet Transform Object:
 #~~~~  : List with 30 components with names
-#nlevels fl.dbase filter w0Lconstant bc type w0L1 w0L2 w0L3 w1L1 w1L2 w1L3 w2L1 w2L2 w2L3 w3L1 w3L2 w3L3 w4L1 w4L2 w4L3 w5L1 w5L2 w5L3 w6L1 w6L2 w6L3 w7L1 w7L2 w7L3
+#nlevelsWT fl.dbase filter w0Lconstant bc type w0L1 w0L2 w0L3 w1L1 w1L2 w1L3 w2L1 w2L2 w2L3 w3L1 w3L2 w3L3 w4L1 w4L2 w4L3 w5L1 w5L2 w5L3 w6L1 w6L2 w6L3 w7L1 w7L2 w7L3
 #
 #$ wNLx are LONG coefficient vectors !
 #

@@ -6,11 +6,11 @@ These are objects of class \code{wst} They represent a decomposition of a functi
 }
 \value{
 The following components must be included in a legitimate `wst' object. 
-\item{wp}{a matrix containing the packet ordered non-decimated wavelet coefficients. Each row of the matrix contains coefficients with respect to a particular resolution level. There are \code{nlevels(wst)+1} rows in the matrix. Row \code{nlevels(wst)+1} (the ``bottom'') row contains the ``original'' data used to produce the wavelet packet coefficients. Rows \code{nlevels(wst)} to row 1 contain coefficients at resolution levels \code{nlevels(wst)-1} to 0 (so the first row contains coefficients at resolution level 0).
+\item{wp}{a matrix containing the packet ordered non-decimated wavelet coefficients. Each row of the matrix contains coefficients with respect to a particular resolution level. There are \code{nlevelsWT(wst)+1} rows in the matrix. Row \code{nlevels(wst)+1} (the ``bottom'') row contains the ``original'' data used to produce the wavelet packet coefficients. Rows \code{nlevels(wst)} to row 1 contain coefficients at resolution levels \code{nlevels(wst)-1} to 0 (so the first row contains coefficients at resolution level 0).
  
 The columns contain the coefficients with respect to packets. A different packet length exists at each resolution level. The packet length at resolution level \code{i} is given by \code{2^i}. However, the \code{\link{getpacket.wst}} function should be used to access individual packets from a \code{\link{wst}} object.}
 \item{Carray}{A matrix of the same dimensions and format as \code{wp} but containing the father wavelet coefficients.}
-\item{nlevels}{The number of levels in the decomposition. If you raise 2 to the power of \code{nlevels} you get the number of data points used in the decomposition.}
+\item{nlevelsWT}{The number of levels in the decomposition. If you raise 2 to the power of \code{nlevels} you get the number of data points used in the decomposition.}
 \item{filter}{a list containing the details of the filter that did the decomposition (equivalent to the return value from the \code{\link{filter.select}} function).}
 \item{date}{The date that the transform was performed or the wst was modified.} 
 }
@@ -33,7 +33,7 @@ Many other functions return an object of class \code{wst}.
 }
 
 \section{METHODS}{
-The wst class of objects has methods for the following generic functions: \code{\link{AvBasis}}, \code{\link{InvBasis}}, \code{\link{LocalSpec}}, \code{\link{MaNoVe}}, \code{\link{accessC}}, \code{\link{accessD}}, \code{\link{convert}}, \code{\link{draw}}. \code{\link{getpacket}}. \code{\link{image}}. \code{\link{nlevels}}, \code{\link{nullevels}}, \code{\link{plot}}, \code{\link{print}}, \code{\link{putC}}, \code{\link{putD}}, \code{\link{putpacket}}, \code{\link{summary}}, \code{\link{threshold}}. 
+The wst class of objects has methods for the following generic functions: \code{\link{AvBasis}}, \code{\link{InvBasis}}, \code{\link{LocalSpec}}, \code{\link{MaNoVe}}, \code{\link{accessC}}, \code{\link{accessD}}, \code{\link{convert}}, \code{\link{draw}}. \code{\link{getpacket}}. \code{\link{image}}. \code{\link{nlevelsWT}}, \code{\link{nullevels}}, \code{\link{plot}}, \code{\link{print}}, \code{\link{putC}}, \code{\link{putD}}, \code{\link{putpacket}}, \code{\link{summary}}, \code{\link{threshold}}. 
 }
 \section{RELEASE}{
 Version 3.5.3 Copyright Guy Nason 1994 

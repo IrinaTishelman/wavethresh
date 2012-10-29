@@ -11,7 +11,7 @@ accessc(irregwd.structure, level, boundary=FALSE)
 }
 \arguments{
 \item{irregwd.structure}{Irregular wavelet decomposition object from which you wish to extract parts of the \code{c} component from.}
-\item{level}{The level that you wish to extract. This value ranges from 0 to the \code{\link{nlevels}}(irregwd.structure)-1.}
+\item{level}{The level that you wish to extract. This value ranges from 0 to the \code{\link{nlevelsWT}}(irregwd.structure)-1.}
 \item{boundary}{If this argument is T then all of the boundary correction values will be returned as well (note: the length of the returned vector may not be a power of 2). If boundary is false, then just the coefficients will be returned. If the decomposition (or reconstruction) was done with periodic boundary conditions then this option has no effect.}
 }
 \details{

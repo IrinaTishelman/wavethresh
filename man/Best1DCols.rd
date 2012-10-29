@@ -31,7 +31,7 @@ Best1DCols(w2d, mincor=    0.69999999999999996)
 	in the \code{BasisMatrix} item of the returned list. 
 }
 \value{A list with the following components:
-\item{nlevels}{The number of levels of the nondecimated wavelet packet
+\item{nlevelsWT}{The number of levels of the nondecimated wavelet packet
 	encapsulator, w2d}
 \item{BasisMatrix}{The highest correlating packets, sorted according to
 	decreasing correlation}

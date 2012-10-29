@@ -39,7 +39,7 @@ tmp
 # tmp
 # Class 'wp' : Wavelet Packet Object:
 #        ~~  : List with 4 components with names
-#               wp nlevels filter date 
+#               wp nlevelsWT filter date 
 # 
 # $wp is the wavelet packet matrix
 # 

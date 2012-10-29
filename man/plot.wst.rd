@@ -51,11 +51,11 @@ packet-ordered non-decimated wavelet transform, but also
 functions that derive such objects, such as \code{\link{threshold.wst}}).
 
 A packet-ordered nondecimated wavelet object, x,
-possesses \code{nlevels(x)} resolution levels.
+possesses \code{nlevelsWT(x)} resolution levels.
 In WaveThresh the coarsest level is level 0 and the finest is level
-\code{nlevels-1}. For packet-ordered nondecimated wavelet
+\code{nlevelsWT-1}. For packet-ordered nondecimated wavelet
 the number of blocks (packets) at
-level \code{j} is \code{2^(nlevels-j)}.
+level \code{j} is \code{2^(nlevelsWT-j)}.
 
 This function plots the coefficients.
 At the bottom of the plot the original input function (if present) is plotted.

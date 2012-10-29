@@ -19,7 +19,7 @@ If \code{n} is a power of two, then the power is returned otherwise \code{NA} is
 }
 \section{RELEASE}{Version 3.6.0 Copyright Guy Nason 1995 }
 \seealso{
-\code{\link{nlevels.default}}. 
+\code{\link{nlevelsWT.default}}. 
 }
 \examples{
 #

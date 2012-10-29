@@ -39,7 +39,7 @@ myrand <- wst(rnorm(32))
 #myrand
 #Class 'wst' : Stationary Wavelet Transform Object:
 #       ~~~  : List with 8 components with names
-#              wp Carray nlevels filter date 
+#              wp Carray nlevelsWT filter date 
 #
 #$WP and $Carray are the coefficient matrices
 
@@ -63,7 +63,7 @@ myrand <- wst(rnorm(32))
 convert(myrand)
 #Class 'wd' : Discrete Wavelet Transform Object:
 #       ~~  : List with 8 components with names
-#              C D nlevels fl.dbase filter type bc date 
+#              C D nlevelsWT fl.dbase filter type bc date 
 #
 #$ C and $ D are LONG coefficient vectors !
 #

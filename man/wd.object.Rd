@@ -21,7 +21,7 @@ determines exactly where each level is stored in the vector. Likewise, coefficie
 \code{fl.dbase$first.last.d}
 
 Likewise, coefficients stored when the NDWT has been used should only be extracted using the ``access'' and ``put'' functions below. }
-\item{nlevels}{The number of levels in the pyramidal decomposition that produces the coefficients. If you raise 2 to the power of nlevels you get the number of data points used in the decomposition.}
+\item{nlevelsWT}{The number of levels in the pyramidal decomposition that produces the coefficients. If you raise 2 to the power of nlevels you get the number of data points used in the decomposition.}
 \item{fl.dbase}{The first last database associated with this decomposition. This is a list consisting of 2 integers, and 2 matrices. The matrices detail how the coefficients are stored in the C and D components of the `wd.object'. See the help on \code{\link{first.last}} for more information. }
 \item{filter}{a list containing the details of the filter that did the decomposition}
 \item{type}{either \bold{wavelet} indicating that the ordinary wavelet transform was performed or \bold{station} indicating that the time-ordered non-decimated wavelet transform was done.}

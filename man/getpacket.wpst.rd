@@ -9,10 +9,10 @@ This function extracts and returns a packet of coefficients from a non-decimated
 }
 \arguments{
 \item{wpst}{Non-decimated wavelet packet object from which you wish to extract the packet from.} 
-\item{level}{The resolution level of the coefficients that you wish to extract. Can range from 0 to \code{\link{nlevels}}(wpst). The coefficients at level \code{\link{nlevels}} are the data the created the \code{wpst.object}. 
+\item{level}{The resolution level of the coefficients that you wish to extract. Can range from 0 to \code{\link{nlevelsWT}}(wpst). The coefficients at level \code{\link{nlevels}} are the data the created the \code{wpst.object}. 
 }
 \item{index}{The index number within the resolution level of the packet of coefficients that you wish to extract. Index ranges from 0 to
-\eqn{(4^r)-1} where \code{r = nlevels - level}. }
+\eqn{(4^r)-1} where \code{r = nlevelsWT - level}. }
 \item{\dots}{any other arguments}
 }
 \details{
@@ -44,9 +44,9 @@ myrand <- rnorm(16)
 #
 myrwpst <- wpst(myrand)
 #
-# Let's access what is a level nlevels(myrwpst)
+# Let's access what is a level nlevelsWT(myrwpst)
 #
-getpacket(myrwpst, nlevels(myrwpst), index=0)
+getpacket(myrwpst, nlevelsWT(myrwpst), index=0)
 # [1]  0.19268626 -0.41737181 -0.30806613  0.07435407  0.99871757
 # [6] -0.58935121 -1.38049759 -0.13346631  1.55555403 -1.60581265
 #[11]  0.14353621  1.21277774  1.13762337 -1.08577934 -0.29745609

@@ -36,7 +36,7 @@ A list returning the results of the cross-validation algorithm. The list include
 \item{xvwr}{a reconstruction of the best estimate computed using this algorithm. It is the inverse (computed depending on what the InverseType argument was) of the \code{xvwrWSTt} component.} 
 \item{xvwrWSTt}{a thresholded version of the packet-ordered non-decimated wavelet transform of the noisy data using the best threshold discovered by this cross-validation algorithm.} 
 \item{uvt}{the universal threshold used as the upper bound for the algorithm that tries to discover the optimal cross-validation threshold. The lower bound is always zero.}
-\item{xvthresh}{the best threshold as discovered by cross-validation. Note that this is vector, a level-dependent threshold with one threshold value for each resolution level. The first entry corresponds to level \code{ll}, the last entry corresponds to level \code{nlevels(ndata)-1} and the entries in between linearly to the levels in between. The \code{\link{wstCV}} function should be used to compute a global threshold.}
+\item{xvthresh}{the best threshold as discovered by cross-validation. Note that this is vector, a level-dependent threshold with one threshold value for each resolution level. The first entry corresponds to level \code{ll}, the last entry corresponds to level \code{nlevelsWT(ndata)-1} and the entries in between linearly to the levels in between. The \code{\link{wstCV}} function should be used to compute a global threshold.}
 \item{optres}{The results from performing the optimisation using the \code{nlminb} function from Splus. This object contains many interesting components with information about how the optimisation went. See the \code{nlminb} help page for information.}
 } 
 \section{RELEASE}{

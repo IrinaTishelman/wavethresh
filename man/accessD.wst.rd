@@ -9,7 +9,7 @@ The mother wavelet coefficients from a packet ordered non-decimated wavelet obje
 }
 \arguments{
 \item{wst}{Packet ordered non-decimated wavelet object from which you wish to extract the mother wavelet coefficients.}
-\item{level}{The level that you wish to extract. This can range from zero (the coarsest coefficients) to nlevels(wstobj) which returns the original data. }
+\item{level}{The level that you wish to extract. This can range from zero (the coarsest coefficients) to nlevelsWT(wstobj) which returns the original data. }
 \item{aspect}{Function to apply to coefficient before return.
 	Supplied as a character argument which gets converted to a function.
 	For example, "Mod" which returns the absolute value of complex-valued

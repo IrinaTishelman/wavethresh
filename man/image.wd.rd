@@ -23,7 +23,7 @@ Description says all
 \value{
 None
 }
-\seealso{\code{\link{logabs}}, \code{\link{nlevels}},\code{\link{wd}}}
+\seealso{\code{\link{logabs}}, \code{\link{nlevelsWT}},\code{\link{wd}}}
 \examples{
 tmp <- wd(rnorm(256), type="station")
 \dontrun{image(tmp)}

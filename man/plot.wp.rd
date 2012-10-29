@@ -73,11 +73,11 @@ This function plots wavelet packet transform coefficients arising from a
 \details{
 A wavelet packet object contains wavelet packet coefficients of a signal
 (usually obtained by the \code{\link{wp}} wavelet packet transform function).
-Given a wavelet packet object wp it possesses \code{nlevels(wp)}
+Given a wavelet packet object wp it possesses \code{nlevelsWT(wp)}
 resolution levels.
 In WaveThresh the coarsest level is level 0 and the finest is level
-nlevels-1.
-For wavelet packets the number of packets at level j is 2^(nlevels-j).
+nlevelsWT-1.
+For wavelet packets the number of packets at level j is 2^(nlevelsWT-j).
 
 This function plots the wavelet packet coefficients. At the bottom of the plot
 the original input function (if present) is plotted.

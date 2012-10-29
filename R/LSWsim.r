@@ -11,7 +11,7 @@ function(spec){
         # Now multiply by random element and factor of 2 (to undo AvBasis
         # averaging)
         #
-        nlev <- nlevels(spec)
+        nlev <- nlevelsWT(spec)
         len <- 2^nlev
         for(i in (nlev-1):0)    {
                 v <- accessD(spec, level=i)
@@ -29,7 +29,7 @@ function(n, filter.number=1, family="DaubExPhase"){
         zwdS
         }
 "checkmyews" <- function(spec, nsim=10){
-        ans <- cns(2^nlevels(spec))
+        ans <- cns(2^nlevelsWT(spec))
         for(i in 1:nsim)        {
                 cat(".")
                 LSWproc <- LSWsim(spec)

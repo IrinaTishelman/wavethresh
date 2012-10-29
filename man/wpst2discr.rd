@@ -25,7 +25,7 @@ items:
 \item{level}{Each column corresponds to a packet, this vector contains the
 	information on which resolution level each packet comes from}
 \item{pktix}{Like for \code{level} but for packet indices}
-\item{nlevels}{The number of resolution levels in total, from the wpst object}
+\item{nlevelsWT}{The number of resolution levels in total, from the wpst object}
 }
 \seealso{\code{\link{makewpstDO}}, \code{\link{wpst}}}
 \author{G P Nason}

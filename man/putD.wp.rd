@@ -16,7 +16,7 @@ Makes a copy of the \code{\link{wp}} object, replaces a whole resolution level o
 \details{
 The function \code{\link{accessD.wp}} obtains the wavelet packet coefficients for a particular level.
  
-For wavelet packet transforms the number of coefficients at each resolution level is the same and equal to \code{2^nlevels} where \code{nlevels} is the number of levels in the \code{\link{wp.object}}. The number of coefficients at each resolution level is also, of course, the number of data points used to initially form the \code{\link{wp}} object in the first place. 
+For wavelet packet transforms the number of coefficients at each resolution level is the same and equal to \code{2^nlevelsWT} where \code{nlevels} is the number of levels in the \code{\link{wp.object}}. The number of coefficients at each resolution level is also, of course, the number of data points used to initially form the \code{\link{wp}} object in the first place. 
 
 Use the \code{\link{accessD.wp}} to extract whole resolution levels of wavelet packet coefficients. 
 

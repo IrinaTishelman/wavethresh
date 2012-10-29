@@ -23,7 +23,7 @@ An object of class \code{\link{irregwd}} which is a list with the following comp
 \item{C}{Vector of sets of successively smoothed versions of the interpolated data (see description of equivalent component of \code{\link{wd.object}} for further information.)}
 \item{D}{Vector of sets of wavelet coefficients of the interpolated data at different resolution levels. (see description of equivalent component of \code{\link{wd.object}} for further information.)}
 \item{c}{Vector that aids in calculation of variances of wavelet coefficients (used by \code{\link{threshold.irregwd}}).}
-\item{nlevels}{The number of resolution levels. This depends on the length of the data vector. If \code{length(data)=2^m}, then there will be m resolution levels. This means there will be m levels of wavelet coefficients (indexed 0,1,2,...,(m-1)), and m+1 levels of smoothed data (indexed 0,1,2,...,m).}
+\item{nlevelsWT}{The number of resolution levels. This depends on the length of the data vector. If \code{length(data)=2^m}, then there will be m resolution levels. This means there will be m levels of wavelet coefficients (indexed 0,1,2,...,(m-1)), and m+1 levels of smoothed data (indexed 0,1,2,...,m).}
 \item{fl.dbase}{There is more information stored in the C and D than is described above. In the decomposition ``extra'' coefficients are generated that help take care of the boundary effects, this database lists where these start and finish, so the "true" data can be extracted.}
 \item{filter}{A list containing information about the filter type: Contains the string "wavelet" or "station" depending on which type of transform was performed.}
 \item{bc}{How the boundaries were handled.}

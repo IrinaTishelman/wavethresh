@@ -18,7 +18,7 @@ This function merely uncompresses the supplied \code{\link{imwdc.object}} and pa
 This function is a method for the generic function \code{\link{imwr}} for class \code{\link{imwdc.object}}. It can be invoked by calling \code{\link{imwr}} for an object of the appropriate class, or directly by calling imwr.imwdc regardless of the class of the object. 
 }
 \value{
-A matrix, of dimension determined by the original data set supplied to the initial decomposition (more precisely, determined by the \code{\link{nlevels}} component of the \code{\link{imwdc.object}}). This matrix is the highest resolution level of the reconstruction. 
+A matrix, of dimension determined by the original data set supplied to the initial decomposition (more precisely, determined by the \code{\link{nlevelsWT}} component of the \code{\link{imwdc.object}}). This matrix is the highest resolution level of the reconstruction. 
 }
 \section{RELEASE}{Version 3.5.3 Copyright Guy Nason 1994 }
 \seealso{

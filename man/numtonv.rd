@@ -53,7 +53,7 @@ ynwstT <- threshold(ynwst)
 #
 # Select basis number 9 (why not?)
 #
-NodeVector9 <- numtonv(9, nlevels(ynwstT))
+NodeVector9 <- numtonv(9, nlevelsWT(ynwstT))
 #
 # Let's print it out to see what it looks like
 # (nb, if you're repeating this examples, the basis might be different

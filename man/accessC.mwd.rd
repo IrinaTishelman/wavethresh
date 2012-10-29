@@ -5,7 +5,7 @@
   The smoothed and original data from a multiple wavelet decomposition structure, \code{\link{mwd.object}}  ect  (e.g. returned from \code{\link{mwd}}) are packed into a single matrix in that structure.  TRUE  his function extracts the data corresponding to a particular resolution level.
 }
 \usage{
-\method{accessC}{mwd}(mwd, level = nlevels(mwd), \dots)
+\method{accessC}{mwd}(mwd, level = nlevelsWT(mwd), \dots)
 }
 \arguments{
    \item{mwd}{Multiple wavelet decomposition structure from which you wish to extract the smoothed or original data if the structure is from a wavelet decomposition, or the reconstructed data if the structure is from a wavelet reconstruction.}

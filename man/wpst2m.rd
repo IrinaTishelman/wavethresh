@@ -36,7 +36,7 @@ A list, of class w2m, with the following components:
 	come from}
 \item{pktix}{A vector containing the packet indices from where the packets in m
 	come from}
-\item{nlevels}{The number of resolution levels from the original wpst object}
+\item{nlevelsWT}{The number of resolution levels from the original wpst object}
 }
 \author{
 G P Nason

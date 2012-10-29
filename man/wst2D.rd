@@ -46,7 +46,7 @@ uawst2D <- wst2D(lennon)
 #
 # How many levels does our uawst2D object have? 
 #
-nlevels(uawst2D)
+nlevelsWT(uawst2D)
 #[1] 8
 #
 # O.k. Let's look at resolution level 7

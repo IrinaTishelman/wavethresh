@@ -5,7 +5,7 @@
 This function provides various ways to threshold a \code{\link{imwd}} class object. 
 }
 \usage{
-\method{threshold}{imwd}(imwd, levels = 3:(nlevels(imwd) - 1), type = "hard", policy = 
+\method{threshold}{imwd}(imwd, levels = 3:(nlevelsWT(imwd) - 1), type = "hard", policy = 
         "universal", by.level = FALSE, value = 0, dev = var, verbose = FALSE, 
         return.threshold = FALSE, compression = TRUE, Q = 0.05, \dots)
 }
@@ -13,7 +13,7 @@ This function provides various ways to threshold a \code{\link{imwd}} class obje
 
    \item{imwd}{The two-dimensional wavelet decomposition object that you wish to threshold.}
    
-   \item{levels}{a vector of integers which determines which scale levels are thresholded in the decomposition. Each integer in the vector must refer to a valid level in the \code{\link{imwd}} object supplied. This is usually any integer from 0 to \code{\link{nlevels}}(wd)-1 inclusive. Only the levels in this vector contribute to the computation of the threshold and its application. (except for the \code{fdr} policy). }  
+   \item{levels}{a vector of integers which determines which scale levels are thresholded in the decomposition. Each integer in the vector must refer to a valid level in the \code{\link{imwd}} object supplied. This is usually any integer from 0 to \code{\link{nlevelsWT}}(wd)-1 inclusive. Only the levels in this vector contribute to the computation of the threshold and its application. (except for the \code{fdr} policy). }  
  
    \item{type}{determines the type of thresholding this can be "\code{hard}" or "\code{soft}".}
 
@@ -47,9 +47,9 @@ There are many components to a successful thresholding procedure. Some component
 
 Some issues to watch for: 
 \describe{
-   \item{levels}{The default of \code{levels = 3:(wd$nlevels - 1)} for the \code{levels} option most certainly does not work globally for all data problems and situations. The level at which thresholding begins (i.e. the given threshold and finer scale wavelets) is called the \emph{primary resolution} and is unique to a particular problem. In some ways choice of the primary resolution is very similar to choosing the bandwidth in kernel regression albeit on a logarithmic scale. See Hall and Patil, (1995) and Hall and Nason (1997) for more information. For each data problem you need to work out which is the best primary resolution. This can be done by gaining experience at what works best, or using prior knowledge. It is possible to "automatically" choose a "best" primary resolution using cross-validation (but not in WaveThresh). 
+   \item{levels}{The default of \code{levels = 3:(wd$nlevelsWT - 1)} for the \code{levels} option most certainly does not work globally for all data problems and situations. The level at which thresholding begins (i.e. the given threshold and finer scale wavelets) is called the \emph{primary resolution} and is unique to a particular problem. In some ways choice of the primary resolution is very similar to choosing the bandwidth in kernel regression albeit on a logarithmic scale. See Hall and Patil, (1995) and Hall and Nason (1997) for more information. For each data problem you need to work out which is the best primary resolution. This can be done by gaining experience at what works best, or using prior knowledge. It is possible to "automatically" choose a "best" primary resolution using cross-validation (but not in WaveThresh). 
 
-Secondly the levels argument computes and applies the threshold at the levels specified in the \code{levels} argument. It does this for all the levels specified. Sometimes, in wavelet shrinkage, the threshold is computed using only the finest scale coefficients (or more precisely the estimate of the overall noise level). If you want your threshold variance estimate only to use the finest scale coefficients (e.g. with universal thresholding) then you will have to apply the \code{threshold.imwd} function twice. Once (with levels set equal to \code{\link{nlevels}}(wd)-1) and with \code{return.threshold=TRUE} to return the threshold computed on the finest scale and then apply the threshold function with the \code{manual} option supplying the value of the previously computed threshold as the \code{value} options. }
+Secondly the levels argument computes and applies the threshold at the levels specified in the \code{levels} argument. It does this for all the levels specified. Sometimes, in wavelet shrinkage, the threshold is computed using only the finest scale coefficients (or more precisely the estimate of the overall noise level). If you want your threshold variance estimate only to use the finest scale coefficients (e.g. with universal thresholding) then you will have to apply the \code{threshold.imwd} function twice. Once (with levels set equal to \code{\link{nlevelsWT}}(wd)-1) and with \code{return.threshold=TRUE} to return the threshold computed on the finest scale and then apply the threshold function with the \code{manual} option supplying the value of the previously computed threshold as the \code{value} options. }
 
 Note that the fdr policy does its own thing. 
    \item{by.level}{for a \code{\link{wd}} object which has come from data with noise that is correlated then you should have a threshold computed for each resolution level. See the paper by Johnstone and Silverman, 1997.}

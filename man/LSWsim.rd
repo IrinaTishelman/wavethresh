@@ -93,7 +93,7 @@ myLSWproc <- LSWsim(myspec)
 # developed to be more general):
 #
 checkmyews <- function(spec, nsim=10){
-        ans <- cns(2^nlevels(spec))
+        ans <- cns(2^nlevelsWT(spec))
         for(i in 1:nsim)        {
                 cat(".")
                 LSWproc <- LSWsim(spec)

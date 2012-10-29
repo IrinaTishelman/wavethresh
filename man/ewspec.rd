@@ -7,7 +7,7 @@ This function computes the evolutionary wavelet spectrum (EWS) estimate from a t
 \usage{
 ewspec(x, filter.number = 10, family = "DaubLeAsymm",
         UseLocalSpec = TRUE, DoSWT = TRUE, WPsmooth = TRUE, verbose = FALSE,
-        smooth.filter.number = 10, smooth.family = "DaubLeAsymm", smooth.levels = 3:(nlevels(WPwst) - 1), smooth.dev = madmad, smooth.policy =
+        smooth.filter.number = 10, smooth.family = "DaubLeAsymm", smooth.levels = 3:(nlevelsWT(WPwst) - 1), smooth.dev = madmad, smooth.policy =
         "LSuniversal", smooth.value = 0, smooth.by.level = FALSE, smooth.type = "soft", smooth.verbose = FALSE, smooth.cvtol = 0.01, smooth.cvnorm = l2norm, smooth.transform = I, smooth.inverse = I)
 
 }

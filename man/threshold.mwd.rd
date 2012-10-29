@@ -5,7 +5,7 @@
 Applies hard or soft thresholding to multiple wavelet decomposition object mwd.object.  
 }
 \usage{
-\method{threshold}{mwd}(mwd, levels = 3:(nlevels(mwd) - 1), type = "hard",
+\method{threshold}{mwd}(mwd, levels = 3:(nlevelsWT(mwd) - 1), type = "hard",
     policy = "universal", boundary = FALSE, verbose = FALSE,
     return.threshold = FALSE, threshold = 0, covtol = 1e-09, 
     robust = TRUE, return.chisq = FALSE,
@@ -13,7 +13,7 @@ Applies hard or soft thresholding to multiple wavelet decomposition object mwd.o
 }
 \arguments{
 \item{mwd}{The multiple wavelet decomposition object that you wish to threshold.}
-\item{levels}{a vector of integers which determines which scale levels are thresholded in the decomposition. Each integer in the vector must refer to a valid level in the \code{\link{mwd}} object supplied. This is usually any integer from 0 to \code{\link{nlevels}}(wd)-1 inclusive. Only the levels in this vector contribute to the computation of the threshold and its application. }
+\item{levels}{a vector of integers which determines which scale levels are thresholded in the decomposition. Each integer in the vector must refer to a valid level in the \code{\link{mwd}} object supplied. This is usually any integer from 0 to \code{\link{nlevelsWT}}(wd)-1 inclusive. Only the levels in this vector contribute to the computation of the threshold and its application. }
 \item{type}{determines the type of thresholding this can be "\code{hard}" or "\code{soft}".}
 \item{policy}{selects the technique by which the threshold value is selected. Each policy corresponds to a method in the literature. At present the different policies are "\code{universal}", "\code{manual}", "\code{single}". The policies are described in detail below. }
 \item{boundary}{If this argument is \code{TRUE} then the boundary bookeeping values are included for thresholding, otherwise they are not. }

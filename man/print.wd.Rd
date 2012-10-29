@@ -35,7 +35,7 @@ tmp <- wd(rnorm(32))
 tmp
 # Class 'wd' : Discrete Wavelet Transform Object:
 #        ~~  : List with 8 components with names
-#               C D nlevels fl.dbase filter type bc date 
+#               C D nlevelsWT fl.dbase filter type bc date 
 #
 # $ C and $ D are LONG coefficient vectors !
 #

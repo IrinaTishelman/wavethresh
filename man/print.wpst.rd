@@ -28,7 +28,7 @@ vwpst <- wpst(v)
 \dontrun{print(vwpst)}
 #Class 'wpst' : Stationary Wavelet Packet Transform Object:
 #	~~~  : List with 5 components with names
-#		wpst nlevels avixstart filter date
+#		wpst nlevelsWT avixstart filter date
 #
 #$wpst is a coefficient vector
 #

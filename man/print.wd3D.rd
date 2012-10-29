@@ -36,7 +36,7 @@ tmp <- wd3D(array(rnorm(512), dim=c(8,8,8)))
 tmp
 #Class 'wd3d' : 3D DWT Object:
 #       ~~~~  : List with 5 components with names
-#              a filter.number family date nlevels 
+#              a filter.number family date nlevelsWT 
 #
 #$ a is the wavelet coefficient array
 #Dimension of a is [1] 8 8 8

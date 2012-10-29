@@ -16,7 +16,7 @@ Makes a copy of the \code{\link{wst}} object, replaces a whole resolution level 
 \details{
 The function \code{\link{accessC.wst}} obtains the father wavelet coefficients for a particular level. The function \code{putC.wst} replaces father wavelet coefficients at a particular resolution level and returns a modified wst object reflecting the change. 
 
-For the non-decimated wavelet transforms the number of coefficients at each resolution level is the same and equal to \code{2^nlevels} where \code{nlevels} is the number of levels in the \code{\link{wst.object}}. The number of coefficients at each resolution level is also, of course, the number of data points used to initially form the \code{\link{wst}} object in the first place. 
+For the non-decimated wavelet transforms the number of coefficients at each resolution level is the same and equal to \code{2^nlevelsWT} where \code{nlevels} is the number of levels in the \code{\link{wst.object}}. The number of coefficients at each resolution level is also, of course, the number of data points used to initially form the \code{\link{wst}} object in the first place. 
 
 Use the \code{\link{accessC.wst}} to extract whole resolution levels of father wavelet coefficients. Use \code{\link{accessD.wst}} and \code{\link{putD.wst}} to extract/insert whole resolution levels of mother wavelet coefficients. Use the \code{\link{getpacket.wst}} and \code{\link{putpacket.wst}} functions to extract/insert packets of coefficients into a packet-ordered non-decimated wavelet object. 
 }

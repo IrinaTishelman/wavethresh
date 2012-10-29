@@ -1,0 +1,13 @@
+4.5-1 Fixed memory leak in av_basis which is called by AvBasis.wst
+
+4.6 Changed PsiJ. Added new option verbose, so that the information messages
+	that previously were always printed out can now be suppressed.
+	Also, changed default value of OPLENGTH to be 100000
+
+    Changed wvrelease. Changed the previous two uses of "cat" to now use "message", which can be suppressed. This helps the package knitr
+
+    Changed draw.default. Added a type argument.
+
+    Changed nlevels to nlevelsWT. This was because nlevels clashed with
+	a function of the same name in another package to do with factor
+	levels.
