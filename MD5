@@ -1,8 +1,8 @@
-843f9f807e9e0ac31c1a8b719f08ab10 *DESCRIPTION
-f163972bcddc5a0efd0edbad8fb65cc8 *NAMESPACE
+78c7890bef12e709c94056cf518f513a *DESCRIPTION
+46fc52bbcba376d65cde1c39cfe116a6 *NAMESPACE
 d4322104e0c067fb69236236f23ce2fb *R/LSWsim.r
 1dbbada142cde04b1190afd6f4735b0e *R/NSextra.r
-3ceaf89e1d2d6f76100efb1113dcb8e0 *R/function.r
+f93c31e4baf3bcb8a729f7d0460f8952 *R/function.r
 da3c0c068bae297370b631377217a4eb *R/wavde.r
 8c5fdba4e1e58b2ebd9ab4258b5b7617 *data/BabyECG.rda
 fe9024fed6007ec9831601f6cc90d363 *data/BabySS.rda
@@ -10,7 +10,7 @@ cde124da9614b7c373609ddf03107a17 *data/datalist
 2ae1e06329ec665260606abc26e2737e *data/ipd.rda
 ad576bc3fc90149d01caa06803f2250e *data/lennon.rda
 23e7e30e9b534775a1f4c9140effb9f1 *data/teddy.rda
-a7b465a145af3e5aeec668afcff8fe34 *inst/CHANGES
+e3015f64d300379733cb9617841e6f7f *inst/CHANGES
 7eec463ea698e64bcaae88ed1385950c *man/AutoBasis.rd
 c346526092e0db7e9af4e8010d26271f *man/AvBasis.rd
 15e88b76d8824a00f8f46bbf645b9c52 *man/AvBasis.wst.rd
@@ -90,6 +90,7 @@ b412050bc4d79a25094ac150a4adad9f *man/compress.default.rd
 a877aee85061fe030c3079f4a35218cf *man/convert.rd
 c2b1f67c89a99c02e5bda2ddbcb59ca9 *man/convert.wd.rd
 5b591341b1d3b2e50fbbd01b38e53977 *man/convert.wst.rd
+df633fa98c34714dd998a7a98016fa7c *man/cthresh.rd
 abd29604e2326b402b7d4d0198552abb *man/dclaw.rd
 e18c0259aff25b8fa7d73cad93ca19c7 *man/dencvwd.rd
 1bf4e49caa1cc14bed86982023e58112 *man/denplot.rd
@@ -110,7 +111,8 @@ c4293d5e57347e1f071cf379cefa573d *man/draw.wd.rd
 d75b70a30b362897c4436da405265b7f *man/drawwp.default.rd
 4d74b3d083a9a84a079faf3f564ce38a *man/ewspec.rd
 70d19e53b77e20523c152c672df9e976 *man/example.1.rd
-b66ef7e1f3f4f821e85417489417e1b8 *man/filter.select.rd
+cd2530b98a95838f8eedb514079773e9 *man/filter.select.rd
+d226df064980aee16f540f2632db4081 *man/find.parameters.rd
 c728f3547310492f0ccf436b7657e75c *man/first.last.dh.rd
 389c28feae36973ca3126d323fe1301b *man/first.last.rd
 cbf0483782aaf227244043cef359890b *man/firstdot.rd
@@ -141,6 +143,7 @@ ee9df06a416186741fe512de153f55b5 *man/linfnorm.rd
 11da6aa2055ced9c1bcde32d3498cd96 *man/logabs.rd
 e8becbfae0db00f14eecfa057987f602 *man/lt.to.name.rd
 d7ac2f0d2fa4d96dcfb360864448422e *man/madmad.rd
+c131ca9f902f3dc9372c7eb58366c1ae *man/make.dwwt.rd
 d6f73101b19d6399aa538e09fc2d57d1 *man/makegrid.rd
 abec1b082bb6f102b2e0273a81d03cb8 *man/makewpstDO.rd
 bc317ef4c7693d5436c7941186288fdf *man/makewpstRO.rd
@@ -228,6 +231,7 @@ f1c9e02cc6a4650a041eb2cc5b5ad57c *man/summary.wst.rd
 e70a9e8d5519ef5268f054c792480e79 *man/support.rd
 a26a530d2048623ee9b05ed035d3c06a *man/sure.rd
 d74e4f513be2038aa23f14741e7d60c7 *man/teddy.rd
+13f62c72f8e0895cbbb65461bae1ff46 *man/test.dataCT.rd
 4c90169a7bb30d4b55d9b9a46b3cc6e6 *man/threshold.imwd.rd
 dcdecc661067a4dd1c3c6666f55ef638 *man/threshold.imwdc.rd
 9888d0a8c94fdcaf2aee2ed9f1305436 *man/threshold.irregwd.rd
@@ -247,7 +251,7 @@ c55184d6649924185d29d2484acb890f *man/uncompress.imwdc.rd
 1a54c29a534251bce44f4b02a6f5ab36 *man/wd.dh.rd
 38438d163d9cd7212e89f533b83589fa *man/wd.int.rd
 09e8ff400d8cd271ca99acebe166e5a6 *man/wd.object.rd
-43d4940d448fc4203bd69b774c71ebda *man/wd.rd
+36b6238c5d251a2d7e759f5af4fd3834 *man/wd.rd
 faf1e23994c4c9761fa4d507738f754a *man/wd3D.object.rd
 6aac5e79086fab0d9931144c67704ddd *man/wd3D.rd
 c6522b965735c2c29ddbabef464eb68f *man/wp.object.rd
@@ -263,7 +267,7 @@ f151a30bf6171570cd058fb7232e3bf6 *man/wp.rd
 c206063c8089469e1041f8cb1e68f358 *man/wr.wd.rd
 ec41ee4856f172b8c5a286419ba63e44 *man/wr3D.rd
 76b33540cffeff3fb17a619aeba78554 *man/wst.object.rd
-2d9ce2ce224bf20138f525331cf3b162 *man/wst.rd
+30e1375f6897b023b5148059ed71821a *man/wst.rd
 f2d3b42365b61831c8b928b3ca2d6eee *man/wst2D.object.rd
 82c0a1b61471ae5bddf79a0e01da6e33 *man/wst2D.rd
 2a4febcd4ef95d2b3e73b578846606b4 *man/wstCV.rd
@@ -272,4 +276,5 @@ d954d49fecfe366e6d4847a048e95c00 *man/wstCVl.rd
 ab14464534eb79a1be36c3cfa3ce3314 *man/wvmoments.rd
 91f6afc099dd0dda34b0c77e278c4884 *man/wvrelease.rd
 adf0123c2d80f417932b866e901737cf *src/WAVDE.c
+872a1a54416467b1a2542ccfe89f50c8 *src/cthreb.c
 55627914c7d66ff751c24802fba2d8e4 *src/functions.c

@@ -17,7 +17,11 @@ bc="periodic", verbose=FALSE, min.scale=0, precond=TRUE)
 For the ``wavelets on the interval'' (\code{bc="interval"}) transform the filter number ranges from 1 to 8. See the table of filter coefficients indexed after the reference to Cohen, Daubechies and Vial, 1993.}
 \item{family}{specifies the family of wavelets that you want to use. Two popular options are "DaubExPhase" and "DaubLeAsymm" but see the help for \code{\link{filter.select}} for more possibilities.
  
-This argument is ignored for the ``wavelets on the interval'' transform (\code{bc="interval"}).} 
+This argument is ignored for the ``wavelets on the interval'' transform (\code{bc="interval"}).
+
+Note that, as of version 4.6.1 you can use the Lina-Mayrand complex-valued
+wavelets.
+} 
 \item{type}{specifies the type of wavelet transform. This can be "wavelet" (default) in which case the standard DWT is performed (as in previous releases of WaveThresh). If type is "station" then the non-decimated DWT is performed. At present, only periodic boundary conditions can be used with the non-decimated wavelet transform.}
 \item{bc}{specifies the boundary handling. If \code{bc="periodic"} the default, then the function you decompose is assumed to be periodic on it's interval of definition, if \code{bc="symmetric"} then the function beyond its boundaries is assumed to be a symmetric reflection of the function in the boundary. The symmetric option was the implicit default in releases prior to 2.2. If \code{bc=="interval"} then the ``wavelets on the interval algorithm'' due to Cohen, Daubechies and Vial is used. (The \code{WaveThresh} implementation of the ``wavelets on the interval transform'' was coded by Piotr Fryzlewicz, Department of Mathematics, Wroclaw University of Technology, Poland; this code was largely based on code written by Markus Monnerjahn, RHRK, Universitat Kaiserslautern; integration into \code{WaveThresh} by \code{GPN}. See the nice project report by Piotr on this piece of code). }
 \item{verbose}{Controls the printing of "informative" messages whilst the computations progress. Such messages are generally annoying so it is turned off by default.}

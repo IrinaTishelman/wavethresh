@@ -11,3 +11,6 @@
     Changed nlevels to nlevelsWT. This was because nlevels clashed with
 	a function of the same name in another package to do with factor
 	levels.
+
+4.6.1  Merged the contents of the cthresh package into wavethresh. Keeping
+    the two as separate packages was causing big problems.

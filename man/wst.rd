@@ -9,7 +9,11 @@ wst(data, filter.number=10, family="DaubLeAsymm", verbose=FALSE)
 }
 \arguments{
 \item{data}{A vector containing the data you wish to decompose. The length of this vector must be a power of 2.}
-\item{filter.number}{This selects the smoothness of wavelet that you want to use in the decomposition. By default this is 10, the Daubechies least-asymmetric orthonormal compactly supported wavelet with 10 vanishing moments.}
+\item{filter.number}{This selects the smoothness of wavelet that you want to use in the decomposition. By default this is 10, the Daubechies least-asymmetric orthonormal compactly supported wavelet with 10 vanishing moments.
+
+Note: as of version 4.6 you can use the Lina-Mayrand complex-valued
+compactly supported wavelets.
+}
 \item{family}{specifies the family of wavelets that you want to use. The options are "DaubExPhase" and "DaubLeAsymm".}
 \item{verbose}{Controls the printing of "informative" messages whilst the computations progress. Such messages are generally annoying so it is turned off by default.}
 }
