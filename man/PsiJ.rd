@@ -7,7 +7,7 @@ This function computes discrete autocorrelation wavelets.
 The inner products of the discrete autocorrelation wavelets are computed by the routine \code{\link{ipndacw}}. 
 }
 \usage{
-PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH=100000, verbose=FALSE)
+PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH=10^7, verbose=FALSE)
 }
 \arguments{
 \item{J}{Discrete autocorrelation wavelets will be computed for scales -1 up to scale J. This number should be a negative integer.}
@@ -25,6 +25,9 @@ This function computes the discrete autocorrelation wavelets. It does not have a
 This function stores any discrete autocorrelation wavelet sets that it computes. The storage mechanism is not as advanced as that for \code{\link{ipndacw}} and its subsidiary routines \code{\link{rmget}} and \code{\link{firstdot}} but helps a little bit. The \code{\link{Psiname}} function defines the naming convention for objects returned by this function. 
 
 Sometimes it is useful to have the discrete autocorrelation wavelets stored in matrix form. The \code{\link{PsiJmat}} does this. 
+
+Note: intermediate calculations are stored in a user-visible environment called \code{\link{WTEnv}}. Previous versions of wavethresh stored this in the user's default data space (\code{.GlobalEnv}) but wavethresh did not ask permission
+nor notify the user. You can make these objects persist if you wish.
 
 }
 \value{
@@ -79,7 +82,8 @@ PsiJ(-4, filter.number=1, family="DaubExPhase")
 # We shall create up to scale 6, a higher resolution version than last
 # time.
 #
-PsiJ(-6, filter.number=10, family="DaubLeAsymm", OPLENGTH=5000)
+p6 <- PsiJ(-6, filter.number=10, family="DaubLeAsymm", OPLENGTH=5000)
+p6
 ##[[1]]:
 # [1]  3.537571e-07  5.699601e-16 -7.512135e-06 -7.705013e-15  7.662378e-05
 # [6]  5.637163e-14 -5.010016e-04 -2.419432e-13  2.368371e-03  9.976593e-13
@@ -110,12 +114,10 @@ PsiJ(-6, filter.number=10, family="DaubLeAsymm", OPLENGTH=5000)
 # Let's now plot the 6th component (6th scale, this is the finest
 # resolution, all the other scales will be coarser representations)
 #
-# Note that the previous call stores the autocorrelation wavelet
-# in Psi.6.10.DaubLeAsymm.
 #
 # Note that the x-coordinates in the following are non-existant!
 #
-\dontrun{ts.plot(Psi.6.10.DaubExPhase[[6]], xlab = "t",
+\dontrun{ts.plot(p6[[6]], xlab = "t",
  ylab = "Daubechies N=10 least-asymmetric Autocorrelation Wavelet")}
 }
 \keyword{manip}

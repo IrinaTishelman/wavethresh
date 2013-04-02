@@ -4,6 +4,15 @@ function(...)
 wvrelease()
 }
 
+#
+# Create environment for some WaveThresh functions (PsiJ, ipndacw) to store
+# results for reuse. Let efficient than previous versions of WaveThresh
+# but plays more nicely with the R people
+#
+if (!exists("WTEnv", mode="environment"))	{
+	WTEnv <- new.env()
+	}
+
 "LinaMayrand3" <-
 structure(list(S = structure(c(-0.0662912607362388-0.0855811337270078i, 
 -0.0662912607362388+0.0855811337270078i, 0.0352266456251514+0i, 
@@ -1689,7 +1698,7 @@ function(w2d, mincor = 0.69999999999999996)
 "CWCV"<-
 function(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family = 
     "DaubLeAsymm", thresh.type = "soft", tol = 0.01, verbose = 0, plot.it
-     = TRUE, interptype = "normal")
+     = TRUE, interptype = "noise")
 {
 #
 #   Switch on verbosity for function calls if necessary
@@ -2733,7 +2742,7 @@ function(wst, entropy = Shannon.entropy, verbose = FALSE, stopper = FALSE, alg =
 }
 "PsiJ"<-
 function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH
-     = 100000, verbose=FALSE)
+     = 10^7, verbose=FALSE)
 {
     if (verbose==TRUE)
 	    cat("Computing PsiJ\n")
@@ -2747,13 +2756,13 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH
 #
 #   See if matrix already exists. If so, return it
 #
-    if(exists(Psiorig)) {
+    if(exists(Psiorig, envir=WTEnv)) {
 	if (verbose==TRUE)
 		cat("Returning precomputed version\n")
         speed <- proc.time()[1:2] - now
 	if (verbose==TRUE)
 		cat("Took ", sum(speed), " seconds\n")
-        return(get(Psiorig))
+        return(get(Psiorig, envir=WTEnv))
     }
     H <- filter.select(filter.number = filter.number, family = family)$H
     wout <- rep(0, OPLENGTH)
@@ -2781,11 +2790,11 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH
     lj <- c(0, cumsum(2 * answer$rlvec - 1))
     for(j in 1:( - J))
         m[[j]] <- answer$wout[(lj[j] + 1):lj[j + 1]]
-    assign(Psiorig, m, pos = 1)
+    assign(Psiorig, m, envir=WTEnv)
     m
 }
 "PsiJmat"<-
-function(J, filter.number = 10, family = "DaubLeAsymm", OPLENGTH = 100000)
+function(J, filter.number = 10, family = "DaubLeAsymm", OPLENGTH = 10^7)
 {
     J <-  - J
     P <- PsiJ( - J, filter.number = filter.number, family = family, 
@@ -3101,13 +3110,14 @@ function(ynoise, x = 1:length(ynoise), filter.number = 10, family =
     ywd <- wd(ynoise, filter.number = filter.number, family = family, 
         verbose = CallsVerbose)
     univ.threshold <- threshold(ywd, type = thresh.type, return.threshold
-         = TRUE, lev = ll:(nlevelsWT(ywd) - 1), verbose = CallsVerbose)[1]
+         = TRUE, lev = ll:(nlevelsWT(ywd) - 1), verbose = CallsVerbose,
+	policy="universal")[1]
     if(verbose == 1) {
         cat("Universal threshold: ", univ.threshold, "\n")
         cat("Now doing universal threshold reconstruction...")
     }
     yuvtwd <- threshold(ywd, type = thresh.type, lev = ll:(nlevelsWT(ywd) - 1),
-        verbose = CallsVerbose)
+        verbose = CallsVerbose, policy="universal")
     if(verbose == 1)
         cat("done\nNow reconstructing...")
     yuvtwr <- wr(yuvtwd, verbose = CallsVerbose)
@@ -4970,8 +4980,8 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, verbose
             cat("Took ", sum(speed), " seconds\n")
         rmnexists <- rmname(J =  - rm.there, filter.number = 
             filter.number, family = family)
-        tmp <- get(rmnexists)[1:( - J), 1:( - J)]
-        assign(rmnorig, tmp, pos = 1)
+        tmp <- get(rmnexists, envir=WTEnv)[1:( - J), 1:( - J)]
+        assign(rmnorig, tmp, envir=WTEnv)
         return(tmp)
     }
 #
@@ -4982,7 +4992,7 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, verbose
         for(j in (1 + J):(-1)) {
             rmn <- rmname(J = j, filter.number = filter.number, 
                 family = family)
-            if(exists(rmn)) {
+            if(exists(rmn, envir=WTEnv)) {
                 if(verbose == TRUE) {
                   cat("Partial matrix: ", rmn, " exists (")
                   cat(paste(round(100 - (100 * (j * j))/(J * J),
@@ -5003,13 +5013,13 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, verbose
                 if(answer$error != 0)
                   stop(paste("Error code was ", answer$error))
                 m <- matrix(answer$fmat, nrow =  - J)
-                m[1:( - j), 1:( - j)] <- get(rmn)
+                m[1:( - j), 1:( - j)] <- get(rmn, envir=WTEnv)
                 nm <- as.character(-1:J)
                 dimnames(m) <- list(nm, nm)
                 speed <- proc.time()[1:2] - now
                 if(verbose == TRUE)
                   cat("Took ", sum(speed), " seconds\n")
-                assign(rmnorig, m, pos = 1)
+                assign(rmnorig, m, envir=WTEnv)
                 return(m)
             }
         }
@@ -5036,7 +5046,7 @@ function(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, verbose
     m <- matrix(answer$fmat, nrow =  - J)
     nm <- as.character(-1:J)
     dimnames(m) <- list(nm, nm)
-    assign(rmnorig, m, pos= 1)
+    assign(rmnorig, m, envir=WTEnv)
     m
 }
 "irregwd"<-
@@ -7672,10 +7682,7 @@ function(wd.int.obj)
 function(requestJ, filter.number, family)
 {
     ps <- paste("rm.*.", filter.number, ".", family, sep = "")
-    sl <- search()
-    cand <- character(0)
-    for(i in 1:length(sl))
-        cand <- c(cand, objects(name = sl[i], pattern = ps))
+    cand <- objects(envir = WTEnv, pattern = ps)
     if(length(cand) == 0)
         return(NULL)
     cand <- substring(cand, first = 4)
@@ -7733,9 +7740,10 @@ function(noisy, value = 1, filter.number = 10, family = "DaubLeAsymm",
     ssq2 <- ssq(oint, evenwr)   
     #   ts.plot(evenwr, main = paste("Even plot, ssq=", ssq2))
     answd <- wd(noisy, filter.number = filter.number, family = family)
-    return(ssq = (ssq1 + ssq2)/2, df = dof(threshold(answd, policy = 
+    ll <- list(ssq = (ssq1 + ssq2)/2, df = dof(threshold(answd, policy = 
         "manual", value = value, type = thresh.type, lev = ll:(answd$
         nlevels - 1))))
+    return(ll)
 }
 "simchirp"<-
 function(n = 1024)
@@ -10476,7 +10484,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    message("WaveThresh: R wavelet software, release 4.6.1, installed\n")
-    message("Copyright Guy Nason and others 1993-2012\n")
-    message("Note: nlevels has been renamed to nlevelsWT\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.2, installed\n")
+    packageStartupMessage("Copyright Guy Nason and others 1993-2013\n")
+    packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }

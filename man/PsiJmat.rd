@@ -5,7 +5,7 @@
 This function computes discrete autocorrelation wavelets using the \code{\link{PsiJ}} function but it returns the results as a matrix rather than a list object.
 }
 \usage{
-PsiJmat(J, filter.number = 10, family = "DaubLeAsymm", OPLENGTH=1e+05)
+PsiJmat(J, filter.number = 10, family = "DaubLeAsymm", OPLENGTH=10^7)
 }
 \arguments{
 \item{J}{Discrete autocorrelation wavelets will be computed for scales -1 up to scale J. This number should be a negative integer.}

@@ -21,17 +21,18 @@ This function computes the inner product matrix of the discrete non-decimated au
 
 For the Haar wavelet the matrix is computed by using the analytical formulae in the paper by Nason, von Sachs and Kroisandt and is hence very fast and efficient and can be used for large values of -J. 
 
-For other Daubechies compactly supported wavelets the matrix is computed directly by autocorrelating discrete non-decimated wavelets at different scales and then forming the inner products of these. A function that computes the autocorrelation wavelets themselves is \code{\link{PsiJ}}. This \emph{brute force} computation is slow and memory inefficient hence \code{ipndacw} contains a mechanism that stores any inner product matrix that it creates according to a naming scheme defined by the convention defined in \code{\link{rmname}}. The stored matrices are assigned to the current data directory. These stored matrices can be used in future computations by the following automatic procedure: 
+For other Daubechies compactly supported wavelets the matrix is computed directly by autocorrelating discrete non-decimated wavelets at different scales and then forming the inner products of these. A function that computes the autocorrelation wavelets themselves is \code{\link{PsiJ}}. This \emph{brute force} computation is slow and memory inefficient hence \code{ipndacw} contains a mechanism that stores any inner product matrix that it creates according to a naming scheme defined by the convention defined in \code{\link{rmname}}. The stored matrices are assigned to the user-visible environment \code{\link{WTEnv}}.
 
+These stored matrices can be used in future computations by the following automatic procedure: 
 \describe{
-\item{1}{The whole list of functions (returned by the S function \code{search()}) is searched for any previously computed inner product matrices. This search is performed by the \code{\link{rmget}} function.}
+\item{1}{The \code{\link{rmget}} looks to see whether previous computations have been performed that might be useful.}
 \item{2}{If a matrix of higher order is discovered then the appropriate top-left submatrix is returned, otherwise...}
 \item{3}{If the right order of matrix is found it is returned, otherwise ...}
 \item{4}{If a matrix of \emph{smaller} order is found it is used as the top-left submatrix of the answer. The remaining elements to the right of and below the submatrix are computed and then the whole matrix is returned, otherwise...} 
 \item{5}{If none are found then the whole matrix is computed in C and returned.}
 }
- 
 In this way a particular matrix for a given wavelet need only be computed once. 
+
 }
 \value{
 A matrix of order (-J)x(-J) containing the inner product matrix of the discrete non-decimated autocorrelation matrices. 

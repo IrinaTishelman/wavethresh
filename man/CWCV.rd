@@ -7,7 +7,7 @@ Two-fold wavelet shrinkage cross-validation (in C)
 \usage{
 CWCV(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family = 
 	"DaubLeAsymm", thresh.type = "soft", tol = 0.01, verbose = 0, 
-	plot.it = TRUE, interptype = "normal")
+	plot.it = TRUE, interptype = "noise")
 
 }
 \arguments{

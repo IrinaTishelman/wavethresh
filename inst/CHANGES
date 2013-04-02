@@ -14,3 +14,49 @@
 
 4.6.1  Merged the contents of the cthresh package into wavethresh. Keeping
     the two as separate packages was causing big problems.
+
+4.6.2  Minor bugfixes.
+
+	In CWCV...
+
+	Changed the argument "interptype" in "CWCV" to "noise". Sometimes
+	the "normal" argument causes the routine not to terminate.
+
+
+	In WaveletCV...
+
+	Two function calls to "threshold" needed the argument
+	policy="universal" added. This is because they were using
+	the "sure" policy by default and the routine required a
+	universal threshold. Note, people would have probably been
+	using CWCV so this error would not have been noticed much.
+	The bug comes to the fore when one changes the threshold type
+	from the default "soft" to "hard", as SURE thresholding
+	can't be computed with the latter.
+
+	In rsswav...
+
+	Function was returning a multi-argument, which is no longer
+	allowed, changed so that a list is returned.
+
+	In PsiJ and PsiJmati...
+
+	The default value of the OPLENGTH argument has been increased to 10^7
+
+	In PsiJ,ipndacw,rmget...
+
+	Various matrices and objects get stored in an environment (WTEnv)
+	now. So, invocation of one of these functions *the first time*
+	will result in the object being computed from scratch and stored.
+	Repeat invocation will used the stored objects saving computing time.
+	This is different to previous versions of WaveThresh. In previous
+	versions the stored objects got stored in your home R directory
+	(ok .GlobalEnv) without your permission and without your knowledge
+	(unless you looked) - but they were useful. The previous version
+	though did have the advantage that the stored objects persisted across
+	different sessions of R, or could be used if you attached another
+	directory which had the stored objects in. 
+
+	I'd like to see how things go with the current version. If
+	continued recomputing is a pain then let me know and I'll think
+	up some different model.
