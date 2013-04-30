@@ -33,6 +33,8 @@ function(x, tau=1, J, filter.number=10, family="DaubLeAsymm", nT=20)
 
 # call C code!
 
+    error <- 0
+
     ans <- .C("SFDE5",
         x = as.double(x),
         nx = as.integer(length(x)),
@@ -44,7 +46,12 @@ function(x, tau=1, J, filter.number=10, family="DaubLeAsymm", nT=20)
         kmin = as.integer(kmin),
         kmax = as.integer(kmax),
         philh = as.double(sup[1]),
-        phirh = as.double(sup[2]), PACKAGE = "wavethresh")
+        phirh = as.double(sup[2]),
+	error = as.integer(error), PACKAGE = "wavethresh")
+
+    if (ans$error != 0)
+	stop(paste("PLDF2 function returned error code:", ans$error))
+
 
     filter <- list(filter.number=filter.number, family=family)
     res <- list(p=p, tau=tau, J=J)
@@ -89,6 +96,8 @@ function(x, tau=1, J, filter.number=10, family="DaubLeAsymm", nT=20)
 
 # call C code!
 
+    error <- 0
+
     ans <- .C("SFDE6",
         x = as.double(x),
         nx = as.integer(length(x)),
@@ -101,7 +110,12 @@ function(x, tau=1, J, filter.number=10, family="DaubLeAsymm", nT=20)
         kmin = as.integer(kmin),
         kmax = as.integer(kmax),
         philh = as.double(sup[1]),
-        phirh = as.double(sup[2]), PACKAGE = "wavethresh")
+        phirh = as.double(sup[2]),
+	error = as.integer(error), PACKAGE = "wavethresh")
+
+    if (ans$error != 0)
+	stop(paste("PLDF2 function returned error code:", ans$error))
+
 
     filter <- list(filter.number=filter.number, family=family)
     res <- list(p=p, tau=tau, J=J)
@@ -270,6 +284,7 @@ function(wr, coef, nT=20, lims, n=50)
 
 # call C code!
 
+    error <- 0
     ans <- .C("PLDE2",
         C = as.double(wr),
         p = as.double(p),
@@ -282,7 +297,12 @@ function(wr, coef, nT=20, lims, n=50)
         gy = as.double(gy),
         ng = as.integer(n),
         philh = as.double(sup[1]),
-        phirh = as.double(sup[2]), PACKAGE = "wavethresh")
+        phirh = as.double(sup[2]),
+	error = as.integer(error), PACKAGE = "wavethresh")
+
+    if (ans$error != 0)
+	stop(paste("PLDF2 function returned error code:", ans$error))
+
 
     list(x=ans$gx, y=ans$gy)
 }

@@ -46,10 +46,10 @@
 #define max(A, B) ((A) > (B) ? (A) : (B))
 #define min(A, B) ((A) < (B) ? (A) : (B))
 
-/* SFDE5 calculates empirical sclaing function coefficients from data,
+/* SFDE5 calculates empirical scaling function coefficients from data,
  * using the Daubechies-Lagarias algorithm */
 
-void SFDE5(x, nx, p, filter, nf, prec, chat, kmin, kmax, philh, phirh)
+void SFDE5(x, nx, p, filter, nf, prec, chat, kmin, kmax, philh, phirh, error)
 
 double *x;  /* The data                     */
 int *nx;    /* Number of data points                */
@@ -62,15 +62,21 @@ int *kmin;  /* minimum value of k                   */
 int *kmax;     /* maximum value of k                    */
 double *philh;  /* Left hand end of scaling function support        */
 double *phirh;  /* Right hand end of scaling function support       */
+int *error;	/* Error code - mostly out of memory */
 
 {
-    void phi(double y, double *filt, double *out, int *pre, int *n);
+    void phi(double y, double *filt, double *out, int *pre, int *n, int *error);
     register int i, j, k;
     register int min, max;
     register double z;
     double *phix;
 
-    phix = (double *) calloc(*nf, sizeof(double));
+    phix = (double *) calloc(*nf+1, sizeof(double));
+
+    if (phix == NULL)	{
+	    *error = 1;
+	    return;
+    }
 
 /* calculate coefficient estimates */
 
@@ -83,16 +89,20 @@ double *phirh;  /* Right hand end of scaling function support       */
         z = *p * *(x+i);
         min = ceil(z-*phirh);
         max = floor(z-*philh);
-        phi(z, filter, phix, prec, nf);
+        phi(z, filter, phix, prec, nf, error);
+	if (*error != 0)
+		return;
         for (k=min; k <= max; k++)
             *(chat+(k-*kmin)) += sqrt(*p) * *(phix + k - min) / *nx;
     }
+    free((void *)phix);
 }
 
 
 /* As SFDE5, but also calculates covariances of the coefficients */
 
-void SFDE6(x, nx, p, filter, nf, prec, chat, covar, kmin, kmax, philh, phirh)
+void SFDE6(x, nx, p, filter, nf, prec, chat, covar, kmin, kmax, philh, phirh,
+		error)
 
 double *x;  /* The data                     */
 int *nx;    /* Number of data points                */
@@ -106,15 +116,24 @@ int *kmin;  /* minimum value of k                   */
 int *kmax;     /* maximum value of k                    */
 double *philh;  /* Left hand end of scaling function support        */
 double *phirh;  /* Right hand end of scaling function support       */
+int *error;	/* Error code -- mostly out of memory */
 
 {
-    void phi(double y, double *filt, double *out, int *pre, int *n);
+    void phi(double y, double *filt, double *out, int *pre, int *n, int *error);
     register int i, j, k, l;
     register int min, max;
     register double z, phijk, phijl;
     double *phix;
 
-    phix = (double *) calloc(*nf, sizeof(double));
+    *error = 0;
+
+    phix = (double *) calloc(*nf+1, sizeof(double));
+
+    if (phix == NULL)	{
+	    *error = 1;
+	    return;
+    }
+
 
 /* calculate coefficient estimates */
 
@@ -127,7 +146,9 @@ double *phirh;  /* Right hand end of scaling function support       */
         z = *p * *(x+i);
         min = ceil(z-*phirh);
         max = floor(z-*philh);
-        phi(z, filter, phix, prec, nf);
+        phi(z, filter, phix, prec, nf, error);
+	if (*error != 0)
+		return;
         for (k=min; k <= max; k++) {
             phijk = sqrt(*p) * *(phix + k - min);
             *(chat+(k-*kmin)) += phijk / *nx;
@@ -138,13 +159,14 @@ double *phirh;  /* Right hand end of scaling function support       */
             }
         }
     }
+    free((void *)phix);
 }
 
 
 /* Function to get plotting information for density estimate from high
  * level scaling function coefficients */
 
-void PLDE2(C, p, filter, nf, prec, kmin, kmax, gx, gy, ng, philh, phirh)
+void PLDE2(C, p, filter, nf, prec, kmin, kmax, gx, gy, ng, philh, phirh, error)
 
 double *C;      /* High resolution scaling function coefficients        */
 double *p;      /* The primary resolution                               */
@@ -158,15 +180,23 @@ double *gy;     /* Vector to put density values in                      */
 int *ng;       /* Length of above grids                                */
 double *philh;  /* Left hand end of scaling function support            */
 double *phirh;  /* Right hand end of scaling function support           */
+int *error;  /* Error Code */
 
 {
-    void phi(double y, double *filt, double *out, int *pre, int *n);
+    void phi(double y, double *filt, double *out, int *pre, int *n, int *error);
     register int i, j, k;
     register int min, max;
     register double z;
     double *phix;
 
-    phix = (double *) calloc(*nf, sizeof(double));
+    *error = 0;
+
+    phix = (double *) calloc(*nf+1, sizeof(double));
+
+    if (phix == NULL)	{
+	    *error = 1;
+	    return;
+	    }
 
 /* Evaluate density estimate over the grid provided */
 
@@ -181,16 +211,34 @@ double *phirh;  /* Right hand end of scaling function support           */
         max = floor(z-*philh);
         if(min<*kmin)
             min = *kmin;
-        phi(z, filter, phix, prec, nf);
-        for (k=min; k<=max && k<=*kmax; k++)
-            *(gy+i) += *(C+(k-*kmin)) * sqrt(*p) * *(phix + k - min);
+        phi(z, filter, phix, prec, nf, error);
+
+	if (*error != 0)
+		return;
+
+	{
+		double a, b;
+
+        for (k=min; k<=max && k<=*kmax; k++)	{
+	
+	    a = *(C+(k-*kmin));
+
+	    b = *(phix + k - min);
+
+            *(gy+i) += a * sqrt(*p) * b;
+	    }
+
+	}
     }
+    free((void *)phix);
+
+    return;
 }
 
 
 /* Function to evaluate phi_Jk(x) for all k for which it is non-zero */
 
-void phi(double y, double *filt, double *out, int *pre, int *n)
+void phi(double y, double *filt, double *out, int *pre, int *n, int *error)
 
 {
     double T(int index, double *filter, int *n, int j, int k);
@@ -199,8 +247,28 @@ void phi(double y, double *filt, double *out, int *pre, int *n)
     double z, *ans, *tmp;
 
     dix = (int *) calloc(*pre, sizeof(int));
+
+    if (dix == NULL)	{
+	    *error = 2;
+	    return;
+    }
+
     ans = (double *) calloc((*n * *n), sizeof(double));
+
+    if (ans == NULL)	{
+	    free((void *)dix);
+	    *error = 3;
+	    return;
+	    }
+
     tmp = (double *) calloc((*n * *n), sizeof(double));
+
+    if (tmp == NULL)	{
+	    free((void *)dix);
+	    free((void *)ans);
+	    *error = 4;
+	    return;
+	    }
 
     for(i=0; i < *n; i++) {
         for(j = 0; j < *n; j++) {
@@ -237,6 +305,9 @@ void phi(double y, double *filt, double *out, int *pre, int *n)
             *(out + *n - 1 - i) += *AXSMAT(ans, *n, i, j) / *n;
         }
     }
+    free((void *)dix);
+    free((void *)ans);
+    free((void *)tmp);
 }
 
 

@@ -4131,7 +4131,17 @@ double fp;
 if (x < *Fx || x > *(Fx + (int)*lengthF - 1))
     return(0.0);
 
+/*
+ * From VALGRIND check, changed the next line from this
 a = (double)((int)*lengthF - 1) * (x - *Fx)/widthF;
+ *
+ * To this next one immediately after this comment.
+ * This is because if x was equal to the RH end then the ratio would be
+ * one, and then il would be the last element of the array and ir could be
+ * OUTSIDE the array.
+ */
+
+a = (double)((int)*lengthF - 2) * (x - *Fx)/widthF;
 
 /* Now a should always be >= 0, since we've already rejected any
    possible negatives, so we don't have to use floor & ceil here

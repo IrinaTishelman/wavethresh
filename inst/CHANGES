@@ -60,3 +60,10 @@
 	I'd like to see how things go with the current version. If
 	continued recomputing is a pain then let me know and I'll think
 	up some different model.
+
+4.6.3	Make some corrections after running valgrind. See comments in code
+	for details - search on Valgrind
+
+	In function evalF, SFDE6, SFDE5, PLDE2 (these latter functions
+	were also modified to catch and report on failures of memory
+	allocation and also to properly free memory once it had been used). 	
