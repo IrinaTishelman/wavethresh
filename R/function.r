@@ -1698,7 +1698,8 @@ function(w2d, mincor = 0.69999999999999996)
 }
 "CWCV"<-
 function(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family = 
-    "DaubLeAsymm", thresh.type = "soft", tol = 0.01, verbose = 0, plot.it
+    "DaubLeAsymm", thresh.type = "soft", tol = 0.01, maxits=500,
+	verbose = 0, plot.it
      = TRUE, interptype = "noise")
 {
 #
@@ -1781,10 +1782,21 @@ function(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family =
         ll = as.integer(ll),
         nbc = as.integer(nbc),
         tol = as.double(tol),
+	maxits = as.integer(maxits),
         xvthresh = as.double(xvthresh),
         interptype = as.integer(interptype),
         error = as.integer(error), PACKAGE = "wavethresh")
-    if(ans$error != 0) {
+
+    if (ans$error == 1700)	{
+		message("Algorithm not converging (yet).")
+		message("Maybe increase number of maximum iterations (maxits or cvmaxits)?")
+		message("Or increase tolerance (tol or cvtol) a bit?")
+		message("Wanted to achieve tolerance of ", tol,
+			" but have actually achieved: ", ans$tol)
+		message("Check levels you are thresholding, especially if length of data set is small. E.g. if n<=16 then default levels argument probably should be changed.")
+		stop(paste("Maximum number of iterations", maxits, " exceeded."))
+		}
+    else if(ans$error != 0) {
         cat("Error code ", ans$error, "\n")
         stop("There was an error")
     }
@@ -8766,9 +8778,10 @@ function(mwd, levels = 3:(nlevelsWT(mwd)- 1), type = "hard", policy = "universal
 "threshold.wd"<-
 function(wd, levels = 3:(nlevelsWT(wd)- 1), type = "soft", policy = "sure", 
     by.level = FALSE, value = 0, dev = madmad, boundary = FALSE, verbose = FALSE, 
-    return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01, Q = 
+    return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01,
+	cvmaxits=500, Q = 
     0.050000000000000003, OP1alpha = 0.050000000000000003, alpha = 0.5, 
-    beta = 1, C1 = NA, C2 = NA, C1.start = 100, ...)
+    beta = 1, C1 = NA, C2 = NA, C1.start = 100, al.check=TRUE, ...)
 {
     if(verbose == TRUE)
         cat("threshold.wd:\n")
@@ -8809,6 +8822,9 @@ function(wd, levels = 3:(nlevelsWT(wd)- 1), type = "soft", policy = "sure",
         warning("no thresholding done")
         return(wd)
     }
+    if (al.check==TRUE)
+	if (all(sort(levels)==levels)==FALSE)
+		warning("Entries in levels vector are not ascending. Please check this is what you intend. If so, you can turn this warning off with al.check argument")
     d <- NULL
     n <- 2^nlevelsWT(wd)
     nthresh <- length(levels)   #
@@ -9076,8 +9092,8 @@ function(wd, levels = 3:(nlevelsWT(wd)- 1), type = "soft", policy = "sure",
         ynoise <- wr(wd)
         thresh <- CWCV(ynoise = ynoise, x = 1:length(ynoise), 
             filter.number = wd$filter$filter.number, family = wd$
-            filter$family, thresh.type = type, tol = cvtol, verbose
-             = 0, plot.it = FALSE, ll = min(levels))$xvthresh
+            filter$family, thresh.type = type, tol = cvtol, maxits=cvmaxits,
+		verbose = 0, plot.it = FALSE, ll = min(levels))$xvthresh
         thresh <- rep(thresh, length = nthresh)
     }
     else if(policy == "fdr") {
@@ -10485,7 +10501,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.4, installed\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.5, installed\n")
     packageStartupMessage("Copyright Guy Nason and others 1993-2013\n")
     packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }

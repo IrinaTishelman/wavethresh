@@ -7,8 +7,10 @@ This function provides various ways to threshold a \code{\link{wd}} class object
 \usage{
 \method{threshold}{wd}(wd, levels = 3:(nlevelsWT(wd) - 1), type = "soft", policy = "sure",
         by.level = FALSE, value = 0, dev = madmad, boundary = FALSE, verbose = FALSE,
-        return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01, Q = 0.05, OP1alpha = 0.05, 
-        alpha = 0.5, beta = 1, C1 = NA, C2 = NA, C1.start = 100, \dots)
+        return.threshold = FALSE, force.sure = FALSE, cvtol = 0.01,
+	cvmaxits=500, Q = 0.05, OP1alpha = 0.05, 
+        alpha = 0.5, beta = 1, C1 = NA, C2 = NA, C1.start = 100,
+	al.check=TRUE, \dots)
 }
 \arguments{
 \item{wd}{The DWT wavelet decomposition object that you wish to threshold.}
@@ -23,6 +25,7 @@ This function provides various ways to threshold a \code{\link{wd}} class object
 \item{return.threshold}{If this option is TRUE then the actual \emph{value} of the threshold is returned. If this option is FALSE then a thresholded version of the input is returned.}
 \item{force.sure}{If TRUE then the \code{\link{sure}} threshold is computed on a vector even when that vector is very sparse. If FALSE then the normal SUREshrink procedure is followed whereby the universal threshold is used for sparse vectors of coefficients.}
 \item{cvtol}{Parameter for the cross-validation \code{"cv"} policy.}
+\item{cvmaxits}{Maximum number of iterations allowed for the cross-validation \code{"cv"} policy.}
 \item{Q}{Parameter for the false discovery rate \code{"fdr"} policy.}
 \item{OP1alpha}{Parameter for Ogden and Parzen's first "\code{op1}" and \code{"op2"} policies.}
 \item{alpha}{Parameter for BayesThresh \code{"BayesThresh"} policy.}
@@ -30,6 +33,12 @@ This function provides various ways to threshold a \code{\link{wd}} class object
 \item{C1}{Parameter for BayesThresh \code{"BayesThresh"} policy.}
 \item{C2}{Parameter for BayesThresh \code{"BayesThresh"} policy.} 
 \item{C1.start}{Parameter for BayesThresh \code{"BayesThresh"} policy.}
+\item{al.check}{If TRUE then the function checks that the levels are
+	in ascending order. If they are not then this can be an
+	indication that the default level arguments are not appropriate
+	for this data set (\code{wd} object). However, a strange order
+	might be appropriate for some reason if deliberately set, so setting
+	this argument equal to FALSE turns off the check and warning.}
 \item{\dots}{any other arguments}
 }
 \details{
@@ -44,7 +53,15 @@ Some issues to watch for:
 \describe{
 \item{levels}{The default of \code{levels = 3:(wd$nlevelsWT - 1)} for the \code{levels} option most certainly does not work globally for all data problems and situations. The level at which thresholding begins (i.e. the given threshold and finer scale wavelets) is called the \emph{primary resolution} and is unique to a particular problem. In some ways choice of the primary resolution is very similar to choosing the bandwidth in kernel regression albeit on a logarithmic scale. See Hall and Patil, (1995) and Hall and Nason (1997) for more information. For each data problem you need to work out which is the best primary resolution. This can be done by gaining experience at what works best, or using prior knowledge. It is possible to "automatically" choose a "best" primary resolution using cross-validation (but not in WaveThresh). 
 
-Secondly the levels argument computes and applies the threshold at the levels specified in the \code{levels} argument. It does this for all the levels specified. Sometimes, in wavelet shrinkage, the threshold is computed using only the finest scale coefficients (or more precisely the estimate of the overall noise level). If you want your threshold variance estimate only to use the finest scale coefficients (e.g. with universal thresholding) then you will have to apply the \code{threshold.wd} function twice. Once (with levels set equal to \code{\link{nlevelsWT}}(wd)-1 and with \code{return.threshold=TRUE} to return the threshold computed on the finest scale and then apply the threshold function with the manual option supplying the value of the previously computed threshold as the value options.} 
+Secondly the levels argument computes and applies the threshold at the levels specified in the \code{levels} argument. It does this for all the levels specified. Sometimes, in wavelet shrinkage, the threshold is computed using only the finest scale coefficients (or more precisely the estimate of the overall noise level). If you want your threshold variance estimate only to use the finest scale coefficients (e.g. with universal thresholding) then you will have to apply the \code{threshold.wd} function twice. Once (with levels set equal to \code{\link{nlevelsWT}}(wd)-1 and with \code{return.threshold=TRUE} to return the threshold computed on the finest scale and then apply the threshold function with the manual option supplying the value of the previously computed threshold as the value options.
+
+Thirdly, if you apply wavelet shrinkage to a small data set then you need to ensure you've chosen the \code{levels} argument appropriately. For example,
+if your original data was of length 8, then the associated \code{wd}
+wavelet decomposition object will only have levels 0, 1 and 2. So, the default
+argument for levels (starting at 3 and higher) will almost certainly
+be wrong. The code now warns for these situations.
+} 
+
 
 \item{by.level}{for a \code{\link{wd}} object which has come from data with noise that is correlated then you should have a threshold computed for each resolution level. See the paper by Johnstone and Silverman, 1997.} 
 }

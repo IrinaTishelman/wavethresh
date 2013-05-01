@@ -75,7 +75,7 @@ void CWaveletCV(noisy, nnoisy, UniversalThresh,
     C, D, LengthD, H, LengthH,
     levels, firstC, lastC, offsetC,
     firstD, lastD, offsetD,
-    ntt, ll, bc, tol, xvthresh, interptype, error)
+    ntt, ll, bc, tol, maxits, xvthresh, interptype, error)
 double *noisy;
 int *nnoisy;
 double *UniversalThresh;
@@ -90,12 +90,14 @@ int *firstD, *lastD, *offsetD;
 int *ntt;   /* The threshold type                   */
 int *ll;    /* The lowest level to threshold; all levels above too  */
 int *bc;    /* The boundary conditions              */
-double *tol;
+double *tol; /* Tolerance that causes termination of algorithm */ 
+int *maxits; /* Maximum number of iterations permitted in optimization */
 double *xvthresh;
 int *interptype; /* 1=noise interpolated, 2=standard interpolation  */
 int *error; /* There was an error!                  */
 {
 register int verbose=0;
+register int iterations=0;
 double ax, bx,cx;
 double x0, x1, x2, x3;
 /* NOT NEEDED
@@ -185,7 +187,13 @@ if (*error != 0)    {
     return;
     }
 
-while(fabs(x3-x0) > *tol*(fabs(x1) + fabs(x2))) {
+/*
+ *  Next is the MAIN iterative loop.
+ *  As well as checking to see if the solution converges, we need to keep
+ *  an eye on the maximum number of iterations.
+ */
+
+while((fabs(x3-x0) > *tol*(fabs(x1) + fabs(x2))) && iterations++ < *maxits) {
     if (verbose)    {
     Rprintf("x0=%lf, x1=%lf, x2=%lf, x3=%lf\n", x0,x1,x2,x3);
     Rprintf("f1=%lf, f2=%lf\n", f1,f2);
@@ -225,6 +233,20 @@ while(fabs(x3-x0) > *tol*(fabs(x1) + fabs(x2))) {
             }
     }
   }
+
+/*
+ * Check to see if we've exceeded maximum iterations and return error, if so
+ *
+ * Also, return a value in tol that indicates how close to the tolerance
+ * we are. 
+ */
+
+
+if (iterations >= *maxits)	{
+	*error = 1700;
+	*tol = fabs(x3-x0)/(fabs(x1)+fabs(x2));
+	return;
+	}
 
 if (f1 < f2)
     tmp = x1;

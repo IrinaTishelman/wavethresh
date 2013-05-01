@@ -6,7 +6,8 @@ Two-fold wavelet shrinkage cross-validation (in C)
 }
 \usage{
 CWCV(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family = 
-	"DaubLeAsymm", thresh.type = "soft", tol = 0.01, verbose = 0, 
+	"DaubLeAsymm", thresh.type = "soft", tol = 0.01,
+	maxits=500, verbose = 0, 
 	plot.it = TRUE, interptype = "noise")
 
 }
@@ -18,6 +19,7 @@ CWCV(ynoise, ll, x = 1:length(ynoise), filter.number = 10, family =
 \item{family}{specifies the family of wavelets that you want to use. The options are "DaubExPhase" and "DaubLeAsymm".}
 \item{thresh.type }{this option specifies the thresholding type which can be "hard" or "soft".}
 \item{tol}{this specifies the convergence tolerance for the cross-validation optimization routine (a golden section search).}
+\item{maxits}{maximum number of iterations for the cross-validation optimization routine (a golden section search).}
 \item{verbose}{Controls the printing of "informative" messages whilst the computations progress. Such messages are generally annoying so it is turned off by default}
 \item{plot.it}{If this is TRUE then plots of the universal threshold (used to obtain an upper bound on the cross-validation threshold) reconstruction and the resulting cross-validation estimate are produced.}
 \item{interptype}{Can take two values noise or normal. This option controls how cross-validation compares the estimate formed by leaving out the data with the "left-out" data. If interptype="noise" then two noisy values are averaged to compare with the estimated curve in between, otherwise if interptype="normal" then the curve estimate is averaged either side of a noisy left-out point.}

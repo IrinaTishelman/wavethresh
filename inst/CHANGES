@@ -72,3 +72,12 @@
 	Littlewood-Paley wavelet have been changed so that they
 	sum to \sqrt(2) and their sum of squares is 1. This is to bring
 	them in line with the Daubechies compactly supported wavelets
+
+4.6.5	Changed CWaveletCV to count the number of iterations in the
+	main iterative process (using the counter iterations) and to
+	check that it is always less than the supplied argument
+	maxits. This is so that calls to this routine (e.g. from the
+	much used threshold.wd using the "cv" policy do not run on without
+	limit). The R code CWCV and threshold.wd have also been changed
+	to take account of new maxits and cvmaxits arguments and associated
+	help pages changed.

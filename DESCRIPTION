@@ -1,7 +1,7 @@
 Package: wavethresh
 Type: Package
 Title: Wavelets statistics and transforms.
-Version: 4.6.4
+Version: 4.6.5
 Date: 2013-05-01
 Author: Guy Nason <G.P.Nason@Bristol.ac.uk>
 Maintainer: Guy Nason <G.P.Nason@bristol.ac.uk>
@@ -14,7 +14,7 @@ Description: Performs 1, 2 and 3D real and complex-valued wavelet
         time series, nonstationary multiscale transfer function
         modeling, density estimation.
 License: GPL (>= 2)
-Packaged: 2013-05-01 12:09:16 UTC; magpn
+Packaged: 2013-05-29 10:34:26 UTC; magpn
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2013-05-02 13:55:25
+Date/Publication: 2013-05-29 13:51:37
