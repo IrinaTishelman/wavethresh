@@ -67,3 +67,8 @@
 	In function evalF, SFDE6, SFDE5, PLDE2 (these latter functions
 	were also modified to catch and report on failures of memory
 	allocation and also to properly free memory once it had been used). 	
+
+4.6.4	The h_n quadrature mirror file coefficients for the (little-used)
+	Littlewood-Paley wavelet have been changed so that they
+	sum to \sqrt(2) and their sum of squares is 1. This is to bring
+	them in line with the Daubechies compactly supported wavelets

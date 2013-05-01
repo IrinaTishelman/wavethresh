@@ -10,9 +10,11 @@ filter.select(filter.number, family="DaubLeAsymm", constant=1)
 }
 \arguments{
 \item{filter.number}{This selects the desired filter, an integer that takes a value dependent upon the family that you select.
-For the complex-valued wavelets in the Lina-Mayrand family, the filter number takes the form x.y where x is the number of vanishing moments (3, 4, or 5) and y is the solution number (1 for x = 3 or 4 vanishing moments; 1, 2, 3, or 4 for x = 5 vanishing moments).} 
+For the complex-valued wavelets in the Lina-Mayrand family, the filter number takes the form x.y where x is the number of vanishing moments (3, 4, or 5) and y is the solution number (1 for x = 3 or 4 vanishing moments; 1, 2, 3, or 4 for x = 5 vanishing moments). Note: this argument has a different meaning
+for Littlewood-Paley wavelets, see the note below in the Details section.}
+
 \item{family}{
-This selects the basic family that the wavelet comes from. The choices are \bold{DaubExPhase} for Daubechies' extremal phase wavelets, \bold{DaubLeAsymm} for Daubechies' ``least-asymmetric'' wavelets, \bold{Lawton} for Lawton's complex-valued wavelets (equivalent to Lina-Mayrand 3.1 wavelets), \bold{LittlewoodPaley} for a bad approximation to Littlewood-Paley wavelets, or \bold{LinaMayrand} for the Lina-Mayrand family of complex-valued Daubechies' wavelets.}
+This selects the basic family that the wavelet comes from. The choices are \bold{DaubExPhase} for Daubechies' extremal phase wavelets, \bold{DaubLeAsymm} for Daubechies' ``least-asymmetric'' wavelets, \bold{Lawton} for Lawton's complex-valued wavelets (equivalent to Lina-Mayrand 3.1 wavelets), \bold{LittlewoodPaley} for a approximation to Littlewood-Paley wavelets, or \bold{LinaMayrand} for the Lina-Mayrand family of complex-valued Daubechies' wavelets.}
 \item{constant}{This constant is applied as a multiplier to all the coefficients. It can be a vector, and so you can adapt the filter coefficients to be whatever you want. (This is feature of negative utility, or ``there is less to this than meets the eye'' as my old PhD supervisor would say [GPN]).} 
 }
 \details{
@@ -21,6 +23,28 @@ This function contains at least three types of filter. Two types can be selected
 With family equal to ``LinaMayrand'', the function returns complex-valued Daubechies wavelets. For odd numbers of vanishing moments, there are symmetric complex-valued wavelets i this family, and for five or more vanishing moments there are multiple distinct complex-valued wavelets, distinguished by their (arbitrary) solution number. At present, Lina-Mayrand wavelets 3.1, 4.1, 5.1, 5.2, 5.3, and 5.4 are available in WaveThresh.
 
 Setting family equal to ``Lawton'' chooses complex-valued wavelets. The only wavelet available is the one with ``filter.number'' equal to 3. 
+
+With family equal to ``LittlewoodPaley'' the Littlewood-Paley wavelet
+is used. The scaling function is also the same as (or at least proportional
+to, depending on your normalization) that of the Shannon scaling
+function, so its an approximation to the Shannon wavelet transform.
+The ``filter.number'' argument has a special meaning for the Littlewood-Paley
+wavelets: it does not represent vanishing moments here. Instead, it
+controls the number of filter taps in the quadrature mirror filter:
+typically longer values are better, up to the length of the series.
+Increasing it higher than the length of the series does not usually have
+much effect. Note: extreme caution should be taken with the
+Littlewood-Paley wavelet. This implementation is pure time-domain and
+as such can only be thought of as an approximation to a complete
+Shannon/LP implementation. For example, in actuality the wavelets
+are NOT finite impluse response filters like with Daubechies wavelets.
+This means that it is possible for an infinite number of Littlewood Paley
+wavelet coefficients to be nonzero. However, computers can not store
+an infinite number of coefficients and some will be lost. This is most
+noticeable with functions with discontinuities and other homogeneities
+but it can also happen with some smooth functions. A way to check how "bad"
+is can be is to transform your desired function followed immediately by
+the inverse transform and compare the original with the resultant sequence.
 
 The function \code{\link{compare.filters}} can be used to compare two filters. 
 

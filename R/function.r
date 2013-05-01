@@ -837,7 +837,8 @@ function(filter.number, family = "DaubLeAsymm", constant = 1)
 				return(c(rev(pin2), 1, pin2))
 			}
 		}
-		H <- hn(filter.number)
+		# Next line changed in 4.6.4: added division by sqrt(2)
+		H <- hn(filter.number)/sqrt(2)
 		filter.name <- paste("Littlewood-Paley, N=", filter.number)
 	}
 	else if(family == "Yates") {
@@ -10484,7 +10485,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.3, installed\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.4, installed\n")
     packageStartupMessage("Copyright Guy Nason and others 1993-2013\n")
     packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }

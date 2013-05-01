@@ -1,8 +1,8 @@
-1d701ea5b74731e0a833de70a895b9cd *DESCRIPTION
+3d2ef4904fc3839c63926ae6f5ae5e8d *DESCRIPTION
 694b7419038b10a8c10b6226008d6a9f *NAMESPACE
 d4322104e0c067fb69236236f23ce2fb *R/LSWsim.r
 1dbbada142cde04b1190afd6f4735b0e *R/NSextra.r
-dc0183242aea192c32123a0f969b50be *R/function.r
+33f4922c133da7a8e2dee1c62b45d928 *R/function.r
 70b1c61134d713938bb15f3ac20eb13a *R/wavde.r
 8c5fdba4e1e58b2ebd9ab4258b5b7617 *data/BabyECG.rda
 fe9024fed6007ec9831601f6cc90d363 *data/BabySS.rda
@@ -10,7 +10,7 @@ cde124da9614b7c373609ddf03107a17 *data/datalist
 2ae1e06329ec665260606abc26e2737e *data/ipd.rda
 ad576bc3fc90149d01caa06803f2250e *data/lennon.rda
 23e7e30e9b534775a1f4c9140effb9f1 *data/teddy.rda
-12e920804b5c45ddb457a0b7252bef39 *inst/CHANGES
+14f4cf5fca058a815933f4138769b495 *inst/CHANGES
 7eec463ea698e64bcaae88ed1385950c *man/AutoBasis.rd
 c346526092e0db7e9af4e8010d26271f *man/AvBasis.rd
 15e88b76d8824a00f8f46bbf645b9c52 *man/AvBasis.wst.rd
@@ -112,7 +112,7 @@ c4293d5e57347e1f071cf379cefa573d *man/draw.wd.rd
 d75b70a30b362897c4436da405265b7f *man/drawwp.default.rd
 4d74b3d083a9a84a079faf3f564ce38a *man/ewspec.rd
 70d19e53b77e20523c152c672df9e976 *man/example.1.rd
-cd2530b98a95838f8eedb514079773e9 *man/filter.select.rd
+05acc5cfd585a00e2d6ff9eeff5227d9 *man/filter.select.rd
 d226df064980aee16f540f2632db4081 *man/find.parameters.rd
 c728f3547310492f0ccf436b7657e75c *man/first.last.dh.rd
 389c28feae36973ca3126d323fe1301b *man/first.last.rd
