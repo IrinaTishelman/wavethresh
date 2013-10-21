@@ -67,7 +67,8 @@ Alist is returned with four components describing the filter:
 \code{\link{wd}}, \code{\link{wr}}, \code{\link{wr.wd}}, \code{\link{accessC}}, \code{\link{accessD}}, \code{\link{compare.filters}}, \code{\link{imwd}}, \code{\link{imwr}}, \code{\link{threshold}}, \code{\link{draw}}. 
 }
 \examples{
-#This function is usually called by others. However, on occasion you may wish to look at the coefficients themselves.
+#This function is usually called by others.
+#However, on occasion you may wish to look at the coefficients themselves.
 
 #
 # look at the filter coefficients for N=4 (by default Daubechies'

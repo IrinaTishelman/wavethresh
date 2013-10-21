@@ -6424,7 +6424,7 @@ function(x, first.level = 1, main = "Wavelet Decomposition Coefficients",
         xlab = xlab, ylab = ylab, main = main, yaxt = "n", xaxt = "n", 
         sub=sub, ...)
     axis(1, at = seq(0, mx, length = 5), labels = xlabs)
-    axis(2, at = 1:(nlevels), labels = (nlevels(x)- 1):first.level)
+    axis(2, at = 1:(nlevels), labels = (nlevelsWT(x)- 1):first.level)
     delta <- 1
     npsi <- x$filter$npsi
     ndecim <- x$filter$ndecim
@@ -10501,7 +10501,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.5, installed\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.6, installed\n")
     packageStartupMessage("Copyright Guy Nason and others 1993-2013\n")
     packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }

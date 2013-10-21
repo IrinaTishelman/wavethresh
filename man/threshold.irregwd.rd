@@ -4,9 +4,11 @@
 \description{
 This function provides various ways to threshold a \code{\link{irregwd}} class object. 
 }
-\usage{\method{threshold}{irregwd}(irregwd, levels = 3:(nlevelsWT(wd) - 1), type = "hard",
-	policy = "universal", by.level = FALSE, value = 0, dev = var, boundary = FALSE, verbose = FALSE, return.threshold = FALSE, 
-	force.sure=FALSE, cvtol = 0.01, Q = 0.05, alpha=0.05, \dots)
+\usage{\method{threshold}{irregwd}(irregwd,
+    levels = 3:(nlevelsWT(wd) - 1), type = "hard", policy = "universal",
+    by.level = FALSE, value = 0, dev = var, boundary = FALSE,
+    verbose = FALSE, return.threshold = FALSE, 
+    force.sure=FALSE, cvtol = 0.01, Q = 0.05, alpha=0.05, \dots)
 }
 \arguments{
 \item{irregwd}{The irregularly spaced wavelet decomposition object that you wish to threshold.}

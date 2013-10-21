@@ -4,7 +4,9 @@
 Calculate variances of wavlet coefficients of a p.d.f.
 }
 \usage{
-dencvwd(hrproj, filter.number=hrproj$filter$filter.number, family=hrproj$filter$family, type="wavelet", bc="zero", firstk=hrproj$klim, RetFather=TRUE, verbose=FALSE)
+dencvwd(hrproj, filter.number=hrproj$filter$filter.number,
+    family=hrproj$filter$family, type="wavelet", bc="zero",
+    firstk=hrproj$klim, RetFather=TRUE, verbose=FALSE)
 }
 \arguments{
 \item{hrproj}{Output from \code{\link{denproj}} with \code{covar=T} argument.}

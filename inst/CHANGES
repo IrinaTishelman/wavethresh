@@ -81,3 +81,9 @@
 	limit). The R code CWCV and threshold.wd have also been changed
 	to take account of new maxits and cvmaxits arguments and associated
 	help pages changed.
+
+4.6.6	Bugfix in plot.mwd found by Sebastian Muller. This was caused
+	by a reference to nlevels() which is not a WaveThresh function
+	anymore (its name got changed to nlevelsWT() in version 4.6)
+	This call was accidentally left over. 
+	Also took opportunity to bring the DESCRIPTION file up to date.

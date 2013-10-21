@@ -16,7 +16,8 @@ perform any regression, in contrast to the related \code{\link{makewpstDO}}
 but returns a data frame which the user can use to build their own models.
 }
 \usage{
-makewpstRO(timeseries, response, filter.number = 10, family = "DaubExPhase", trans = logabs, percentage = 10)
+makewpstRO(timeseries, response, filter.number = 10,
+    family = "DaubExPhase", trans = logabs, percentage = 10)
 }
 \arguments{
   \item{timeseries}{
@@ -241,7 +242,8 @@ anova(Babe.lm4)
 #
 \dontrun{oldpar <- par(mfrow=c(2,2))}
 \dontrun{z <- rep(0, 256)}
-\dontrun{zwp <- wp(z, filter.number=BabeModel$filter$filter.number, family=BabeModel$filter$family)}
+\dontrun{zwp <- wp(z, filter.number=BabeModel$filter$filter.number,
+    family=BabeModel$filter$family)}
 \dontrun{draw(zwp, level=BabeModel$level[1], index=BabeModel$pktix[1], main="", sub="")}
 \dontrun{draw(zwp, level=BabeModel$level[2], index=BabeModel$pktix[2], main="", sub="")}
 \dontrun{draw(zwp, level=BabeModel$level[3], index=BabeModel$pktix[3], main="", sub="")}

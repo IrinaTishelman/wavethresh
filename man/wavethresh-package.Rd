@@ -16,8 +16,8 @@
 \tabular{ll}{
 Package: \tab wavethresh \cr
 Type: \tab Package\cr
-Version: \tab 4.6\cr
-Date: \tab 2012-10-29\cr
+Version: \tab 4.6.6\cr
+Date: \tab 2013-10-21\cr
 License: \tab GPL (>=2)\cr
 }
 }

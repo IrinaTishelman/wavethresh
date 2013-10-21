@@ -7,7 +7,8 @@ This function computes discrete autocorrelation wavelets.
 The inner products of the discrete autocorrelation wavelets are computed by the routine \code{\link{ipndacw}}. 
 }
 \usage{
-PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100, OPLENGTH=10^7, verbose=FALSE)
+PsiJ(J, filter.number = 10, family = "DaubLeAsymm", tol = 1e-100,
+    OPLENGTH=10^7, verbose=FALSE)
 }
 \arguments{
 \item{J}{Discrete autocorrelation wavelets will be computed for scales -1 up to scale J. This number should be a negative integer.}

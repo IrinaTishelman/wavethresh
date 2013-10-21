@@ -1,8 +1,8 @@
-f91f58a020acab26768a932ba72dfe31 *DESCRIPTION
+804f29c85d57f5b0a38e2955745a41f9 *DESCRIPTION
 694b7419038b10a8c10b6226008d6a9f *NAMESPACE
 d4322104e0c067fb69236236f23ce2fb *R/LSWsim.r
 1dbbada142cde04b1190afd6f4735b0e *R/NSextra.r
-0803b275ebd124e40da6b210fb40435d *R/function.r
+93ea7de56caf25203ba06647bd2c5415 *R/function.r
 70b1c61134d713938bb15f3ac20eb13a *R/wavde.r
 8c5fdba4e1e58b2ebd9ab4258b5b7617 *data/BabyECG.rda
 fe9024fed6007ec9831601f6cc90d363 *data/BabySS.rda
@@ -10,7 +10,7 @@ cde124da9614b7c373609ddf03107a17 *data/datalist
 2ae1e06329ec665260606abc26e2737e *data/ipd.rda
 ad576bc3fc90149d01caa06803f2250e *data/lennon.rda
 23e7e30e9b534775a1f4c9140effb9f1 *data/teddy.rda
-f08cef31d0348787f4df2340c90b8d1a *inst/CHANGES
+41a65413cdcde142f75407d9d40512a7 *inst/CHANGES
 7eec463ea698e64bcaae88ed1385950c *man/AutoBasis.rd
 c346526092e0db7e9af4e8010d26271f *man/AvBasis.rd
 15e88b76d8824a00f8f46bbf645b9c52 *man/AvBasis.wst.rd
@@ -48,7 +48,7 @@ cb50c352c4ba1eb15dcf0f75682eca5e *man/LocalSpec.wd.rd
 596c8dbe48458dd74e9745e4e405c699 *man/MaNoVe.rd
 ecc94b34fcc6c90f6f20e760fca33db9 *man/MaNoVe.wp.rd
 95f76a6958b7a812788741d407f47279 *man/MaNoVe.wst.rd
-93e2fd66125ba22daeaabe6287a50416 *man/PsiJ.rd
+3644eee4a69da429e8c34174e4f5e48c *man/PsiJ.rd
 292d4225e20ce12d60de2deb8dc150af *man/PsiJmat.rd
 afbb55fae9733eab0db543ec746fe9b1 *man/Psiname.rd
 5c2483272b11eabe3e602ff749dfe72e *man/ScalingFunction.rd
@@ -93,11 +93,11 @@ c2b1f67c89a99c02e5bda2ddbcb59ca9 *man/convert.wd.rd
 5b591341b1d3b2e50fbbd01b38e53977 *man/convert.wst.rd
 df633fa98c34714dd998a7a98016fa7c *man/cthresh.rd
 abd29604e2326b402b7d4d0198552abb *man/dclaw.rd
-e18c0259aff25b8fa7d73cad93ca19c7 *man/dencvwd.rd
+581c3b457157255755fed170ce852dab *man/dencvwd.rd
 1bf4e49caa1cc14bed86982023e58112 *man/denplot.rd
 055936b36ceefc606f38eaf39a8b7128 *man/denproj.rd
 0b16b72c9834c997b3948c9b85b19220 *man/denwd.rd
-b9ed4acb184285dfdd5c797a39b1acf2 *man/denwr.rd
+fb17059b80dc7679ec042a61e6d3b22d *man/denwr.rd
 b6bca98e90ce135269d607db52ba27a0 *man/dof.rd
 a673ef6c2e82e1474ab6f03311c46675 *man/doppler.rd
 f3dfc0a0583717caaec6e5c013eabfc1 *man/draw.default.rd
@@ -110,9 +110,9 @@ c4293d5e57347e1f071cf379cefa573d *man/draw.wd.rd
 7cafcd679d626391d743b0fe09407788 *man/draw.wst.rd
 072d7f4ff674edf213039e902d1524da *man/drawbox.rd
 d75b70a30b362897c4436da405265b7f *man/drawwp.default.rd
-4d74b3d083a9a84a079faf3f564ce38a *man/ewspec.rd
+7fbb649a852b96d14afa35466e4ece5a *man/ewspec.rd
 70d19e53b77e20523c152c672df9e976 *man/example.1.rd
-05acc5cfd585a00e2d6ff9eeff5227d9 *man/filter.select.rd
+423405ae92b57ce57520caadb4cb7d42 *man/filter.select.rd
 d226df064980aee16f540f2632db4081 *man/find.parameters.rd
 c728f3547310492f0ccf436b7657e75c *man/first.last.dh.rd
 389c28feae36973ca3126d323fe1301b *man/first.last.rd
@@ -147,7 +147,7 @@ d7ac2f0d2fa4d96dcfb360864448422e *man/madmad.rd
 c131ca9f902f3dc9372c7eb58366c1ae *man/make.dwwt.rd
 d6f73101b19d6399aa538e09fc2d57d1 *man/makegrid.rd
 abec1b082bb6f102b2e0273a81d03cb8 *man/makewpstDO.rd
-bc317ef4c7693d5436c7941186288fdf *man/makewpstRO.rd
+d9f7720bf016a6a4460a5085bf23401e *man/makewpstRO.rd
 2aba9fb2e9cece4d7c35ab75c48b5b38 *man/mfilter.select.rd
 c246a843f6a941615c6a8152fae84362 *man/mfirst.last.rd
 5d56b8696e2d85c724649932f94a221c *man/modernise.rd
@@ -235,7 +235,7 @@ d74e4f513be2038aa23f14741e7d60c7 *man/teddy.rd
 13f62c72f8e0895cbbb65461bae1ff46 *man/test.dataCT.rd
 4c90169a7bb30d4b55d9b9a46b3cc6e6 *man/threshold.imwd.rd
 dcdecc661067a4dd1c3c6666f55ef638 *man/threshold.imwdc.rd
-9888d0a8c94fdcaf2aee2ed9f1305436 *man/threshold.irregwd.rd
+c18ba4cbe0dcb89acad157ad4f924fa1 *man/threshold.irregwd.rd
 46749478ae2bd4becd589939500501e3 *man/threshold.mwd.rd
 a2c872595d138ffa1f0c806bf7e46f0a *man/threshold.rd
 5b44e6605b07b0d0c6ae1ae4bb3b5e08 *man/threshold.wd.rd
@@ -245,10 +245,10 @@ aceda5408563cd853ee8761ff9d2a94f *man/threshold.wp.rd
 75ef6f53b32ced439c775b7b115b5243 *man/tpwd.rd
 8fdbab0ec27e436c0b941287c31be4b0 *man/tpwr.rd
 0496dc711f59916f18693c3b90e73a63 *man/uncompress.default.rd
-c55184d6649924185d29d2484acb890f *man/uncompress.imwdc.rd
+b41874533ae7b27e6c862a5f21af1b72 *man/uncompress.imwdc.rd
 724d037aef76d70432dc29ffab1675a1 *man/uncompress.rd
 4847e69ed6259d72f612799e6e7cfc74 *man/wavegrow.rd
-752a4d4c8f3ce4394de428d8786283b5 *man/wavethresh-package.Rd
+344e32b29eceab4bda65540f8821bd12 *man/wavethresh-package.Rd
 1a54c29a534251bce44f4b02a6f5ab36 *man/wd.dh.rd
 38438d163d9cd7212e89f533b83589fa *man/wd.int.rd
 09e8ff400d8cd271ca99acebe166e5a6 *man/wd.object.rd

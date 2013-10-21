@@ -2,7 +2,9 @@
 \alias{denwr}
 \title{Wavelet reconstruction for density estimation.  }
 \usage{
-denwr(wd, start.level=0, verbose=FALSE, bc=wd$bc, return.object=FALSE, filter.number=wd$filter$filter.number, family=wd$filter$family)
+denwr(wd, start.level=0, verbose=FALSE, bc=wd$bc,
+    return.object=FALSE, filter.number=wd$filter$filter.number,
+    family=wd$filter$family)
 }
 \arguments{
 \item{wd}{Wavelet decomposition object to reconstruct}
