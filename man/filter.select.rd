@@ -14,11 +14,17 @@ For the complex-valued wavelets in the Lina-Mayrand family, the filter number ta
 for Littlewood-Paley wavelets, see the note below in the Details section.}
 
 \item{family}{
-This selects the basic family that the wavelet comes from. The choices are \bold{DaubExPhase} for Daubechies' extremal phase wavelets, \bold{DaubLeAsymm} for Daubechies' ``least-asymmetric'' wavelets, \bold{Lawton} for Lawton's complex-valued wavelets (equivalent to Lina-Mayrand 3.1 wavelets), \bold{LittlewoodPaley} for a approximation to Littlewood-Paley wavelets, or \bold{LinaMayrand} for the Lina-Mayrand family of complex-valued Daubechies' wavelets.}
+This selects the basic family that the wavelet comes from. The choices are \bold{DaubExPhase} for Daubechies' extremal phase wavelets, \bold{DaubLeAsymm} for Daubechies' ``least-asymmetric'' wavelets,
+\bold{Coiflets} for Coiflets,
+\bold{Lawton} for Lawton's complex-valued wavelets (equivalent to Lina-Mayrand 3.1 wavelets), \bold{LittlewoodPaley} for a approximation to Littlewood-Paley wavelets, or \bold{LinaMayrand} for the Lina-Mayrand family of complex-valued Daubechies' wavelets.}
 \item{constant}{This constant is applied as a multiplier to all the coefficients. It can be a vector, and so you can adapt the filter coefficients to be whatever you want. (This is feature of negative utility, or ``there is less to this than meets the eye'' as my old PhD supervisor would say [GPN]).} 
 }
 \details{
 This function contains at least three types of filter. Two types can be selected with family set to DaubExPhase, these wavelets are the Haar wavelet (selected by filter.number=1 within this family) and Daubechies ``extremal phase'' wavelets selected by filter.numbers ranging from 2 to 10). Setting family to DaubLeAsymm gives you Daubechies least asymmetric wavelets, but here the filter number ranges from 4 to 10. For Daubechies wavelets, filter.number corresponds to the N of that paper, the wavelets become more regular as the filter.number increases, but they are all of compact support. 
+
+With family equal to ``Coiflets'' the function supports
+filter numbers ranging from 1 to 5. Coiflets are wavelets where the
+scaling function also has vanishing moments.
 
 With family equal to ``LinaMayrand'', the function returns complex-valued Daubechies wavelets. For odd numbers of vanishing moments, there are symmetric complex-valued wavelets i this family, and for five or more vanishing moments there are multiple distinct complex-valued wavelets, distinguished by their (arbitrary) solution number. At present, Lina-Mayrand wavelets 3.1, 4.1, 5.1, 5.2, 5.3, and 5.4 are available in WaveThresh.
 

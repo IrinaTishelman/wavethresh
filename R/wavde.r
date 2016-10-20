@@ -634,18 +634,7 @@ function(wd, xlabvals, xlabchars, ylabchars, first.level=0,
             }
             else axx <- c(0, 2^(levels - 2), 2^(levels - 1),
                 2^(levels - 1) + 2^(levels - 2), 2^levels)
-            if(is.null(tsp(wd)))
-                axis(1, at = axx)
-            else {
-                v <- seq(from=tsp(wd)["start"], by=tsp(wd)["deltat"],
-                    length=n)
-                if(type == "wavelet")
-                    atl <- 2 * v
-                else atl <- v
-                atl <- pretty(atl, n = 4)
-                ats <- (n * atl)/(max(atl) - min(atl))
-                axis(1, at = ats, labels = atl)
-            }
+            axis(1, at = axx)
         }
         else {
             lx <- pretty(xlabvals, n = 4)
@@ -783,9 +772,6 @@ function(data, filter.number = 10, family = "DaubLeAsymm",
     if(bc=="zero")
         nlevels <- nrow(fl.dbase$first.last.d)
 
-# Save time series attribute if there is one
-    dtsp <- tsp(data)
-
 # Put in the data
     C <- rep(0, fl.dbase$ntotal)
     C[1:DataLength] <- data
@@ -837,7 +823,5 @@ function(data, filter.number = 10, family = "DaubLeAsymm",
             filter = filter, type = type, bc = bc, date = date())
     }
     class(l) <- "wd"
-    if(!is.null(dtsp))
-        tsp(l) <- dtsp
-    l
+    return(l)
 }

@@ -1,3 +1,4 @@
+import(MASS)
 export(cthresh,find.parameters,test.dataCT,filter.select,make.dwwt)
 export(accessc,accessC,accessC.mwd,accessC.wd,accessC.wp,accessC.wst)
 export(accessD,accessD.mwd,accessD.wd,accessD.wd3D,accessD.wp,accessD.wpst,accessD.wst)
@@ -111,6 +112,7 @@ S3method(nullevels, imwd)
 S3method(nullevels, wd)
 S3method(nullevels, wst)
 S3method(plot, imwd)
+S3method(plot, imwdc)
 S3method(plot, irregwd)
 S3method(plot, mwd)
 S3method(plot, nvwp)
@@ -166,5 +168,16 @@ S3method(threshold, wp)
 S3method(threshold, wst)
 S3method(uncompress, default)
 S3method(uncompress, imwdc)
+S3method(Whistory, wst)
+S3method(wr, int)
 S3method(wr, mwd)
 S3method(wr, wd)
+importFrom("grDevices", "dev.list", "dev.set")
+importFrom("graphics", "axis", "image", "lines", "locator", "matplot",
+             "par", "persp", "plot", "polygon", "segments", "text",
+             "title")
+importFrom("stats", "approx", "cor", "dnorm", "fft", "integrate",
+             "mad", "median", "nlminb", "optim", "optimize", "pchisq",
+             "pnorm", "predict", "qnorm", "quantile", "rnorm", "runif",
+             "spectrum", "ts.plot", "var")
+importFrom("utils", "object.size")

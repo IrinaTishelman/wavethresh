@@ -774,6 +774,127 @@ function(filter.number, family = "DaubLeAsymm", constant = 1)
 				)
 		}
 	}
+	else if (family == "Coiflets") {
+       family <- "Coiflets"
+       if (filter.number == 1) {
+           H <- rep(0, 6)
+           H[1] <- -0.051429728471
+           H[2] <- 0.238929728471
+           H[3] <- 0.602859456942
+           H[4] <- 0.272140543058
+           H[5] <- -0.051429972847
+           H[6] <- -0.011070271529
+           filter.name <- c("Coiflets N=1")
+           H <- H * sqrt(2)
+       }
+       else if (filter.number == 2) {
+           H <- rep(0, 12)
+           H[1] <- 0.0115876
+           H[2] <- -0.02932014
+           H[3] <- -0.04763959
+           H[4] <- 0.273021
+           H[5] <- 0.5746824
+           H[6] <- 0.2948672
+           H[7] <- -0.05408561
+           H[8] <- -0.04202648
+           H[9] <- 0.01674441
+           H[10] <- 0.003967884
+           H[11] <- -0.001289203
+           H[12] <- -0.0005095054
+           filter.name <- c("Coiflets N=2")
+           H <- H * sqrt(2)
+       }
+       else if (filter.number == 3) {
+           H <- rep(0, 18)
+           H[1] <- -0.002682419
+           H[2] <- 0.005503127
+           H[3] <- 0.01658356
+           H[4] <- -0.04650776
+           H[5] <- -0.04322076
+           H[6] <- 0.2865033
+           H[7] <- 0.5612853
+           H[8] <- 0.3029836
+           H[9] <- -0.05077014
+           H[10] <- -0.05819625
+           H[11] <- 0.02443409
+           H[12] <- 0.01122924
+           H[13] <- -0.006369601
+           H[14] <- -0.001820459
+           H[15] <- 0.0007902051
+           H[16] <- 0.0003296652
+           H[17] <- -5.019277e-05
+           H[18] <- -2.446573e-05
+           filter.name <- c("Coiflets N=3")
+           H <- H * sqrt(2)
+       }
+       else if (filter.number == 4) {
+           H <- rep(0, 24)
+           H[1] <- 0.000630961
+           H[2] <- -0.001152225
+           H[3] <- -0.005194524
+           H[4] <- 0.01136246
+           H[5] <- 0.01886724
+           H[6] <- -0.05746423
+           H[7] <- -0.03965265
+           H[8] <- 0.2936674
+           H[9] <- 0.5531265
+           H[10] <- 0.3071573
+           H[11] <- -0.04711274
+           H[12] <- -0.06803813
+           H[13] <- 0.02781364
+           H[14] <- 0.01773584
+           H[15] <- -0.01075632
+           H[16] <- -0.004001013
+           H[17] <- 0.002652666
+           H[18] <- 0.0008955945
+           H[19] <- -0.0004165006
+           H[20] <- -0.0001838298
+           H[21] <- 4.408035e-05
+           H[22] <- 2.208286e-05
+           H[23] <- -2.304942e-06
+           H[24] <- -1.262175e-06
+           filter.name <- c("Coiflets N=4")
+           H <- H * sqrt(2)
+       }
+       else if (filter.number == 5) {
+           H <- rep(0, 30)
+           H[1] <- -0.0001499638
+           H[2] <- 0.0002535612
+           H[3] <- 0.001540246
+           H[4] <- -0.002941111
+           H[5] <- -0.007163782
+           H[6] <- 0.01655207
+           H[7] <- 0.0199178
+           H[8] <- -0.06499726
+           H[9] <- -0.03680007
+           H[10] <- 0.2980923
+           H[11] <- 0.5475054
+           H[12] <- 0.3097068
+           H[13] <- -0.04386605
+           H[14] <- -0.07465224
+           H[15] <- 0.02919588
+           H[16] <- 0.02311078
+           H[17] <- -0.01397369
+           H[18] <- -0.00648009
+           H[19] <- 0.004783001
+           H[20] <- 0.001720655
+           H[21] <- -0.001175822
+           H[22] <- -0.000451227
+           H[23] <- 0.0002137298
+           H[24] <- 9.93776e-05
+           H[25] <- -2.92321e-05
+           H[26] <- -1.5072e-05
+           H[27] <- 2.6408e-06
+           H[28] <- 1.4593e-06
+           H[29] <- -1.184e-07
+           H[30] <- -6.73e-08
+           filter.name <- c("Coiflets N=5")
+           H <- H * sqrt(2)
+       }
+       else {
+           stop("Unknown filter number for Coiflet wavelets with\n least asymmetry and highest number of vanishing moments...")
+       }
+   }
 	else if(family == "MagKing") {
 		family <- "MagKing"
 		if(filter.number == 4) {
@@ -1134,11 +1255,6 @@ function(data, filter.number = 10, family = "DaubLeAsymm", type = "wavelet", bc
         return(l)
     }
 #
-#
-# Save time series attribute if there is one
-#
-    dtsp <- tsp(data)   #
-#
 # Put in the data
 #
     C <- rep(0, fl.dbase$ntotal)
@@ -1223,9 +1339,7 @@ function(data, filter.number = 10, family = "DaubLeAsymm", type = "wavelet", bc
              = date())
     }
     class(l) <- "wd"
-    if(!is.null(dtsp))
-        tsp(l) <- dtsp
-    l
+    return(l)
 }
 "wr.wd"<-
 function(wd, start.level = 0, verbose = FALSE, bc = wd$bc, return.object = FALSE, 
@@ -1672,14 +1786,19 @@ function(BP)
 }
 
 "Best1DCols"<-
-function(w2d, mincor = 0.69999999999999996)
+function(w2d, mincor = 0.7)
 {
     m <- w2d$m
     level <- w2d$level
     pktix <- w2d$pktix
     nbasis <- length(level)
     corvec <- rep(0, nbasis)
-    for(i in 1:nbasis) {
+#
+#	Note: we don't calculate the first one, since the
+#	first basis function is a constant, and so we know
+#	the correlation will be zero
+#
+    for(i in 2:nbasis) {
         corvec[i] <- cor(m[, i], w2d$groups)
     }
     corvec <- abs(corvec)
@@ -3347,8 +3466,6 @@ function(wd, level = nlevelsWT(wd), boundary = FALSE, aspect = "Identity", ...)
                 offset.level + n - first.level)]
         }
     }
-    if(!is.null(tsp(wd)))
-        tsp(coefs) <- tsp(wd)
     if(aspect == "Identity")
         return(coefs)
     else {
@@ -3463,8 +3580,6 @@ function(wd, level, boundary = FALSE, aspect = "Identity", ...)
         else coefs <- wd$transformed.vector[(offset.level + 1 - 
                 first.level):(offset.level + n - first.level)]
     }
-    if(!is.null(tsp(wd)))
-        tsp(coefs) <- tsp(wd)
     if(aspect == "Identity")
         return(coefs)
     else {
@@ -5104,10 +5219,6 @@ function(gd, filter.number = 2, family = "DaubExPhase", bc = "periodic",
     fl.dbase <- first.last(LengthH = length(filter$H), DataLength = 
         DataLength, type = type, bc = bc)   #
 #
-# Save time series attribute if there is one
-#
-    dtsp <- tsp(data)   #
-#
 # Put in the data
 #
     C <- rep(0, fl.dbase$ntotal)
@@ -5203,9 +5314,7 @@ function(gd, filter.number = 2, family = "DaubExPhase", bc = "periodic",
              = date())
     }
     class(l) <- "irregwd"
-    if(!is.null(dtsp))
-        tsp(l) <- dtsp
-    l
+    return(l)
 }
 "l2norm"<-
 function(u, v)
@@ -5268,7 +5377,7 @@ function(timeseries, groups, filter.number = 10, family = "DaubExPhase", mincor
 {
 #
 #
-# Using the data in time series (which should be a length a power of two)
+# Using the data in timeseries (which should be a length a power of two)
 # and the group information (only two groups presently). Create an object
 # of class wpstDO (nondecimated wavelet packet Discrimination Object).
 #
@@ -6536,18 +6645,7 @@ function(x, xlabvals, xlabchars, ylabchars, first.level = 0, main =
                   levels - 2) + 2^(levels - 3), 2^(levels - 1))
             else axx <- c(0, 2^(levels - 2), 2^(levels - 1), 2^(
                   levels - 1) + 2^(levels - 2), 2^levels)
-            if(is.null(tsp(x)))
-                axis(1, at = axx)
-            else {
-                v <- seq(from = tsp(x)["start"], by = tsp(
-                  x)["deltat"], length = n)
-                if(type == "wavelet")
-                  atl <- 2 * v
-                else atl <- v
-                atl <- pretty(atl, n = 4)
-                ats <- (n * atl)/(max(atl) - min(atl))
-                axis(1, at = ats, labels = atl)
-            }
+            axis(1, at = axx)
         }
         else {
             lx <- pretty(xlabvals, n = 4)
@@ -10501,7 +10599,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.6, installed\n")
-    packageStartupMessage("Copyright Guy Nason and others 1993-2013\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.8, installed\n")
+    packageStartupMessage("Copyright Guy Nason and others 1993-2016\n")
     packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }
