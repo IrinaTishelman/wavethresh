@@ -427,14 +427,11 @@ int *error;    /* Error code                                           */
 {
     register int k,l,kmin,kmax,lmin,lmax,row,col;
     double *afterCC,*afterDD;     /* Results              */
-    int step_factor;        /* This should always be 1 for the WAVELET trans*/
+    /* int step_factor; NOT USED This should always be 1 for the WAVELET trans*/
 
     double AXSDCV(double *a, int nr, int nc, int i, int j);
 
     *error = 0l;
-
-    step_factor = 1;
-
 
     if ((afterCC =
         (double *)Calloc( LengthCout*(LengthH-1), double))==NULL)

@@ -25,7 +25,7 @@ License: \tab GPL (>=2)\cr
 }
 \references{
 Nason, G.P. (2008) Wavelet methods in Statistics with R. Springer, New York.
-\href{http://www.springer.com/statistics/statistical+theory+and+methods/book/978-0-387-75960-9}{Book URL.}
+\href{https://link.springer.com/statistics/statistical+theory+and+methods/book/978-0-387-75960-9}{Book URL.}
 
 Errata and fast-breaking news: \url{http://www.stats.bris.ac.uk/~wavethresh}
 

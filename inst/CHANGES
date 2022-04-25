@@ -109,3 +109,18 @@
 	can't then be handled. Now setting the correlation for this entry
 	to be zero is correct and bypasses the problem.
 	
+4.6.9	Added sanity checks to the arguments of makegrid. The length of the
+	vector arguments t and y should be the same. However, the function
+	did not check this and erroneous NA values appear when the function
+	was called on vectors of different lengths. The function now checks
+	and stops if the vectors are of different lengths. Additionally,
+	checking on the length of the gridn number, which should be dyadic
+	is also performed, stopping the function if it is not.
+
+	Changed maintainer email address to g.nason@imperial.ac.uk
+
+	Added routines to register routines (src/wavethresh_init.c)
+
+	Bugfix on line 5494 of functions.c. Line band1- changed to band1--,
+	as band1 needs to be successively decrememented (as with band2++ later).
+	This is in the computec C function which gets called by irregwd

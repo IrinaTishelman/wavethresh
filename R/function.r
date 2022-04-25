@@ -5357,6 +5357,20 @@ mad(x)^2
 "makegrid"<-
 function(t, y, gridn = 2^(floor(log(length(t) - 1, 2)) + 1))
 {
+#
+#	30th October 2018. Enhancements to do some argument sanity checks
+#
+    lt <- length(t)
+    ly <- length(y)
+
+    if (lt != ly)
+	stop("Length of t and y vectors has to be the same")
+
+    isp2gridn <- IsPowerOfTwo(gridn)
+
+    if (is.na(isp2gridn))
+		stop("Length of gridn has to be a power of two")
+
     tmp <- .C("makegrid",
         x = as.double(t),
         y = as.double(y),
@@ -6147,10 +6161,10 @@ if (is.list(object)){
         return(object$nlevels)
     }
     else{
-        if(class(object)=="uncompressed"){      # 2 special cases 
+        if(isa(object,"uncompressed")){      # 2 special cases 
             return(IsPowerOfTwo(object$v))
         }
-        else if(class(object)=="griddata"){
+        else if(isa(object, "griddata")){
             return(IsPowerOfTwo(object$gridy))
         }
         else{                                       # what to do?  e.g. tpwd,wpstDO,compressed classes. 
@@ -10599,7 +10613,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.8, installed\n")
-    packageStartupMessage("Copyright Guy Nason and others 1993-2016\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.6.9, installed\n")
+    packageStartupMessage("Copyright Guy Nason and others 1993-2018\n")
     packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }

@@ -316,7 +316,7 @@ return;
  * This version interpolates the noisy data and compares it to the
  * function values at the index points. (Crsswav2.c does it the other way
  * round - i.e. interpolates the reconstructed function and compares these
- * to the noisy values. Maybe this function is not as good as Crsswav2.c
+ * to the noisy values). Maybe this function is not as good as Crsswav2.c
  * because we smooth the noise before comparison.
  */
 
@@ -561,7 +561,7 @@ free((char *)interps);
  * This version interpolates the reconstructed function and compares it to the
  * noisy data at the noisy data index points. (Crsswav.c does it the other way
  * round - i.e. interpolates the noise and compares this to the reconstruced
- * function on the index points of the reconstruced function
+ * function on the index points of the reconstructed function)
  * Maybe this function is better than Crsswav.c
  * because we don't smooth the noise before comparison.
  */
@@ -2916,7 +2916,7 @@ else    {
  *  1   -   As the reconstruction is built up the vector
             ldata should contain a doubling sequence (apart
             from the first two numbers which should be the
-            same. This error is returned if this is not the case.
+            same). This error is returned if this is not the case.
 
  *  2   -   memory error on creating c_in
  *  3   -   memory error on creating c_out
@@ -4069,41 +4069,41 @@ for(j=0; j<(int)*Jmax; ++j) {
     if (*verbose > 0)
         Rprintf("Wavelet step: level %d\n", j);
 
-        twopowjp1 = 1 << (j+1);           /* MAN: added parentheses for bit shift */
+    twopowjp1 = 1 << (j+1);           /* MAN: added parentheses for bit shift */
 
-        divisor = *PrimRes*(double)twopowjp1;
+    divisor = *PrimRes*(double)twopowjp1;
 
-        WVYscale = sqrt(divisor);
+    WVYscale = sqrt(divisor);
 
-        la = (int)(*(kmaxW+j) - *(kminW+j)) + 1;
+    la = (int)(*(kmaxW+j) - *(kminW+j)) + 1;
 
-        if ((a = (double *)malloc((unsigned)(sizeof(double)*la)))==NULL) {
-            *error = 1;
-            return;
-            }
+    if ((a = (double *)malloc((unsigned)(sizeof(double)*la)))==NULL) {
+        *error = 1;
+        return;
+        }
 
-        /* Now compute the coefficients for this level j */
+    /* Now compute the coefficients for this level j */
 
-        k = *(kminW+j);
-        for(i=0; i<la; ++i) {
-            sum = 0.0;
-            for(l=0; l<(int)*n; ++l)    {
-              sum += evalF(WVx, WVy, lengthWV, widthWV,
+    k = *(kminW+j);
+    for(i=0; i<la; ++i) {
+        sum = 0.0;
+        for(l=0; l<(int)*n; ++l)    {
+            sum += evalF(WVx, WVy, lengthWV, widthWV,
                ((double)twopowjp1* *PrimRes * *(x+l))
                -(double)k);
             }
-            sum *= WVYscale;
-            *(a+i) = HARDTHRESH(sum/(double)*n, *threshold);
-            atmp = WVYscale * *(a+i);
-            for(l=0; l<(int)*nout; ++l)     {
-                *(fout+l) += atmp *
-                  evalF(WVx, WVy, lengthWV, widthWV,
-            ((double)twopowjp1* *PrimRes * *(xout+l))-(double)k);
+        sum *= WVYscale;
+        *(a+i) = HARDTHRESH(sum/(double)*n, *threshold);
+        atmp = WVYscale * *(a+i);
+        for(l=0; l<(int)*nout; ++l)     {
+            *(fout+l) += atmp *
+                evalF(WVx, WVy, lengthWV, widthWV,
+                ((double)twopowjp1* *PrimRes * *(xout+l))-(double)k);
             }
-            ++k;
-            }
-        free((void *)a);
+        ++k;
         }
+    free((void *)a);
+    }
 
 
 
@@ -5273,7 +5273,7 @@ int createSigma(struct sigmastruct *Sigma, int n)
     }
   for(i=0;i<n;i++)
     (Sigma->diag)[i]=NULL;
-    return(0);
+  return(0);
   }
   
 /* freeSigma releases the memory used by a sigmastruct element. */
@@ -5339,18 +5339,18 @@ return(0);  /* MAN: added, hopefully won't have bad consequences. */
    
 
 int allocateSigma(struct sigmastruct *Sigma, int *d)
-  {
-  int i;
+{
+int i;
   
-  for(i=0;i<Sigma->n;i++)
+for(i=0;i<Sigma->n;i++)
     if(d[i]==TRUE)
-      if((Sigma->diag[i]=calloc(Sigma->n-i,sizeof(double)))==NULL)  {
-    *d = (Sigma->n - i)*sizeof(double);
-        return(-1);
-    }
+        if((Sigma->diag[i]=calloc(Sigma->n-i,sizeof(double)))==NULL)  {
+            *d = (Sigma->n - i)*sizeof(double);
+            return(-1);
+            }
 
-    return(0);
-  }
+return(0);
+}
 
 /* computec is the function that computes the factors for the variances
    of the wavelet coefficients. 
@@ -5491,7 +5491,7 @@ void computec(int *n,double *c,int *gridn,double *Gmatrix,int *Gindex,
       band1=gn/2;
       band2=gn/2+1;
       while((band1>=0)&&(Sigma.diag[band1]==NULL))
-        band1--;
+	band1--; /* GPN Bugfix 22 Apr 2022. This was band1- which seems wrong. band1 needs to decrease itself */
       while((band2<=gn-1)&&(Sigma.diag[band2]==NULL))
         band2++;
       if(band1<=gn-band2)
@@ -9374,16 +9374,19 @@ for(r=0; r < (int)halfsize; ++r)
 
     /* HHH */
 
-    { double tmpf;
+    /* { double tmpf;
 
     tmpf= ACCESSW3D(Carray, (int)*truesize, (int)*truesize, r, c, s) =
-        ACCESSW3D(HHH, (int)halfsize, (int)halfsize, r, c, s);
+	ACCESSW3D(HHH, (int)halfsize, (int)halfsize, r, c, s); */
+
+    ACCESSW3D(Carray, (int)*truesize, (int)*truesize, r, c, s) =
+        ACCESSW3D(HHH, (int)halfsize, (int)halfsize, r, c, s); 
 
     /*
     Rprintf("Carray[%d %d %d] = %lf (from HHH)\n",
         r,c,s,tmpf);
     */
-    }
+    /* } */
 
     /* GHH */
 
@@ -9441,7 +9444,6 @@ for(r=0; r < (int)halfsize; ++r)
     
 
 /* Free the third level memory */
-
 
 free((void *)HHH);
 free((void *)GHH);
@@ -10251,7 +10253,7 @@ int  *lowerd;    /*for each level the highest C coefficient */
 int  *offsetd;   /*amount to offset to access each level  */
 int  *nbc;        /* boundary conds 1=period 2=symm. */
 {
- int level,prevlvl,prevoffsetc,prevoffsetd,index,base,k,l,m,n;
+ int level,prevlvl,prevoffsetc,index,base,k,l,m,n;
  void TRDerror();
 
 int trd_reflect();      /* MAN: added missing function declaration  */
@@ -10263,7 +10265,8 @@ int trd_module();       /* ...  see L10209,102010 */
 
    prevlvl=level+1;                           /* previous level */
    prevoffsetc=*(offsetc+prevlvl);            /*offset of C for previous level*/
-   prevoffsetd=*(offsetd+prevlvl);            /*offset of D for previous level*/
+   /* prevoffsetd=*(offsetd+prevlvl); NOT USED            offset of D for previous level*/
+
    for(k=*(lowerc+level);k<=*(upperc+level);k++){ /*k index of new vector */
     for(l=0; l<*nphi;l++){                         /*l index of new elmt   */ 
      C[(*(offsetc+level)+k-*(lowerc+level))*(*nphi)+l]=0.0;
