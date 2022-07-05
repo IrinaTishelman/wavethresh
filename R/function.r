@@ -1565,7 +1565,7 @@ function(data, filter.number = 10, family = "DaubLeAsymm", verbose = FALSE)
 "AutoBasis"<-
 function(wp, verbose = FALSE, zilchtol = 1e-08,entropy = Shannon.entropy)
 {
-    if(class(wp) != "wp") {
+    if (!inherits(wp, "wp")) {
         stop("Can only operate on wavelet packet objects")
     }
     if(IsEarly(wp)) {
@@ -4687,7 +4687,7 @@ UseMethod("getpacket")
 "getpacket.wp"<-
 function(wp, level, index, ...)
 {
-    if(class(wp) != "wp")
+    if(!inherits(wp, "wp"))
         stop("wp object is not of class wp")
     if(level > nlevelsWT(wp))
         stop("Not that many levels in wp object")
@@ -7322,7 +7322,7 @@ function(mwd, level, M, boundary = FALSE, index = FALSE, ...)
 #last update May 1996
 #
     if(is.null(class(mwd))) stop("mwd is not class mwd object")
-    if(class(mwd) != "mwd")
+    if(!inherits(mwd, "mwd"))
         stop("mwd is not class mwd object")
     if(level < 0)
         stop("level too small")
@@ -7356,9 +7356,7 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
         ConvertMessage()
         stop()
     }
-    if(is.null(class(wd)))
-        stop("wd is not class wd object")
-    if(class(wd) != "wd")
+    if(!inherits(wd, "wd"))
         stop("wd is not class wd object")
     if(level < 0)
         stop("level should be zero or larger")
@@ -7439,7 +7437,7 @@ function(mwd, level, M, boundary = FALSE, index = FALSE, ...)
 #
 #
     if(is.null(class(mwd))) stop("mwd is not class mwd object")
-    if(class(mwd) != "mwd")
+    if(!inherits(mwd, "mwd"))
         stop("mwd is not class mwd object")
     if(level < 0)
         stop("level too small")
@@ -7473,9 +7471,7 @@ function(wd, level, v, boundary = FALSE, index = FALSE, ...)
         ConvertMessage()
         stop()
     }
-    if(is.null(class(wd)))
-        stop("wd is not class wd object")
-    if(class(wd) != "wd")
+    if(!inherits(wd, "wd"))
         stop("wd is not class wd object")
     if(level < 0)
         stop("level too small")
@@ -7600,7 +7596,7 @@ function(wp, level, index, packet, ...)
 {
 #   cat("PUTPACKET: Level:", level, " Index:", index, " Pack Length ", 
 #       length(packet), "\n")
-    if(class(wp) != "wp") stop("wp object is not of class wp")
+    if(!inherits(wp, "wp")) stop("wp object is not of class wp")
     if(level > nlevelsWT(wp))
         stop("Not that many levels in wp object")
     unit <- 2^level
@@ -9900,7 +9896,7 @@ function(image, filter.number = 10, family = "DaubLeAsymm", verbose = FALSE)
 "tpwr"<-
 function(tpwdobj, verbose = FALSE)
 {
-    if(class(tpwdobj) != "tpwd")
+    if(!inherits(tpwdobj, "tpwd"))
         stop("tpwdobj is not of class tpwd")
     nr <- nrow(tpwdobj$tpwd)
     lr <- IsPowerOfTwo(nr)

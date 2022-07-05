@@ -1,8 +1,8 @@
-f6c7b4c0d8099e27752dd209a235b3c1 *DESCRIPTION
+74be1c5ddef5f896fd3f135b6a4a670a *DESCRIPTION
 af6b5704f05588794fb999142781f2dc *NAMESPACE
 d4322104e0c067fb69236236f23ce2fb *R/LSWsim.r
 1dbbada142cde04b1190afd6f4735b0e *R/NSextra.r
-95e54aee30650e542208ae2890383f94 *R/function.r
+c3ba85749136ecbf089a79502d0fb256 *R/function.r
 a293e8e6493aa664ae235c5a0e2f6f62 *R/wavde.r
 8c5fdba4e1e58b2ebd9ab4258b5b7617 *data/BabyECG.rda
 fe9024fed6007ec9831601f6cc90d363 *data/BabySS.rda
@@ -10,7 +10,7 @@ cde124da9614b7c373609ddf03107a17 *data/datalist
 2ae1e06329ec665260606abc26e2737e *data/ipd.rda
 ad576bc3fc90149d01caa06803f2250e *data/lennon.rda
 23e7e30e9b534775a1f4c9140effb9f1 *data/teddy.rda
-acdeb3daded45abff9362b466c0c6418 *inst/CHANGES
+a0ff5220cc88908f2c64aa5ee26d94e5 *inst/CHANGES
 7eec463ea698e64bcaae88ed1385950c *man/AutoBasis.rd
 c346526092e0db7e9af4e8010d26271f *man/AvBasis.rd
 15e88b76d8824a00f8f46bbf645b9c52 *man/AvBasis.wst.rd
@@ -190,7 +190,7 @@ af072911347b90d19dca0eeb0590c30f *man/print.wd.rd
 d88f3c8a36057d99628f3ae7ca027509 *man/print.wpst.rd
 31b714a2b4f22001404edbb8b887be45 *man/print.wpstCL.rd
 4e93bae7f15f6c34af32f469f72448f5 *man/print.wpstDO.rd
-55fb918182d7a018f7821b14d2d86030 *man/print.wpstRO.rd
+72a46b1a70ba766799f17e5bc0f64d87 *man/print.wpstRO.rd
 b274412db7a839381808e562fae8ba4f *man/print.wst.rd
 f2d69b8aab002aa93b43f77a9ead5c9b *man/print.wst2D.rd
 ba1a5a19baf1211a1e9a399714ce066a *man/putC.mwd.rd
@@ -248,7 +248,7 @@ aceda5408563cd853ee8761ff9d2a94f *man/threshold.wp.rd
 b41874533ae7b27e6c862a5f21af1b72 *man/uncompress.imwdc.rd
 724d037aef76d70432dc29ffab1675a1 *man/uncompress.rd
 4847e69ed6259d72f612799e6e7cfc74 *man/wavegrow.rd
-a699c687aefac06ecfb0829b616ab6b9 *man/wavethresh-package.Rd
+842e674b20aaad640c8a8df098065002 *man/wavethresh-package.Rd
 1a54c29a534251bce44f4b02a6f5ab36 *man/wd.dh.rd
 38438d163d9cd7212e89f533b83589fa *man/wd.int.rd
 09e8ff400d8cd271ca99acebe166e5a6 *man/wd.object.rd
@@ -278,5 +278,5 @@ ab14464534eb79a1be36c3cfa3ce3314 *man/wvmoments.rd
 91f6afc099dd0dda34b0c77e278c4884 *man/wvrelease.rd
 e2f0306bc279df6117ea1b619dd38216 *src/WAVDE.c
 872a1a54416467b1a2542ccfe89f50c8 *src/cthreb.c
-a9da74da95362ba78677a2ee62dcebaf *src/functions.c
-a7931287188ed90053b26cbc1842d217 *src/wavethresh_init.c
+7716bfd34f7c66065fcc2a3ce7bf9286 *src/functions.c
+2eb28a2d26c92293e841a783777525cf *src/wavethresh_init.c

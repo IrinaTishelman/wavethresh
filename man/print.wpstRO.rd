@@ -27,9 +27,7 @@ Description says all
 \value{
 None
 }
-\author{
-G P Nason
-}
+\author{ G P Nason }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

@@ -124,3 +124,8 @@
 	Bugfix on line 5494 of functions.c. Line band1- changed to band1--,
 	as band1 needs to be successively decrememented (as with band2++ later).
 	This is in the computec C function which gets called by irregwd
+
+4.7.0 	Changed the few references from Sfloat to double and Sint to int
+
+	Changed lines in function.r that were comparing the output of class()
+	to string to make use of the inherit function instead.

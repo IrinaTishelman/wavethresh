@@ -16,7 +16,7 @@
 \tabular{ll}{
 Package: \tab wavethresh \cr
 Type: \tab Package\cr
-Version: \tab 4.6.6\cr
+Version: \tab 4.6.9\cr
 Date: \tab 2013-10-21\cr
 License: \tab GPL (>=2)\cr
 }
@@ -25,9 +25,8 @@ License: \tab GPL (>=2)\cr
 }
 \references{
 Nason, G.P. (2008) Wavelet methods in Statistics with R. Springer, New York.
-\href{https://link.springer.com/statistics/statistical+theory+and+methods/book/978-0-387-75960-9}{Book URL.}
+\href{https://link.springer.com/book/10.1007/978-0-387-75961-6}{Book URL.}
 
-Errata and fast-breaking news: \url{http://www.stats.bris.ac.uk/~wavethresh}
 
 }
 \keyword{math}

@@ -4193,8 +4193,8 @@ int b,e;
 
 for(n=0; n< (int)*res; ++n) {
     sum = 0.0;
-    b = MAX(0, (Sint )ceil( ((Sfloat)(n+1- *lengthH))/2.0));
-        e = MIN(*res, (Sint )floor(((Sfloat) n)/2.0));
+    b = MAX(0, (int )ceil( ((double)(n+1- *lengthH))/2.0));
+        e = MIN(*res, (int )floor(((double) n)/2.0));
     for(k=b; k<= e; ++k)    {
         sum += *(H+n-2*k) * *(v+k);
         }
