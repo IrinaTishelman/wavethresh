@@ -3,9 +3,8 @@
 
 #define PI 3.141592653589793
 
-void Ccthrnegloglik(parvec, SigVec, di, dr, pnd, pans)
-double *parvec; double *SigVec; double *di; double *dr; 
-long *pnd; double *pans;
+void Ccthrnegloglik(double *parvec, double *SigVec, double *di, double *dr, 
+	long *pnd, double *pans)
 {
  double p, Sig11, Sig12, Sig22, VpS11, VpS12, VpS22;
  double sum=0.0, detVpS, twopirtdetVpS, detSig, twopirtdetSig;
@@ -62,9 +61,8 @@ long *pnd; double *pans;
 }
 
 
-void Ccthrcalcodds(pnd, dr, di, VVec, SigVec, pp, ans, odds)
-long *pnd; double *dr; double *di; double *VVec;  double *SigVec; 
-double *pp; double *ans; double *odds;
+void Ccthrcalcodds(long *pnd, double *dr, double *di, double *VVec,
+	double *SigVec, double *pp, double *ans, double *odds)
 {
   int k;
   double mult, detS, detVpS, tmp, V11, V12, V22;
@@ -110,9 +108,8 @@ double *pp; double *ans; double *odds;
  }
 }
 
-void Cpostmean(pnd, dr, di, VVec, SigVec, w, ansr, ansi)
-long *pnd; double *dr; double *di; double *VVec;  double *SigVec; 
-double *w; double *ansr; double *ansi;
+void Cpostmean(long *pnd, double *dr, double *di, double *VVec,
+	double *SigVec, double *w, double *ansr, double *ansi)
 {
   int k;
   double detS, detV, tmp, V11, V12, V22, m11, m12, m22;

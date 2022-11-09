@@ -129,3 +129,6 @@
 
 	Changed lines in function.r that were comparing the output of class()
 	to string to make use of the inherit function instead.
+
+4.7.1	Inserted C prototypes (in response to package update request from R
+	team)

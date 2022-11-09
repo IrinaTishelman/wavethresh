@@ -49,21 +49,21 @@
 /* SFDE5 calculates empirical scaling function coefficients from data,
  * using the Daubechies-Lagarias algorithm */
 
-void SFDE5(x, nx, p, filter, nf, prec, chat, kmin, kmax, philh, phirh, error)
-
-double *x;  /* The data                     */
-int *nx;    /* Number of data points                */
-double *p;  /* The primary resolution               */
-double *filter; /* Vector of filter coefficients            */
-int *nf;    /* Number of filter coefficients - 1            */
-int *prec;  /* Precision used in evaluating phi         */
-double *chat;   /* Vector to put coefficient estimates in               */
-int *kmin;  /* minimum value of k                   */
-int *kmax;     /* maximum value of k                    */
-double *philh;  /* Left hand end of scaling function support        */
-double *phirh;  /* Right hand end of scaling function support       */
-int *error;	/* Error code - mostly out of memory */
-
+void SFDE5(double *x, int *nx, double *p, double *filter, int *nf, int *prec,
+	double *chat, int *kmin, int *kmax, double *philh, double *phirh,
+	int *error)
+/* double *x;   	The data                     			*/
+/* int *nx;    		Number of data points                		*/
+/* double *p;   	The primary resolution               		*/
+/* double *filter;	Vector of filter coefficients            	*/
+/* int *nf;     	Number of filter coefficients - 1		*/
+/* int *prec;   	Precision used in evaluating phi		*/
+/* double *chat; 	Vector to put coefficient estimates in		*/
+/* int *kmin;  		minimum value of k                   		*/
+/* int *kmax;  		maximum value of k                    		*/
+/* double *philh;  	Left hand end of scaling function support    	*/
+/* double *phirh;	Right hand end of scaling function support   	*/
+/* int *error;		Error code - mostly out of memory		*/
 {
     void phi(double y, double *filt, double *out, int *pre, int *n, int *error);
     register int i, j, k;
@@ -101,23 +101,22 @@ int *error;	/* Error code - mostly out of memory */
 
 /* As SFDE5, but also calculates covariances of the coefficients */
 
-void SFDE6(x, nx, p, filter, nf, prec, chat, covar, kmin, kmax, philh, phirh,
-		error)
-
-double *x;  /* The data                     */
-int *nx;    /* Number of data points                */
-double *p;  /* The primary resolution               */
-double *filter; /* Vector of filter coefficients            */
-int *nf;    /* Number of filter coefficients - 1            */
-int *prec;  /* Precision used in evaluating phi         */
-double *chat;   /* Vector to put coefficient estimates in               */
-double *covar;  /* Matrix to put covariance estimates in        */
-int *kmin;  /* minimum value of k                   */
-int *kmax;     /* maximum value of k                    */
-double *philh;  /* Left hand end of scaling function support        */
-double *phirh;  /* Right hand end of scaling function support       */
-int *error;	/* Error code -- mostly out of memory */
-
+void SFDE6(double *x, int *nx, double *p, double *filter, int *nf, int *prec,
+	double *chat, double *covar, int *kmin, int *kmax, double *philh,
+	double *phirh, int *error)
+/* double *x;   	The data                     			*/
+/* int *nx;     	Number of data points                		*/
+/* double *p;   	The primary resolution               		*/
+/* double *filter;  	Vector of filter coefficients            	*/
+/* int *nf;     	Number of filter coefficients - 1            	*/
+/* int *prec;   	Precision used in evaluating phi   		*/
+/* double *chat;    	Vector to put coefficient estimates in          */
+/* double *covar;   	Matrix to put covariance estimates in        	*/
+/* int *kmin;   	minimum value of k                   		*/
+/* int *kmax;      	maximum value of k                    		*/
+/* double *philh;  	Left hand end of scaling function support       */
+/* double *phirh;	Right hand end of scaling function support	*/
+/* int *error;		Error code -- mostly out of memory		*/
 {
     void phi(double y, double *filt, double *out, int *pre, int *n, int *error);
     register int i, j, k, l;
@@ -166,22 +165,22 @@ int *error;	/* Error code -- mostly out of memory */
 /* Function to get plotting information for density estimate from high
  * level scaling function coefficients */
 
-void PLDE2(C, p, filter, nf, prec, kmin, kmax, gx, gy, ng, philh, phirh, error)
-
-double *C;      /* High resolution scaling function coefficients        */
-double *p;      /* The primary resolution                               */
-double *filter; /* Vector of filter coefficients                        */
-int *nf;       /* Number of filter coefficients - 1                    */
-int *prec;     /* Precision used in evaluating phi                     */
-int *kmin;     /* minimum value of k                                   */
-int *kmax;     /* maximum value of k                                   */
-double *gx;     /* grid for drawing density estimate                    */
-double *gy;     /* Vector to put density values in                      */
-int *ng;       /* Length of above grids                                */
-double *philh;  /* Left hand end of scaling function support            */
-double *phirh;  /* Right hand end of scaling function support           */
-int *error;  /* Error Code */
-
+void PLDE2(double *C, double *p, double *filter, int *nf, int *prec,
+	int *kmin, int *kmax, double *gx, double *gy, int *ng,
+	double *philh, double *phirh, int *error)
+/* double *C;      High resolution scaling function coefficients        */
+/* double *p;      The primary resolution                               */
+/* double *filter; Vector of filter coefficients                        */
+/* int *nf;        Number of filter coefficients - 1                    */
+/* int *prec;      Precision used in evaluating phi                     */
+/* int *kmin;      minimum value of k                                   */
+/* int *kmax;      maximum value of k                                   */
+/* double *gx;     grid for drawing density estimate                    */
+/* double *gy;     Vector to put density values in                      */
+/* int *ng;        Length of above grids                                */
+/* double *philh;  Left hand end of scaling function support            */
+/* double *phirh;  Right hand end of scaling function support           */
+/* int *error;     Error Code						*/
 {
     void phi(double y, double *filt, double *out, int *pre, int *n, int *error);
     register int i, j, k;
@@ -239,7 +238,6 @@ int *error;  /* Error Code */
 /* Function to evaluate phi_Jk(x) for all k for which it is non-zero */
 
 void phi(double y, double *filt, double *out, int *pre, int *n, int *error)
-
 {
     double T(int index, double *filter, int *n, int j, int k);
     void diad(double x, int *prec, int *out);
@@ -350,30 +348,22 @@ ind=-1;     /* MAN: added as a initialization, but *should* be set to true value
 
 /* Function for calling DensityCovarianceDecomposeStep from Splus */
 
-void StoDCDS(C, Csize, firstCin, H, LengthH, LengthCout, firstCout, lastCout,
-        LengthDout, firstDout, lastDout, ImCC, ImDD, bc, type,
-        error)
-
-double *C;
-int *Csize;
-int *firstCin;
-double *H;
-int *LengthH;
-int *LengthCout;
-int *firstCout;
-int *lastCout;
-int *LengthDout;
-int *firstDout;
-int *lastDout;
-double *ImCC,*ImDD;
-int *bc;
-int *type;
-int *error;
+void StoDCDS(double *C, int *Csize, int *firstCin, double *H, int *LengthH,
+	int *LengthCout, int *firstCout, int *lastCout,
+        int *LengthDout, int *firstDout, int *lastDout,
+	double *ImCC, double *ImDD,
+	int *bc, int *type, int *error)
 {
     register int i,j;
     double *cc_out, *dd_out;
 
-    void DensityCovarianceDecomposeStep();
+    void DensityCovarianceDecomposeStep(double *C, int Crow, int firstCin,	
+	double *H, int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	int LengthDout, int firstDout, int lastDout,
+        double **cc_out, double **dd_out,
+	int bc, int type, int *error);
+
     double AXSDCV(double *a, int nr, int nc, int i, int j);
 
     DensityCovarianceDecomposeStep(C, *Csize, *firstCin, H, *LengthH,
@@ -403,27 +393,30 @@ int *error;
 
 /* Function for decomposing the covariance matrix of scaling function coefs */
 
-void DensityCovarianceDecomposeStep(C, Crow, firstCin, H, LengthH,
-        LengthCout, firstCout, lastCout, LengthDout, firstDout, lastDout,
-        cc_out, dd_out, bc, type, error)
+void DensityCovarianceDecomposeStep(double *C, int Crow, int firstCin,	
+	double *H, int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	int LengthDout, int firstDout, int lastDout,
+        double **cc_out, double **dd_out,
+	int bc, int type, int *error)
 
-double *C;      /* Input data image                                     */
-int Crow;      /* Number of rows of covariance matrix                  */
-int firstCin;  /* Index number of first element in input "C" image     */
-double *H;      /* Filter coefficients                                  */
-int LengthH;   /* Length of filter                                     */
-/* Details about output image */
-int LengthCout;/* Length of C part of output image                     */
-int firstCout; /* Index number of first element in output "C" image    */
-int lastCout;  /* Index number of last element                         */
-int LengthDout;/* Length of D part of output image                     */
-int firstDout; /* Index number of first element in output "D" image    */
-int lastDout;  /* Index number of last element                         */
-double **cc_out;/* Smoothed output image                                */
-double **dd_out;/* Diagonal detail                                      */
-int bc;        /* Method of boundary correction                        */
-int type;      /* Type of transform, wavelet or stationary             */
-int *error;    /* Error code                                           */
+/* double *C;       Input data image                                    */
+/* int Crow;        Number of rows of covariance matrix                 */
+/* int firstCin;    Index number of first element in input "C" image    */
+/* double *H;       Filter coefficients                                 */
+/* int LengthH;     Length of filter                                    */
+/* Details about output image						*/
+/* int LengthCout;  Length of C part of output image                    */
+/* int firstCout;   Index number of first element in output "C" image   */
+/* int lastCout;    Index number of last element                        */
+/* int LengthDout;  Length of D part of output image                    */
+/* int firstDout;   Index number of first element in output "D" image   */
+/* int lastDout;    Index number of last element                        */
+/* double **cc_out; Smoothed output image                               */
+/* double **dd_out; Diagonal detail                                     */
+/* int bc;          Method of boundary correction                       */
+/* int type;        Type of transform, wavelet or stationary            */
+/* int *error;      Error code                                          */
 {
     register int k,l,kmin,kmax,lmin,lmax,row,col;
     double *afterCC,*afterDD;     /* Results              */
@@ -511,13 +504,13 @@ int *error;    /* Error code                                           */
 
 /* Function for accessing elements of the covariance matrix */
 
-double AXSDCV(a, nr, nc, i, j)
+double AXSDCV(double *a, int nr, int nc, int i, int j)
 
-double *a;      /* Pointer to covariance object                         */
-int nr;        /* Number of rows of a                                  */
-int nc;        /* Number of columns of a                               */
-int i;         /* First index                                          */
-int j;         /* Second index                                         */
+/* double *a;      Pointer to covariance object                         */
+/* int nr;         Number of rows of a                                  */
+/* int nc;         Number of columns of a                               */
+/* int i;          First index                                          */
+/* int j;          Second index                                         */
 
 {
     int ti;
@@ -537,33 +530,21 @@ int j;         /* Second index                                         */
 
 /* As WaveThresh StoIDS, but allows for zero boundary conditions */
 
-void StoIDS_dh(C, Csize, firstCin, H, LengthH,
-        LengthCout, firstCout, lastCout,
-        LengthDout, firstDout, lastDout,
-        ImCC, ImCD, ImDC, ImDD, bc, type,
-        error)
-
-double *C;
-int *Csize;
-int *firstCin;
-double *H;
-int *LengthH;
-int *LengthCout;
-int *firstCout;
-int *lastCout;
-int *LengthDout;
-int *firstDout;
-int *lastDout;
-double *ImCC,*ImCD,*ImDC,*ImDD;
-int *bc;
-int *type;
-int *error;
-
+void StoIDS_dh(double *C, int *Csize, int *firstCin, double *H, int *LengthH,
+        int *LengthCout, int *firstCout, int *lastCout,
+        int *LengthDout, int *firstDout, int *lastDout,
+        double *ImCC, double *ImCD, double *ImDC, double *ImDD,
+	int *bc, int *type, int *error)
 {
     register int i,j;
     double *cc_out, *cd_out, *dc_out, *dd_out;
 
-    void ImageDecomposeStep_dh();
+    void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
+	int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	int LengthDout, int firstDout, int lastDout,
+	double **cc_out, double **cd_out, double **dc_out, double **dd_out,
+	int bc, int type, int *error);
 
     ImageDecomposeStep_dh(C, *Csize, *firstCin, H, *LengthH,
         *LengthCout, *firstCout, *lastCout,
@@ -602,30 +583,31 @@ int *error;
 
 /* As WaveThresh ImageDecomposeStep, but allows for zero boundary conditions */
 
-void ImageDecomposeStep_dh(C, Csize, firstCin, H, LengthH, LengthCout,
-        firstCout, lastCout, LengthDout, firstDout, lastDout, cc_out,
-        cd_out, dc_out, dd_out, bc, type, error)
-
-double *C;      /* Input data image                                     */
-int Csize;     /* Size of image (side length)                          */
-int firstCin;  /* Index number of first element in input "C" image     */
-double *H;      /* Filter coefficients                                  */
-int LengthH;   /* Length of filter                                     */
-/* Details about output image */
-int LengthCout;/* Length of C part of output image                     */
-int firstCout; /* Index number of first element in output "C" image    */
-int lastCout;  /* Index number of last element                         */
-int LengthDout;/* Length of D part of output image                     */
-int firstDout; /* Index number of first element in output "D" image    */
-int lastDout;  /* Index number of last element                         */
-double **cc_out;/* Smoothed output image                                */
-double **cd_out;/* Horizontal detail                                    */
-double **dc_out;/* Vertical detail                                      */
-double **dd_out;/* Diagonal detail                                      */
-int bc;        /* Method of boundary correction                        */
-int type;      /* Type of transform, wavelet or stationary             */
-int *error;    /* Error code                                           */
-
+void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
+	int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	int LengthDout, int firstDout, int lastDout,
+	double **cc_out, double **cd_out, double **dc_out, double **dd_out,
+	int bc, int type, int *error)
+/* double *C;       Input data image                                    */
+/* int Csize;       Size of image (side length)                         */
+/* int firstCin;    Index number of first element in input "C" image    */
+/* double *H;       Filter coefficients                                 */
+/* int LengthH;     Length of filter                                    */
+/* Details about output image						*/
+/* int LengthCout;  Length of C part of output image                    */
+/* int firstCout;   Index number of first element in output "C" image   */
+/* int lastCout;    Index number of last element                        */
+/* int LengthDout;  Length of D part of output image                    */
+/* int firstDout;   Index number of first element in output "D" image   */
+/* int lastDout;    Index number of last element                        */
+/* double **cc_out; Smoothed output image                               */
+/* double **cd_out; Horizontal detail                                   */
+/* double **dc_out; Vertical detail                                     */
+/* double **dd_out; Diagonal detail                                     */
+/* int bc;          Method of boundary correction                       */
+/* int type;        Type of transform, wavelet or stationary            */
+/* int *error;      Error code                                          */
 {
     register int j,row,col;
     double *ccopy;  /* Used to copy input data to convolution routines      */
@@ -636,8 +618,13 @@ int *error;    /* Error code                                           */
     double *afterCC,*afterCD,*afterDC,*afterDD;     /* Results              */
     int step_factor;        /* This should always be 1 for the WAVELET trans*/
 
-    void convolveC_dh();
-    void convolveD_dh();
+    void convolveC_dh(double *c_in, int LengthCin, int firstCin, double *H,
+	int LengthH, double *c_out,
+	int firstCout, int lastCout, int type, int step_factor, int bc);
+
+    void convolveD_dh(double *c_in, int LengthCin, int firstCin, double *H,
+	int LengthH, double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
 
     *error = 0l;
 
@@ -819,29 +806,36 @@ int *error;    /* Error code                                           */
 
 /* As WaveThresh wavedecomp, but allows for zero boundary conditions */
 
-void wavedecomp_dh(C, D, H, LengthH, levels, firstC,lastC,
-        offsetC, firstD, lastD, offsetD, type, bc, error)
-double *C;              /* Input data, and the subsequent smoothed data */
-double *D;              /* The wavelet coefficients                     */
-double *H;              /* The smoothing filter H                       */
-int *LengthH;          /* Length of smoothing filter                   */
-int *levels;           /* The number of levels in this decomposition   */
-int *firstC;           /* The first possible C coef at a given level   */
-int *lastC;            /* The last possible C coef at a given level    */
-int *offsetC;          /* Offset from C[0] for certain level's coeffs  */
-int *firstD;           /* The first possible D coef at a given level   */
-int *lastD;            /* The last possible D coef at a given level    */
-int *offsetD;          /* Offset from D[0] for certain level's coeffs  */
-int *type;             /* The type of wavelet decomposition            */
-int *bc;               /* Method of boundary correction                */
-int *error;            /* Error code                                   */
+void wavedecomp_dh(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error)
+/* double *C;              Input data, and the subsequent smoothed data */
+/* double *D;              The wavelet coefficients                     */
+/* double *H;              The smoothing filter H                       */
+/* int *LengthH;           Length of smoothing filter                   */
+/* int *levels;            The number of levels in this decomposition   */
+/* int *firstC;            The first possible C coef at a given level   */
+/* int *lastC;             The last possible C coef at a given level    */
+/* int *offsetC;           Offset from C[0] for certain level's coeffs  */
+/* int *firstD;            The first possible D coef at a given level   */
+/* int *lastD;             The last possible D coef at a given level    */
+/* int *offsetD;           Offset from D[0] for certain level's coeffs  */
+/* int *type;              The type of wavelet decomposition            */
+/* int *bc;                Method of boundary correction                */
+/* int *error;             Error code                                   */
 {
 register int next_level,at_level;
 register int step_factor;       /* Controls width of filter for station */
 register int verbose;   /* Controls message printing, passed in error var*/
 
-void convolveC_dh();
-void convolveD_dh();
+void convolveC_dh(double *c_in, int LengthCin, int firstCin, double *H,
+	int LengthH, double *c_out,
+	int firstCout, int lastCout, int type, int step_factor, int bc);
+
+void convolveD_dh(double *c_in, int LengthCin, int firstCin, double *H,
+	int LengthH, double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
 
 if (*error == 1l)       /* Error switches on verbosity */
         verbose = 1;
@@ -937,19 +931,20 @@ return;
 
 /* As WaveThresh convolveC, but allows for zero boundary conditions */
 
-void convolveC_dh(c_in, LengthCin, firstCin, H, LengthH, c_out,
-    firstCout, lastCout, type, step_factor, bc)
-double *c_in;   /* Input data                                           */
-int LengthCin;  /* Length of this array                                 */
-int firstCin;   /* The first C value                                    */
-double *H;      /* Filter                                               */
-int LengthH;    /* Length of filter                                     */
-double *c_out;  /* Output data                                          */
-int firstCout;  /* First index of C array                               */
-int lastCout;   /* Last index of C array                                */
-int type;       /* Type of wavelet decomposition                        */
-int step_factor;/* For stationary wavelets only                         */
-int bc;         /* Method of boundary correction PERIODIC, SYMMETRIC    */
+void convolveC_dh(double *c_in, int LengthCin, int firstCin, double *H,
+	int LengthH, double *c_out,
+	int firstCout, int lastCout, int type, int step_factor, int bc)
+/* double *c_in;    Input data                                           */
+/* int LengthCin;   Length of this array                                 */
+/* int firstCin;    The first C value                                    */
+/* double *H;       Filter                                               */
+/* int LengthH;     Length of filter                                     */
+/* double *c_out;   Output data                                          */
+/* int firstCout;   First index of C array                               */
+/* int lastCout;    Last index of C array                                */
+/* int type;        Type of wavelet decomposition                        */
+/* int step_factor; For stationary wavelets only                         */
+/* int bc;          Method of boundary correction PERIODIC, SYMMETRIC    */
 {
 double sum;
 register int k;
@@ -957,8 +952,8 @@ register int count_out;
 register int m;
 register int cfactor;   /* This determines what sort of dilation we do  */
                         /* and depends on the type argument             */
-int reflect_dh();
-double access0();
+int reflect_dh(int n, int lengthC, int bc);
+double access0(double *c, int lengthC, int n);
 
 count_out = 0;
 
@@ -1009,19 +1004,20 @@ else {
 
 /* As WaveThresh convolveD, but allows for zero boundary conditions */
 
-void convolveD_dh(c_in, LengthCin, firstCin, H, LengthH, d_out,
-    firstDout, lastDout, type, step_factor, bc)
-double *c_in;   /* Input data                                           */
-int LengthCin;  /* Length of this array                                 */
-int firstCin;   /* The first index of the C input array                 */
-double *H;      /* Filter                                               */
-int LengthH;    /* Length of filter                                     */
-double *d_out;  /* Output data                                          */
-int firstDout;  /* First index of D array                               */
-int lastDout;   /* Last index of D array                                */
-int type;       /* Type of wavelet decomposition                        */
-int step_factor;/* For stationary wavelets only                         */
-int bc;         /* Method of boundary correction PERIODIC or SYMMETRIC  */
+void convolveD_dh(double *c_in, int LengthCin, int firstCin, double *H,
+	int LengthH, double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc)
+/* double *c_in;    Input data                                           */
+/* int LengthCin;   Length of this array                                 */
+/* int firstCin;    The first index of the C input array                 */
+/* double *H;       Filter                                               */
+/* int LengthH;     Length of filter                                     */
+/* double *d_out;   Output data                                          */
+/* int firstDout;   First index of D array                               */
+/* int lastDout;    Last index of D array                                */
+/* int type;        Type of wavelet decomposition                        */
+/* int step_factor; For stationary wavelets only                         */
+/* int bc;          Method of boundary correction PERIODIC or SYMMETRIC  */
 {
 double sum;
 double tmp;
@@ -1030,8 +1026,8 @@ register int count_out;
 register int m;
 register int cfactor;
 
-int reflect_dh();
-double access0();
+int reflect_dh(int n, int lengthC, int bc);
+double access0(double *c, int lengthC, int n);
 
 count_out = 0;
 
@@ -1100,10 +1096,7 @@ else {
 
 /* As WaveThresh reflect, but allows for zero boundary conditions */
 
-int reflect_dh(n, lengthC, bc)
-int n;
-int lengthC;
-int bc;
+int reflect_dh(int n, int lengthC, int bc)
 {
 
 if ((n >= 0) && (n < lengthC))
@@ -1188,11 +1181,11 @@ return(0); /* for lint only */
 
 /* Returns c(n), or 0 if n outside given range */
 
-double access0(c, lengthC, n)
+double access0(double *c, int lengthC, int n)
 
-double *c;  /* data vector      */
-int lengthC;    /* length of vector */
-int n;      /* index wanted     */
+/* double *c;   data vector      */
+/* int lengthC;	length of vector */
+/* int n;       index wanted     */
 
 {
     if ((n>=0) && (n<lengthC))
@@ -1203,27 +1196,33 @@ int n;      /* index wanted     */
 
 /* As WaveThresh waverecons, but allows for zero boundary conditions */
 
-void waverecons_dh(C, D, H, LengthH, levels,
-        firstC, lastC, offsetC, firstD, lastD, offsetD, type, bc, error)
-double *C;              /* Input data, and the subsequent smoothed data */
-double *D;              /* The wavelet coefficients                     */
-double *H;              /* The smoothing filter H                       */
-int *LengthH;          /* Length of smoothing filter                   */
-int *levels;           /* The number of levels in this decomposition   */
-int *firstC;           /* The first possible C coef at a given level   */
-int *lastC;            /* The last possible C coef at a given level    */
-int *offsetC;          /* Offset from C[0] for certain level's coeffs  */
-int *firstD;           /* The first possible D coef at a given level   */
-int *lastD;            /* The last possible D coef at a given level    */
-int *offsetD;          /* Offset from D[0] for certain level's coeffs  */
-int *type;             /* The type of wavelet decomposition            */
-int *bc;               /* Which boundary handling are we doing         */
-int *error;            /* Error code                                   */
+void waverecons_dh(double *C, double *D, double *H, int *LengthH, int *levels,
+        int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error)
+/* double *C;              Input data, and the subsequent smoothed data */
+/* double *D;              The wavelet coefficients                     */
+/* double *H;              The smoothing filter H                       */
+/* int *LengthH;           Length of smoothing filter                   */
+/* int *levels;            The number of levels in this decomposition   */
+/* int *firstC;            The first possible C coef at a given level   */
+/* int *lastC;             The last possible C coef at a given level    */
+/* int *offsetC;           Offset from C[0] for certain level's coeffs  */
+/* int *firstD;            The first possible D coef at a given level   */
+/* int *lastD;             The last possible D coef at a given level    */
+/* int *offsetD;           Offset from D[0] for certain level's coeffs  */
+/* int *type;              The type of wavelet decomposition            */
+/* int *bc;                Which boundary handling are we doing         */
+/* int *error;             Error code                                   */
 {
 register int next_level, at_level;
 register int verbose;   /* Printing messages, passed in error           */
 
-void conbar_dh();
+void conbar_dh(double *c_in, int LengthCin, int firstCin,
+           double *d_in, int LengthDin, int firstDin,
+           double *H, int LengthH,
+           double *c_out, int LengthCout, int firstCout, int lastCout,
+	   int type, int bc);
 
 if (*error == 1l)
         verbose = 1;
@@ -1304,31 +1303,21 @@ return;
 
 #define CEIL(i) ( ((i)>0) ? ( ((i)+1)/2):((i)/2) )
 
-void conbar_dh(c_in, LengthCin, firstCin,
-           d_in, LengthDin, firstDin,
-           H, LengthH,
-           c_out, LengthCout, firstCout, lastCout, type, bc)
-double *c_in;
-int LengthCin;
-int firstCin;
-double *d_in;
-int LengthDin;
-int firstDin;
-double *H;
-int LengthH;
-double *c_out;
-int LengthCout;
-int firstCout;          /* This determines summation over n             */
-int lastCout;           /* and this does too                            */
-int type;               /* The type of wavelet reconstruction           */
-int bc;
+void conbar_dh(double *c_in, int LengthCin, int firstCin,
+           double *d_in, int LengthDin, int firstDin,
+           double *H, int LengthH,
+           double *c_out, int LengthCout, int firstCout, int lastCout,
+	   int type, int bc)
+/* int firstCout;           This determines summation over n             */
+/* int lastCout;            and this does too                            */
+/* int type;                The type of wavelet reconstruction           */
 {
     register int n,k;
     register int cfactor;
     double sumC, sumD;
 
-    int reflect_dh();
-    double access0();
+    int reflect_dh(int n, int lengthC, int bc);
+    double access0(double *c, int lengthC, int n);
 
     switch(type)    {
 

@@ -71,30 +71,31 @@
  * Do wavelet cross-validation in C
  */
 
-void CWaveletCV(noisy, nnoisy, UniversalThresh,
-    C, D, LengthD, H, LengthH,
-    levels, firstC, lastC, offsetC,
-    firstD, lastD, offsetD,
-    ntt, ll, bc, tol, maxits, xvthresh, interptype, error)
-double *noisy;
-int *nnoisy;
-double *UniversalThresh;
-double *C;
-double *D;
-int *LengthD;
-double *H;  /* The wavelets to use                  */
-int *LengthH;   /* The length of the filter             */
-int *levels;
-int *firstC, *lastC, *offsetC;
-int *firstD, *lastD, *offsetD;
-int *ntt;   /* The threshold type                   */
-int *ll;    /* The lowest level to threshold; all levels above too  */
-int *bc;    /* The boundary conditions              */
-double *tol; /* Tolerance that causes termination of algorithm */ 
-int *maxits; /* Maximum number of iterations permitted in optimization */
-double *xvthresh;
-int *interptype; /* 1=noise interpolated, 2=standard interpolation  */
-int *error; /* There was an error!                  */
+void CWaveletCV(double *noisy, int *nnoisy, double *UniversalThresh,
+    double *C, double *D, int *LengthD, double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *tol, int *maxits, double *xvthresh,
+    int *interptype, int *error)
+/* double *noisy;		 The noisy data				*/
+/* int *nnoisy;			 Length of noisy data			*/
+/* double *UniversalThresh;	 The universal threshold		*/
+/* double *C;			 Workspace for scaling coefficients	*/
+/* double *D;			 Workspace for wavelet coefficients	*/
+/* int *LengthD;		 Length of D workspace			*/
+/* double *H;  			 The wavelets to use                 	*/
+/* int *LengthH;   		 The length of the filter       	*/
+/* int *levels;			 Number of levels			*/
+/* int *firstC, *lastC, *offsetC; array indexing info for C vector	*/
+/* int *firstD, *lastD, *offsetD; array indexing info for D vector	*/
+/* int *ntt;   			 The threshold type			*/ 
+/* int *ll;    			 lowest level to threshold; all above too */
+/* int *bc;			 The boundary conditions           	*/
+/* double *tol; 		 Tol that causes algorithm termination	*/ 
+/* int *maxits;			 Max no. of its permitted in optimization */
+/* double *xvthresh;		 Returned cross-validatory threshold	*/
+/* int *interptype;		 1=noise interpolate, 2=std interpolate */
+/* int *error;			 There was an error!                 	*/
 {
 register int verbose=0;
 register int iterations=0;
@@ -106,7 +107,12 @@ double fa,fb,fc
 double f1,f2;
 double ssq, tmp;
 
-void Call_Crsswav();
+void Call_Crsswav(double *noisy, int *nnoisy, double *value,
+    double *C, double *D, int *LengthD,
+    double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *ssq, int *interptype, int *error);
 
 ax = 0.0;
 bx = *UniversalThresh/2.0;
@@ -264,32 +270,46 @@ return;
  *
  */
 
-void Call_Crsswav(noisy, nnoisy, value,
-    C, D, LengthD,
-    H, LengthH,
-    levels, firstC, lastC, offsetC,
-    firstD, lastD, offsetD,
-    ntt, ll, bc, ssq, interptype, error)
-double *noisy;  /* The noisy data - power of 2              */
-int *nnoisy;    /* The number of noisy data elements, must be power of 2*/
-double *value;  /* The threshold value at which to estimate CV Score    */
-double *C;
-double *D;
-int *LengthD;
-double *H;  /* The wavelets to use                  */
-int *LengthH;   /* The length of the filter             */
-int *levels;
-int *firstC, *lastC, *offsetC;
-int *firstD, *lastD, *offsetD;
-int *ntt;   /* The threshold type                   */
-int *ll;    /* The lowest level to threshold; all levels above too  */
-int *bc;    /* The boundary conditions              */
-double *ssq;    /* The answer!                      */
-int *interptype;
-int *error; /* There was an error!                  */
+void Call_Crsswav(double *noisy, int *nnoisy, double *value,
+    double *C, double *D, int *LengthD,
+    double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *ssq, int *interptype, int *error)
+/*---------------------
+ * Argument description
+double *noisy::   The noisy data - power of 2              
+int *nnoisy::     The number of noisy data elements, must be power of 2
+double *value::   The threshold value at which to estimate CV Score    
+double *C::
+double *D::
+int *LengthD::
+double *H::   The wavelets to use                  
+int *LengthH::    The length of the filter             
+int *levels::
+int *firstC, *lastC, *offsetC::
+int *firstD, *lastD, *offsetD::
+int *ntt::    The threshold type                   
+int *ll::     The lowest level to threshold; all levels above too  
+int *bc::     The boundary conditions              
+double *ssq::     The answer!                      
+int *interptype::
+int *error::  There was an error!                  
+---------------------*/
 {
-void Crsswav();
-void Crsswav2();
+void Crsswav(double *noisy, int *nnoisy, double *value,
+    double *C, double *D, int *LengthD,
+    double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *ssq, int *error);
+
+void Crsswav2(double *noisy, int *nnoisy, double *value,
+    double *C, double *D, int *LengthD,
+    double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *ssq, int *error);
 
 switch(*interptype) {
 
@@ -320,28 +340,32 @@ return;
  * because we smooth the noise before comparison.
  */
 
-void Crsswav(noisy, nnoisy, value,
-    C, D, LengthD,
-    H, LengthH,
-    levels, firstC, lastC, offsetC,
-    firstD, lastD, offsetD,
-    ntt, ll, bc, ssq, error)
-double *noisy;  /* The noisy data - power of 2              */
-int *nnoisy;    /* The number of noisy data elements, must be power of 2*/
-double *value;  /* The threshold value at which to estimate CV Score    */
-double *C;
-double *D;
-int *LengthD;
-double *H;  /* The wavelets to use                  */
-int *LengthH;   /* The length of the filter             */
-int *levels;
-int *firstC, *lastC, *offsetC;
-int *firstD, *lastD, *offsetD;
-int *ntt;   /* The threshold type                   */
-int *ll;    /* The lowest level to threshold; all levels above too  */
-int *bc;    /* The boundary conditions              */
-double *ssq;    /* The answer!                      */
-int *error; /* There was an error!                  */
+void Crsswav(double *noisy, int *nnoisy, double *value,
+    double *C, double *D, int *LengthD,
+    double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *ssq, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *noisy::   The noisy data - power of 2              
+int *nnoisy::     The number of noisy data elements, must be power of 2
+double *value::   The threshold value at which to estimate CV Score    
+double *C::
+double *D::
+int *LengthD::
+double *H::   The wavelets to use                  
+int *LengthH::    The length of the filter             
+int *levels::
+int *firstC, *lastC, *offsetC::
+int *firstD, *lastD, *offsetD::
+int *ntt::    The threshold type                   
+int *ll::     The lowest level to threshold:: all levels above too  
+int *bc::     The boundary conditions              
+double *ssq::     The answer!                      
+int *error::  There was an error!                  
+---------------------*/
 {
 register int nodd,i;
 int type;
@@ -353,9 +377,17 @@ double *interps;
 double ssq1=0.0;
 double tmp;
 
-void wavedecomp();
-void waverecons();
-void Cthreshold();
+void wavedecomp(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
+void Cthreshold(double *D, int *LengthD, int *firstD, int *lastD, int *offsetD,
+	int *Dlevels, int *ntt, double *value, int *levels,
+	int *qlevels, int *bc, int *error);
 
 /*
 Rprintf("Crsswav\n");
@@ -566,28 +598,32 @@ free((char *)interps);
  * because we don't smooth the noise before comparison.
  */
 
-void Crsswav2(noisy, nnoisy, value,
-    C, D, LengthD,
-    H, LengthH,
-    levels, firstC, lastC, offsetC,
-    firstD, lastD, offsetD,
-    ntt, ll, bc, ssq, error)
-double *noisy;  /* The noisy data - power of 2              */
-int *nnoisy;    /* The number of noisy data elements, must be power of 2*/
-double *value;  /* The threshold value at which to estimate CV Score    */
-double *C;
-double *D;
-int *LengthD;
-double *H;  /* The wavelets to use                  */
-int *LengthH;   /* The length of the filter             */
-int *levels;
-int *firstC, *lastC, *offsetC;
-int *firstD, *lastD, *offsetD;
-int *ntt;   /* The threshold type                   */
-int *ll;    /* The lowest level to threshold; all levels above too  */
-int *bc;    /* The boundary conditions              */
-double *ssq;    /* The answer!                      */
-int *error; /* There was an error!                  */
+void Crsswav2(double *noisy, int *nnoisy, double *value,
+    double *C, double *D, int *LengthD,
+    double *H, int *LengthH,
+    int *levels, int *firstC, int *lastC, int *offsetC,
+    int *firstD, int *lastD, int *offsetD,
+    int *ntt, int *ll, int *bc, double *ssq, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *noisy::   The noisy data - power of 2              
+int *nnoisy::     The number of noisy data elements, must be power of 2
+double *value::   The threshold value at which to estimate CV Score    
+double *C::
+double *D::
+int *LengthD::
+double *H::   The wavelets to use                  
+int *LengthH::    The length of the filter             
+int *levels::
+int *firstC, *lastC, *offsetC::
+int *firstD, *lastD, *offsetD::
+int *ntt::    The threshold type                   
+int *ll::     The lowest level to threshold:: all levels above too  
+int *bc::     The boundary conditions              
+double *ssq::     The answer!                      
+int *error::  There was an error!                  
+ ---------------------*/
 {
 register int nodd,i;
 int type;
@@ -599,9 +635,17 @@ double *interps;
 double ssq1=0.0;
 double tmp;
 
-void wavedecomp();
-void waverecons();
-void Cthreshold();
+void wavedecomp(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
+void Cthreshold(double *D, int *LengthD, int *firstD, int *lastD, int *offsetD,
+	int *Dlevels, int *ntt, double *value, int *levels,
+	int *qlevels, int *bc, int *error);
 
 /*
 Rprintf("Crsswav\n");
@@ -809,26 +853,15 @@ free((char *)interps);
 
 #define HardThreshold(coef, threshold) (fabs(coef) > (threshold) ? (coef):(0.0))
 
-void Cthreshold(D, LengthD, firstD, lastD, offsetD, Dlevels, ntt, value, levels,
-    qlevels, bc, error)
-double *D;
-int *LengthD;
-int *firstD;
-int *lastD;
-int *offsetD;
-int *Dlevels;
-int *ntt;
-double *value;
-int *levels;
-int *qlevels;
-int *bc;
-int *error;
+void Cthreshold(double *D, int *LengthD, int *firstD, int *lastD, int *offsetD,
+	int *Dlevels, int *ntt, double *value, int *levels,
+	int *qlevels, int *bc, int *error)
 {
 register int i,j, local_level;
 double cough;
 double *din;
-int reflect();
-double SoftThreshold();
+int reflect(int n, int lengthC, int bc);
+double SoftThreshold(double cough, double threshold);
 
 /*
 Rprintf("Cthreshold\n");
@@ -915,9 +948,7 @@ else    {
     }
 }
 
-double SoftThreshold(cough, threshold)
-double cough;
-double threshold;
+double SoftThreshold(double cough, double threshold)
 {
 register double s=1.0;
 
@@ -934,17 +965,22 @@ else
  * Function that estimates function with removed observation
  */
 
-void EstWitRem(ynoise, Lynoise, removed, thresh, H, LengthH, ntt, ll, answer, error)
-double *ynoise;     /* The data                 */
-int *Lynoise;       /* The length of the data           */
-int *removed;       /* The index to remove from the data        */
-double *thresh;
-double *H;      /* The wavelets to use                                  */
-int *LengthH;  /* The length of the filter                             */
-int *ntt;      /* The threshold type                                   */
-int *ll;       /* The lowest level to threshold; all levels above too  */
-double *answer;
-int *error;     /* Possible errors              */
+void EstWitRem(double *ynoise, int *Lynoise, int *removed, double *thresh,
+	double *H, int *LengthH, int *ntt, int *ll, double *answer, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *ynoise::      The data                 
+int *Lynoise::        The length of the data           
+int *removed::        The index to remove from the data        
+double *thresh::
+double *H::       The wavelets to use                                  
+int *LengthH::   The length of the filter                             
+int *ntt::       The threshold type                                   
+int *ll::        The lowest level to threshold; all levels above too  
+double *answer::
+int *error::      Possible errors              
+ ---------------------*/
 {
 register int i; /* Register int?                */
 int nleft, nright;  /* The number of data points to the left & right */
@@ -964,11 +1000,23 @@ int levels;
 int *firstC, *lastC, *offsetC;
 int *firstD, *lastD, *offsetD;
 
-void simpleWT();
-void Cthreshold();
-void waverecons();
-int LargerPowerOfTwo(); /* A function that returns next larger  */
-                /* power of two than it's argument  */
+void simpleWT(double *TheData, int *ndata, double *H, int *LengthH,
+    double **C, int *LengthC, double **D, int *LengthD, int *levels,
+    int **firstC, int **lastC, int **offsetC,
+    int **firstD, int **lastD, int **offsetD,
+    int *type, int *bc, int *error);
+
+void Cthreshold(double *D, int *LengthD, int *firstD, int *lastD, int *offsetD,
+	int *Dlevels, int *ntt, double *value, int *levels,
+	int *qlevels, int *bc, int *error);
+
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
+
+int LargerPowerOfTwo(int n);    /* A function that returns next larger  */
+                		/* power of two than it's argument  */
 
 /* No errors yet */
 *error = 0;
@@ -1168,8 +1216,7 @@ return;
  * LargerPowerOfTwo:    Returns smallest power of two larger than n
  */
 
-int LargerPowerOfTwo(n)
-int n;
+int LargerPowerOfTwo(int n)
 {
 register int cnt=0;
 n--;
@@ -1187,18 +1234,23 @@ return(n);
  * Do wavelet cross-validation in C
  */
 
-void FullWaveletCV(noisy, nnoisy, UniversalThresh,
-    H, LengthH, ntt, ll, tol, xvthresh, error)
-double *noisy;
-int *nnoisy;
-double *UniversalThresh;
-double *H;  /* The wavelets to use                  */
-int *LengthH;   /* The length of the filter             */
-int *ntt;   /* The threshold type                   */
-int *ll;    /* The lowest level to threshold; all levels above too  */
-double *tol;
-double *xvthresh;
-int *error; /* There was an error!                  */
+void FullWaveletCV(double *noisy, int *nnoisy, double *UniversalThresh,
+	double *H, int *LengthH, int *ntt, int *ll, double *tol,
+	double *xvthresh, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *noisy::
+int *nnoisy::
+double *UniversalThresh::
+double *H::   The wavelets to use                  
+int *LengthH::    The length of the filter             
+int *ntt::    The threshold type                   
+int *ll::     The lowest level to threshold; all levels above too  
+double *tol::
+double *xvthresh::
+int *error::  There was an error!                  
+ ---------------------*/
 {
 int verbose=0;
 double ax, bx,cx;
@@ -1211,7 +1263,9 @@ double ssq;
 int mRi;    /* This is required as an argument to GetRSS, but we don't
          * make use of it here */
 
-void GetRSS();
+void GetRSS(double *ynoise, int *Lynoise, double *thresh, double *H,
+	int *LengthH, int *ntt, int *ll, double *rss, int *smallestRSSindex,
+	int *verbose, int *error);
 
 ax = 0.0;
 bx = *UniversalThresh/2.0;
@@ -1338,25 +1392,16 @@ return;
 }
 #define GRSTART 4       /* The first index to remove for GetRSS */
 
-void GetRSS(ynoise, Lynoise, thresh, H, LengthH, ntt, ll, rss, smallestRSSindex,
-    verbose, error)
-double *ynoise;
-int *Lynoise;
-double *thresh;
-double *H;
-int *LengthH;
-int *ntt;
-int *ll;
-double *rss;
-int *smallestRSSindex;
-int *verbose;
-int *error;
+void GetRSS(double *ynoise, int *Lynoise, double *thresh, double *H,
+	int *LengthH, int *ntt, int *ll, double *rss, int *smallestRSSindex,
+	int *verbose, int *error)
 {
 int removed, local_removed;
 int minRSSix;
 double TheMinRSS;
 double answer;
-void EstWitRem();
+void EstWitRem(double *ynoise, int *Lynoise, int *removed, double *thresh,
+	double *H, int *LengthH, int *ntt, int *ll, double *answer, int *error);
 
 /* No error yet!! */
 *error = 0;
@@ -1420,30 +1465,35 @@ return;
 
 
 
-void ImageDecomposeStep(C, Csize, firstCin, H, LengthH,
-    LengthCout, firstCout, lastCout,
-    LengthDout, firstDout, lastDout,
-    cc_out, cd_out, dc_out, dd_out, bc, type,
-    error)
-double *C;  /* Input data image                 */
-int Csize; /* Size of image (side length)              */
-int firstCin;  /* Index number of first element in input "C" image */
-double *H;  /* Filter coefficients                  */
-int LengthH;   /* Length of filter                 */
-/* Details about output image */
-int LengthCout;/* Length of C part of output image         */
-int firstCout; /* Index number of first element in output "C" image    */
-int lastCout;  /* Index number of last element             */
-int LengthDout;/* Length of D part of output image         */
-int firstDout; /* Index number of first element in output "D" image    */
-int lastDout;  /* Index number of last element             */
-double **cc_out;/* Smoothed output image                */
-double **cd_out;/* Horizontal detail                    */
-double **dc_out;/* Vertical detail                  */
-double **dd_out;/* Diagonal detail                  */
-int bc;    /* Method of boundary correction            */
-int type;  /* Type of transform, wavelet or stationary     */
-int *error;    /* Error code                       */
+void ImageDecomposeStep(double *C, int Csize, int firstCin, double *H,
+	int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	int LengthDout, int firstDout, int lastDout,
+	double **cc_out, double **cd_out, double **dc_out, double **dd_out,
+	int bc, int type, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *C::   Input data image                 
+int Csize::  Size of image (side length)              
+int firstCin::   Index number of first element in input "C" image 
+double *H::   Filter coefficients                  
+int LengthH::    Length of filter                 
+ Details about output image 
+int LengthCout:: Length of C part of output image         
+int firstCout::  Index number of first element in output "C" image    
+int lastCout::   Index number of last element             
+int LengthDout:: Length of D part of output image         
+int firstDout::  Index number of first element in output "D" image    
+int lastDout::   Index number of last element             
+double **cc_out:: Smoothed output image                
+double **cd_out:: Horizontal detail                    
+double **dc_out:: Vertical detail                  
+double **dd_out:: Diagonal detail                  
+int bc::     Method of boundary correction            
+int type::   Type of transform, wavelet or stationary     
+int *error::     Error code                       
+ *---------------------*/
 {
 register int j,row,col;
 double *ccopy;  /* Used to copy input data to convolution routines  */
@@ -1454,8 +1504,14 @@ double *afterD; /* Temporary store for image data after D convolution   */
 double *afterCC,*afterCD,*afterDC,*afterDD; /* Results      */
 int step_factor;    /* This should always be 1 for the WAVELET trans*/
 
-void convolveC();
-void convolveD();
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
 
 *error = 0;
 
@@ -1639,32 +1695,21 @@ return;
 }
 
 
-void StoIDS(C, Csize, firstCin, H, LengthH,
-    LengthCout, firstCout, lastCout,
-    LengthDout, firstDout, lastDout,
-    ImCC, ImCD, ImDC, ImDD, bc, type,
-    error)
-    
-double *C;
-int *Csize;
-int *firstCin;
-double *H;
-int *LengthH;
-int *LengthCout;
-int *firstCout;
-int *lastCout;
-int *LengthDout;
-int *firstDout;
-int *lastDout;
-double *ImCC,*ImCD,*ImDC,*ImDD;
-int *bc;
-int *type;
-int *error;
+void StoIDS(double *C, int *Csize, int *firstCin, double *H, int *LengthH,
+	int *LengthCout, int *firstCout, int *lastCout,
+	int *LengthDout, int *firstDout, int *lastDout,
+	double *ImCC, double *ImCD, double *ImDC, double *ImDD,
+	int *bc, int *type, int *error)
 {
 register int i,j;
 double *cc_out, *cd_out, *dc_out, *dd_out;
 
-void ImageDecomposeStep();
+void ImageDecomposeStep(double *C, int Csize, int firstCin, double *H,
+	int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	int LengthDout, int firstDout, int lastDout,
+	double **cc_out, double **cd_out, double **dc_out, double **dd_out,
+	int bc, int type, int *error);
 
 ImageDecomposeStep(C, *Csize, *firstCin, H, *LengthH,
     *LengthCout, *firstCout, *lastCout,
@@ -1700,23 +1745,20 @@ free((void *)dc_out);
 free((void *)dd_out);
 }
 
-void StoIRS(ImCC, ImCD, ImDC, ImDD,
-    LengthCin, firstCin,
-    LengthDin, firstDin,
-    H, LengthH,
-    LengthCout, firstCout, lastCout,
-    ImOut, bc, error)
-double *ImCC,*ImCD,*ImDC,*ImDD;
-int *LengthCin, *firstCin;
-int *LengthDin, *firstDin;
-double *H;
-int *LengthH;
-int *LengthCout, *firstCout, *lastCout;
-double *ImOut;
-int *bc;
-int *error;
+void StoIRS(double *ImCC, double *ImCD, double *ImDC, double *ImDD,
+	int *LengthCin, int *firstCin,
+	int *LengthDin, int *firstDin,
+	double *H, int *LengthH,
+	int *LengthCout, int *firstCout, int *lastCout,
+	double *ImOut, int *bc, int *error)
 {
-void ImageReconstructStep();
+void ImageReconstructStep(double *ImCC, double *ImCD, double *ImDC,
+	double *ImDD,
+	int LengthCin, int firstCin,
+	int LengthDin, int firstDin,
+	double *H, int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	double *ImOut, int *bc, int *error);
 
 *error = 0;
 
@@ -1730,23 +1772,13 @@ ImageReconstructStep(ImCC, ImCD, ImDC, ImDD,
 
 }
 
-void ImageReconstructStep(ImCC, ImCD, ImDC, ImDD,
-        LengthCin, firstCin,
-        LengthDin, firstDin,
-        H, LengthH,
-        LengthCout, firstCout, lastCout,
-        ImOut,
-    bc,
-        error)
-double *ImCC,*ImCD,*ImDC,*ImDD;
-int LengthCin, firstCin;
-int LengthDin, firstDin;
-double *H;
-int LengthH;
-int LengthCout, firstCout, lastCout;
-double *ImOut;
-int *bc;
-int *error;
+void ImageReconstructStep(double *ImCC, double *ImCD, double *ImDC,
+	double *ImDD,
+	int LengthCin, int firstCin,
+	int LengthDin, int firstDin,
+	double *H, int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	double *ImOut, int *bc, int *error)
 {
 register int i,j;
 double *c_in;
@@ -1756,7 +1788,11 @@ double *toC;
 double *toD;
 int type=WAVELET;       /* The type of the WAVELET transform    */
 
-void conbar();
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc);
 
 /* Get memory for c_in and d_in */
 
@@ -1861,29 +1897,39 @@ for(i=0; i<LengthCout; ++i) {
  */
 
 
-double *av_basis(wst, wstC, nlevels, level, ix1, ix2, H, LengthH, error)
-double *wst;    /* The stationary wavelet decomposition         */
-double *wstC;   /* The stationary wavelet decomposition         */
-int nlevels; /* The original length of the data         */
-int level;  /* The level to reconstruct             */
-int ix1;    /* The "left" packet index              */
-int ix2;    /* The "right" packet index             */
-double *H;  /* The filter                       */
-int LengthH;    /* The length of the filter             */
-int *error; /* Error code                       */
+double *av_basis(double *wst, double *wstC, int nlevels, int level,
+	int ix1, int ix2, double *H, int LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *wst::	The stationary wavelet decomposition         
+double *wstC::  The stationary wavelet decomposition         
+int nlevels::  	The original length of the data         
+int level::     The level to reconstruct             
+int ix1::       The "left" packet index              
+int ix2::       The "right" packet index             
+double *H::     The filter                       
+int LengthH::   The length of the filter             
+int *error::    Error code                       
+ *---------------------*/
 {
 register int i;
 double *cl;
 double *cr;
 double *genericC;
 double *genericD;
-void conbar();
-double *getpacket();
-double *av_basis();
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc);
+double *getpacket(double *wst, int nlevels, int level, int index, int *error);
+double *av_basis(double *wst, double *wstC, int nlevels, int level,
+	int ix1, int ix2, double *H, int LengthH, int *error);
 int LengthC;
 int LengthCin;
 
-void rotateback();
+void rotateback(double *book, int length);
 
 *error = 0;
 
@@ -2056,12 +2102,8 @@ return(cl);
  * except that nlevels here should be one more!
  */
 
-double *getpacket(wst, nlevels, level, index, error)
-double *wst;
-int nlevels;    /* This looks like it should be nlevels+1 for somereason */
-int level;
-int index;
-int *error;
+double *getpacket(double *wst, int nlevels, int level, int index, int *error)
+/* int nlevels::    This looks like it should be nlevels+1 for some reason */
 {
 register int i;
 double *packet;
@@ -2084,20 +2126,14 @@ return(packet);
 /* Wrapper for av_basis */
 
 
-void av_basisWRAP(wst, wstC, LengthData, level, H, LengthH, answer, error)
-double *wst;
-double *wstC;
-int *LengthData;
-int *level;
-double *H;
-int *LengthH;
-double *answer;
-int *error;
+void av_basisWRAP(double *wst, double *wstC, int *LengthData, int *level,
+	double *H, int *LengthH, double *answer, int *error)
 {
 register int i;
 int nlevels;
 double *acopy;
-double *av_basis();
+double *av_basis(double *wst, double *wstC, int nlevels, int level,
+	int ix1, int ix2, double *H, int LengthH, int *error);
 
 nlevels = 2 + (int)*level;
 
@@ -2115,30 +2151,17 @@ free((void *)acopy);
 
 #define CEIL(i) ( ((i)>0) ? ( ((i)+1)/2):((i)/2) )
 
-void conbar(c_in, LengthCin, firstCin,
-       d_in, LengthDin, firstDin,
-       H, LengthH,
-       c_out, LengthCout, firstCout, lastCout, type, bc)
-double *c_in;
-int LengthCin;
-int firstCin;
-double *d_in;
-int LengthDin;
-int firstDin;
-double *H;
-int LengthH;
-double *c_out;
-int LengthCout;
-int firstCout;      /* This determines summation over n     */
-int lastCout;       /* and this does too                */
-int type;       /* The type of wavelet reconstruction       */
-int bc;
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc)
 {
 register int n,k;
 register int cfactor;
 double sumC, sumD;
 
-int reflect();
+int reflect(int n, int lengthC, int bc);
 
 switch(type)    {
 
@@ -2203,24 +2226,11 @@ for(n=firstCout; n<=lastCout; ++n)  {
  * CONBARL: Wrapper called by SPlus conbar() to call C conbar.
  */
 
-void conbarL(c_in, LengthCin, firstCin,
-       d_in, LengthDin, firstDin,
-       H, LengthH,
-       c_out, LengthCout, firstCout, lastCout, type, bc)
-double *c_in;
-int *LengthCin;
-int *firstCin;
-double *d_in;
-int *LengthDin;
-int *firstDin;
-double *H;
-int *LengthH;
-double *c_out;
-int *LengthCout;
-int *firstCout; /* This determines summation over n     */
-int *lastCout;      /* and this does too                */
-int *type;      /* The type of wavelet reconstruction       */
-int *bc;
+void conbarL(double *c_in, int *LengthCin, int *firstCin,
+	double *d_in, int *LengthDin, int *firstDin,
+	double *H, int *LengthH,
+	double *c_out, int *LengthCout, int *firstCout, int *lastCout,
+	int *type, int *bc)
 {
 int LLengthCin;
 int LfirstCin;
@@ -2232,7 +2242,11 @@ int LfirstCout;
 int LlastCout;
 int Ltype;
 int Lbc;
-void conbar();
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc);
 
 LLengthCin = (int)*LengthCin;
 LfirstCin = (int)*firstCin;
@@ -2255,22 +2269,25 @@ conbar(c_in, LLengthCin, LfirstCin,
  * CONVOLVE -   Do filter H filter convolution with boundary
  */
 
-
-
-
-void convolveC(c_in, LengthCin, firstCin, H, LengthH, c_out, 
-    firstCout, lastCout, type, step_factor, bc)
-double *c_in;   /* Input data                       */
-int LengthCin;  /* Length of this array                 */
-int firstCin;   /* The first C value                    */
-double *H;  /* Filter                       */
-int LengthH;    /* Length of filter                 */
-double *c_out;  /* Output data                      */
-int firstCout;  /* First index of C array               */
-int lastCout;   /* Last index of C array                */
-int type;   /* Type of wavelet decomposition            */
-int step_factor;/* For stationary wavelets only             */
-int bc;     /* Method of boundary correction PERIODIC, SYMMETRIC    */
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc)
+/*---------------------
+ * Argument description
+ *---------------------
+double *c_in::    	Input data                       
+int LengthCin::   	Length of this array                 
+int firstCin::    	The first C value                    
+double *H::   		Filter                       
+int LengthH::     	Length of filter                 
+double *c_out::   	Output data                      
+int firstCout::   	First index of C array               
+int lastCout::    	Last index of C array                
+int type::		Type of wavelet decomposition            
+int step_factor::	For stationary wavelets only             
+int bc::      		Method of boundary correction PERIODIC, SYMMETRIC    
+ *---------------------*/
 {
 double sum;
 register int k;
@@ -2278,7 +2295,7 @@ register int count_out;
 register int m;
 register int cfactor;   /* This determines what sort of dilation we do  */
             /* and depends on the type argument     */
-int reflect();
+int reflect(int n, int lengthC, int bc);
 
 count_out = 0;
 
@@ -2316,20 +2333,25 @@ for(k=firstCout; k<=lastCout; ++k)  {
     ++count_out;
     }
 }
-
-void convolveD(c_in, LengthCin, firstCin, H, LengthH, d_out,
-    firstDout, lastDout, type, step_factor, bc)
-double *c_in;   /* Input data                       */
-int LengthCin;  /* Length of this array                 */
-int firstCin;   /* The first index of the C input array         */
-double *H;  /* Filter                       */
-int LengthH;    /* Length of filter                 */
-double *d_out;  /* Output data                      */
-int firstDout;  /* First index of D array               */
-int lastDout;   /* Last index of D array                */
-int type;   /* Type of wavelet decomposition            */
-int step_factor;/* For stationary wavelets only             */
-int bc;     /* Method of boundary correction PERIODIC or SYMMETRIC  */
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc)
+/*---------------------
+ * Argument description
+ *---------------------
+double *c_in::    	Input data                       
+int LengthCin::   	Length of this array                 
+int firstCin::    	The first C value                    
+double *H::   		Filter                       
+int LengthH::     	Length of filter                 
+double *d_out::   	Output data                      
+int firstDout::   	First index of C array               
+int lastDout::    	Last index of C array                
+int type::		Type of wavelet decomposition            
+int step_factor::	For stationary wavelets only             
+int bc::      		Method of boundary correction PERIODIC, SYMMETRIC    
+ *---------------------*/
 {
 double sum;
 double tmp;
@@ -2338,7 +2360,7 @@ register int count_out;
 register int m;
 register int cfactor;
 
-int reflect();
+int reflect(int n, int lengthC, int bc);
 
 count_out = 0;
 
@@ -2384,10 +2406,7 @@ for(k=firstDout; k<=lastDout; ++k)  {
 
 
 /* Works out reflection, as REFLECT, but reports access errors */
-int reflect(n, lengthC, bc)
-int n;
-int lengthC;
-int bc;
+int reflect(int n, int lengthC, int bc)
 {
 
 if ((n >= 0) && (n < lengthC))
@@ -2480,9 +2499,7 @@ return(0); /* for lint only */
 
 */
 
-void rotater(book, length)
-double *book;
-int length;
+void rotater(double *book, int length)
 {
 register int i;
 double tmp;
@@ -2495,9 +2512,7 @@ for(i=0; i<length-1; ++i)
 *(book+length-1) = tmp;
 }
 
-void rotateback(book, length)
-double *book;
-int length;
+void rotateback(double *book, int length)
 {
 register int i;
 double tmp;
@@ -2509,6 +2524,7 @@ for(i= length-1; i>0; --i)
 
 *book = tmp;
 }
+
 /*
  * Does a simple wavelet transform
  *
@@ -2535,33 +2551,41 @@ for(i= length-1; i>0; --i)
  * &C, &D etc.]
  */
 
-void simpleWT(TheData, ndata, H, LengthH,
-    C, LengthC, D, LengthD, levels,
-    firstC, lastC, offsetC,
-    firstD, lastD, offsetD, type, bc, error) 
-double *TheData;/* The data to transform; must be a power of two els    */ 
-int *ndata; /* The length of the data               */
-double *H;  /* The wavelet filter that you want to use      */
-int *LengthH;   /* The length of the wavelet filter         */
-/* The following arguments are the answer               */
-double **C; /* A pointer to the array of C answers is returned  */
-int *LengthC;   /* The length of the C array is returned        */
-double **D; /* A pointer to the array of D answers is returned  */
-int *LengthD;   /* The length of the D array is returned        */
-int *levels;    /* The number of levels of the transform is returned    */
-int **firstC,**lastC,**offsetC;/* These are computed and returned   */
-int **firstD,**lastD,**offsetD;/* These are computed and returned   */
-int *type;  /* This is filled in with type WAVELET          */
-int *bc;    /* This is filled in with PERIODIC          */
-int *error; /* Returns any error condition              */
+void simpleWT(double *TheData, int *ndata, double *H, int *LengthH,
+    double **C, int *LengthC, double **D, int *LengthD, int *levels,
+    int **firstC, int **lastC, int **offsetC,
+    int **firstD, int **lastD, int **offsetD,
+    int *type, int *bc, int *error) 
+/*---------------------
+ * Argument description
+ *---------------------
+double *TheData::	The data to transform; must be a power of two els     
+int *ndata::  		The length of the data               
+double *H::   		The wavelet filter that you want to use      
+int *LengthH::    	The length of the wavelet filter         
+ The following arguments are the answer/output
+double **C::  		A pointer to the array of C answers is returned  
+int *LengthC::    	The length of the C array is returned        
+double **D::  		A pointer to the array of D answers is returned  
+int *LengthD::    	The length of the D array is returned        
+int *levels::     	The number of levels of the transform is returned    
+int **firstC,**lastC,**offsetC:: These are computed and returned   
+int **firstD,**lastD,**offsetD:: These are computed and returned   
+int *type::   		This is filled in with type WAVELET          
+int *bc::     		This is filled in with PERIODIC          
+int *error::  		Returns any error condition              
+ *---------------------*/
 {
 int *lfC,*llC,*loC; /* Local versions of firstC,lastC,offsetC   */
 int *lfD,*llD,*loD; /* Local versions of firstD,lastD,offsetD   */
 double *lC, *lD;    /* Local versions of C and D            */
 int cnt,i;
 
-void wavedecomp();
-int IsPowerOfTwo();     /*MAN: added since missing declaration, see 2537 */
+void wavedecomp(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
+int IsPowerOfTwo(int n);
 
 /* No errors yet */
 
@@ -2691,29 +2715,41 @@ if (*error != 0)    {
 return;
 }
 
-void wavedecomp(C, D, H, LengthH, levels, firstC,lastC,
-    offsetC, firstD, lastD, offsetD, type, bc, error)
-double *C;              /* Input data, and the subsequent smoothed data */
-double *D;              /* The wavelet coefficients                     */
-double *H;              /* The smoothing filter H                       */
-int *LengthH;          /* Length of smoothing filter                   */
-int *levels;           /* The number of levels in this decomposition   */
-int *firstC;           /* The first possible C coef at a given level   */
-int *lastC;            /* The last possible C coef at a given level    */
-int *offsetC;          /* Offset from C[0] for certain level's coeffs  */
-int *firstD;           /* The first possible D coef at a given level   */
-int *lastD;            /* The last possible D coef at a given level    */
-int *offsetD;          /* Offset from D[0] for certain level's coeffs  */
-int *type;      /* The type of wavelet decomposition        */
-int *bc;        /* Method of boundary correction        */
-int *error;            /* Error code                                   */
+void wavedecomp(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+ double *C::       Input data, and the subsequent smoothed data 
+ double *D::       The wavelet coefficients                     
+ double *H::       The smoothing filter H                       
+ int *LengthH::    Length of smoothing filter                   
+ int *levels::     The number of levels in this decomposition   
+ int *firstC::     The first possible C coef at a given level   
+ int *lastC::      The last possible C coef at a given level    
+ int *offsetC::    Offset from C[0] for certain level's coeffs  
+ int *firstD::     The first possible D coef at a given level   
+ int *lastD::      The last possible D coef at a given level    
+ int *offsetD::    Offset from D[0] for certain level's coeffs  
+ int *type::       The type of wavelet decomposition        
+ int *bc::         Method of boundary correction        
+ int *error::      Error code                                   
+ *---------------------*/
 {
 register int next_level,at_level;
 register int step_factor;   /* Controls width of filter for station */
 register int verbose;   /* Controls message printing, passed in error var*/
 
-void convolveC();
-void convolveD();
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
 
 if (*error == 1l)   /* Error switches on verbosity */
     verbose = 1;
@@ -2802,13 +2838,18 @@ if (verbose)
 return;
 }
 
-void accessDwp(Data, LengthData, nlevels, level, answer, error)
-double *Data;       /* This is a 2D array. Top level contains data */
-int *LengthData;    /* Length of Data, this is power of 2              */
-int *nlevels;       /* The number of levels in this decomposition   */
-int *level;     /* Which level you want to extract      */
-double *answer;     /* The level of coefficients            */
-int *error;     /* Error code                   */
+void accessDwp(double *Data, int *LengthData, int *nlevels, int *level,
+	double *answer, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Data::        This is a 2D array. Top level contains data 
+int *LengthData::     Length of Data, this is power of 2              
+int *nlevels::        The number of levels in this decomposition   
+int *level::          Which level you want to extract      
+double *answer::      The level of coefficients            
+int *error::          Error code                   
+ *---------------------*/
 {
 register int i;
 
@@ -2835,18 +2876,24 @@ for(i=0; i< *LengthData; ++i)
 }
 
 
-void wavepackde(Data, LengthData, levels, H, LengthH)
-double *Data;       /* This is a 2D array. Top level contains data */
-int *LengthData;    /* Length of Data, this is power of 2              */
-int *levels;        /* The number of levels, 2^(levels+1)=LengthData   */
-double *H;      /* The filter to use                   */
-int *LengthH;       /* Length of filter                */
+void wavepackde(double *Data, int *LengthData, int *levels, double *H,
+	int *LengthH)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Data::        This is a 2D array. Top level contains data 
+int *LengthData::     Length of Data, this is power of 2              
+int *levels::         The number of levels, 2^(levels+1)=LengthData   
+double *H::           The filter to use                   
+int *LengthH::        Length of filter                
+ *---------------------*/
 {
 int startin, outstart1, outstart2;
 /*
 int i,j;
 */
-void wvpkr();
+void wvpkr(double *Data, int startin, int lengthin, int outstart1,
+	int outstart2, int level, double *H, int LengthH, int *LengthData);
 
 /*
 Rprintf("This routine is wavepackde\n");
@@ -2867,21 +2914,19 @@ wvpkr(Data, startin, (int)*LengthData, outstart1, outstart2, (int)*levels, H,
  (int)*LengthH, LengthData);
 }
 
-void wvpkr(Data, startin, lengthin, outstart1, outstart2, level, H, LengthH,
-    LengthData)
-double *Data;
-int startin;
-int lengthin;
-int outstart1;
-int outstart2;
-int level;  /* The level where we're at         */
-double *H;
-int LengthH;
-int *LengthData;
+void wvpkr(double *Data, int startin, int lengthin, int outstart1,
+	int outstart2, int level, double *H, int LengthH, int *LengthData)
+/* int level;  The level where we're at         */
 {
 int lengthout;
-void convolveC();
-void convolveD();
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
 
 lengthout = lengthin/2;
 
@@ -2923,16 +2968,18 @@ else    {
  */
 
 
-void wavepackrecon(rdata, ldata, nrsteps, rvector, H, LengthH, error)
-double *rdata;  /* The transformed data, packets are packed together    */
-int *ldata; /* Array of lengths of packets in rdata         */
-int *nrsteps;   /* The number of reconstruction steps           */
-        /* This is also the length of the ldata array       */
-int *rvector;   /* Integer whose binary decomposition reveals rotate/not
-           instruction                      */
-double *H;  /* Filter                       */
-int *LengthH;   /* Length of filter                 */
-int *error; /* Error code                       */
+void wavepackrecon(double *rdata, int *ldata, int *nrsteps, int *rvector, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *rdata::	The transformed data, packets are packed together    
+int *ldata:: 	Array of lengths of packets in rdata         
+int *nrsteps::	The number of reconstruction steps (also length of ldata array)
+int *rvector::	Integer whose binary decomp reveals rotate/not instruction
+double *H::	Filter                       
+int *LengthH::	Length of filter                 
+int *error::	Error code                       
+ *---------------------*/
 {
 register int i,j;
 register int msb;
@@ -2942,8 +2989,12 @@ int LengthCout;
 int LengthDin;
 double *c_in;
 double *c_out;
-void conbar();  /* The reconstruction step from WaveThresh 2.2      */
-void rotateback();
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc);
+void rotateback(double *book, int length);
 
 /* Set error code to zero as no error has occured yet!  */
 
@@ -3075,20 +3126,27 @@ free((void *)c_in);
  * packet fashion.
  */
 
-void wavepackst(Carray, Data, LengthData, levels, H, LengthH, error)
-double *Carray;     /* Will contain bottom most Cs             */
-double *Data;       /* This is a 2D array. Zeroeth level contains data */
-int *LengthData;    /* Length of Data, this is power of 2              */
-int *levels;        /* The number of levels, 2^(*levels)=LengthData    */
-double *H;      /* The filter to use                   */
-int *LengthH;       /* Length of filter                */
-int *error;     /* Error code, if non-zero then it's a mem error   */
+void wavepackst(double *Carray, double *Data, int *LengthData, int *levels,
+	double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Carray::      Will contain bottom most Cs             
+double *Data::        This is a 2D array. Zeroeth level contains data 
+int *LengthData::     Length of Data, this is power of 2              
+int *levels::         The number of levels, 2^(*levels)=LengthData    
+double *H::	      The filter to use                   
+int *LengthH::        Length of filter                
+int *error::          Error code, if non-zero then it's a mem error   
+ *---------------------*/
 {
 int startin, outstart1, outstart2;
 register int i;
 double *book;
 
-void wvpkstr();
+void wvpkstr(double *Carray, double *Data, int startin, int lengthin,
+	int outstart1, int outstart2, int level, double *H, int LengthH,
+	int *LengthData, double *book, int *error);
 
 *error = 0;
 
@@ -3130,28 +3188,24 @@ else
     free((void *)book);
 }
 
-void wvpkstr(Carray, Data, startin, lengthin, outstart1, outstart2, level, H,
-    LengthH, LengthData, book, error)
-double *Carray;
-double *Data;
-int startin;
-int lengthin;
-int outstart1;
-int outstart2;
-int level;  /* The level where we're at         */
-double *H;
-int LengthH;
-int *LengthData;
-double *book;
-int *error;
+void wvpkstr(double *Carray, double *Data, int startin, int lengthin,
+	int outstart1, int outstart2, int level, double *H, int LengthH,
+	int *LengthData, double *book, int *error)
+/* int level;  The level where we're at         */
 {
 register int i;
 int lengthout;
 double *book1, *book2;
 
-void convolveC();
-void convolveD();
-void rotater();
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
+void rotater(double *book, int length);
 
 /*
 Rprintf("wvpkstr entry\n");
@@ -3255,28 +3309,37 @@ free((void *)book2);
 /*
  * waverecons:  Do 1D wavelet reconstruction
  */
-
-void waverecons(C, D, H, LengthH, levels,
-    firstC, lastC, offsetC, firstD, lastD, offsetD, type, bc, error)
-double *C;              /* Input data, and the subsequent smoothed data */
-double *D;              /* The wavelet coefficients                     */
-double *H;              /* The smoothing filter H                       */
-int *LengthH;          /* Length of smoothing filter                   */
-int *levels;           /* The number of levels in this decomposition   */
-int *firstC;           /* The first possible C coef at a given level   */
-int *lastC;            /* The last possible C coef at a given level    */
-int *offsetC;          /* Offset from C[0] for certain level's coeffs  */
-int *firstD;           /* The first possible D coef at a given level   */
-int *lastD;            /* The last possible D coef at a given level    */
-int *offsetD;          /* Offset from D[0] for certain level's coeffs  */
-int *type;      /* The type of wavelet decomposition        */
-int *bc;        /* Which boundary handling are we doing     */
-int *error;            /* Error code                                   */
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+ double *C::       Input data, and the subsequent smoothed data 
+ double *D::       The wavelet coefficients                     
+ double *H::       The smoothing filter H                       
+ int *LengthH::    Length of smoothing filter                   
+ int *levels::     The number of levels in this decomposition   
+ int *firstC::     The first possible C coef at a given level   
+ int *lastC::      The last possible C coef at a given level    
+ int *offsetC::    Offset from C[0] for certain level's coeffs  
+ int *firstD::     The first possible D coef at a given level   
+ int *lastD::      The last possible D coef at a given level    
+ int *offsetD::    Offset from D[0] for certain level's coeffs  
+ int *type::       The type of wavelet decomposition        
+ int *bc::         Method of boundary correction        
+ int *error::      Error code                                   
+ *---------------------*/
 {
 register int next_level, at_level;
 register int verbose;   /* Printing messages, passed in error       */
 
-void conbar();
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc);
 
 if (*error == 1)
     verbose = 1;
@@ -3347,6 +3410,7 @@ if (verbose)
 
 return;
 }
+
 /*
  * Functions to do complex arithmetic
  *
@@ -3356,8 +3420,7 @@ return;
  * Addition: a+ib + c+id = a+c +i(b+d) = e + i f
  */
 
-void comadd(a,b,c,d,e,f)
-double a,b,c,d,*e,*f;
+void comadd(double a, double b, double c, double d, double *e, double *f)
 {
 *e = a+c;
 *f = b+d;
@@ -3367,8 +3430,7 @@ double a,b,c,d,*e,*f;
  * Subtraction: a+ib - c+id = a+c -i(b+d) = e + i f
  */
 
-void comsub(a,b,c,d,e,f)
-double a,b,c,d,*e,*f;
+void comsub(double a, double b, double c, double d, double *e, double *f)
 {
 *e = a-c;
 *f = b-d; 
@@ -3378,8 +3440,7 @@ double a,b,c,d,*e,*f;
  * Multiplication: (a+ib)(c+id) = ac-bd +i(bc+ad) = e + i f
  */
 
-void commul(a,b,c,d,e,f)
-double a,b,c,d,*e,*f;
+void commul(double a, double b, double c, double d, double *e, double *f)
 {
 *e = (a*c - b*d);
 *f = (b*c + a*d);
@@ -3390,8 +3451,7 @@ double a,b,c,d,*e,*f;
  * Division: (a+ib)(c+id) = (ac+bd +i(bc-ad))/(c^2+d^2) = e + i f
  */
 
-void comdiv(a,b,c,d,e,f)
-double a,b,c,d,*e,*f;
+void comdiv(double a, double b, double c, double d, double *e, double *f)
 {
 double tmp;
 
@@ -3400,6 +3460,7 @@ tmp = c*c + d*d;
 *e = (a*c + b*d)/tmp;
 *f = (b*c - a*d)/tmp;
 }
+
 /*
  * Complex wavelet version
  */
@@ -3408,32 +3469,13 @@ tmp = c*c + d*d;
  * COMCBR: Does the reconstruction convolution
  */
 
-void comcbr(c_inR, c_inI, LengthCin, firstCin, lastCin,
-       d_inR, d_inI, LengthDin, firstDin, lastDin,
-       HR, HI, GR, GI, LengthH,
-       c_outR, c_outI, LengthCout, firstCout, lastCout, type, bc)
-double *c_inR;
-double *c_inI;
-int LengthCin;
-int firstCin;
-int lastCin;        /* Code probably doesn't need this      */
-double *d_inR;
-double *d_inI;
-int LengthDin;
-int firstDin;
-int lastDin;
-double *HR;
-double *HI;
-double *GR;
-double *GI;
-int LengthH;
-double *c_outR;
-double *c_outI;
-int LengthCout;
-int firstCout;      /* This determines summation over n     */
-int lastCout;       /* and this does too                */
-int type;       /* The type of wavelet reconstruction       */
-int bc;
+void comcbr(double *c_inR, double *c_inI,
+	int LengthCin, int firstCin, int lastCin,
+	double *d_inR, double *d_inI,
+	int LengthDin, int firstDin, int lastDin,
+	double *HR, double *HI, double *GR, double *GI, int LengthH,
+	double *c_outR, double *c_outI, int LengthCout, int firstCout,
+	int lastCout, int type, int bc)
 {
 register int n,k;
 register int cfactor;
@@ -3507,6 +3549,7 @@ for(n=firstCout; n<=lastCout; ++n)  {
     }
 
 }
+
 /*
  * This routine is identical to the convolve.c routine except it
  * does it for complex wavelets.
@@ -3515,23 +3558,31 @@ for(n=firstCout; n<=lastCout; ++n)  {
  */
 
 
-void comconC(c_inR, c_inI, LengthCin, firstCin, HR, HI, LengthH,
-c_outR, c_outI, LengthCout, firstCout, lastCout, type, step_factor, bc)
-double *c_inR;  /* Input data (real)                    */
-double *c_inI;  /* Input data (imaginary)               */
-int LengthCin;  /* Length of this array                 */
-int firstCin;   /*  <-- MAN: added since missing...     */
-double *HR; /* Lowpass Filter                   */
-double *HI; /* Lowpass Filter                   */
-int LengthH;    /* Length of filter                 */
-double *c_outR; /* Output data (real)                   */
-double *c_outI; /* Output data (imaginary)              */
-int LengthCout; /* Length of above array                */
-int firstCout;  /* First index of C array               */
-int lastCout;   /* Last index of C array                */
-int type;   /* Type of wavelet decomposition            */
-int step_factor;/* For stationary wavelets only             */
-int bc;     /* Method of boundary correction PERIODIC, SYMMETRIC    */
+void comconC(double *c_inR, double *c_inI,
+	int LengthCin, int firstCin,
+	double *HR, double *HI, int LengthH,
+	double *c_outR, double *c_outI,
+	int LengthCout, int firstCout, int lastCout,
+	int type, int step_factor, int bc)
+/*---------------------
+ * Argument description
+ *---------------------
+double *c_inR::   Input data (real)                    
+double *c_inI::   Input data (imaginary)               
+int LengthCin::   Length of this array                 
+int firstCin::     <-- MAN: added since missing...     
+double *HR::      Lowpass Filter                   
+double *HI::      Lowpass Filter                   
+int LengthH::     Length of filter                 
+double *c_outR::  Output data (real)                   
+double *c_outI::  Output data (imaginary)              
+int LengthCout::  Length of above array                
+int firstCout::   First index of C array               
+int lastCout::    Last index of C array                
+int type::        Type of wavelet decomposition            
+int step_factor:: For stationary wavelets only             
+int bc::          Method of boundary correction PERIODIC, SYMMETRIC    
+ *---------------------*/
 {
 double sumR,sumI;
 double a,b,c,d,e,f;
@@ -3589,23 +3640,31 @@ for(k=firstCout; k<=lastCout; ++k)  {
     }
 }
 
-void comconD(c_inR, c_inI, LengthCin, firstCin, GR, GI, LengthH,
-    d_outR, d_outI, LengthDout, firstDout, lastDout, type, step_factor, bc)
-double *c_inR;  /* Input data                       */
-double *c_inI;  /* Input data                       */
-int LengthCin;  /* Length of this array                 */
-int firstCin;
-double *GR; /* highpass Filter                  */
-double *GI; /* highpass Filter                  */
-int LengthH;    /* Length of filter                 */
-double *d_outR; /* Output data                      */
-double *d_outI; /* Output data                      */
-int LengthDout; /* Length of above array                */
-int firstDout;  /* First index of D array               */
-int lastDout;   /* Last index of D array                */
-int type;   /* Type of wavelet decomposition            */
-int step_factor;/* For stationary wavelets only             */
-int bc;     /* Method of boundary correction PERIODIC or SYMMETRIC  */
+void comconD(double *c_inR, double *c_inI,
+	int LengthCin, int firstCin,
+	double *GR, double *GI, int LengthH,
+	double *d_outR, double *d_outI,
+	int LengthDout, int firstDout, int lastDout,
+	int type, int step_factor, int bc)
+/*---------------------
+ * Argument description
+ *---------------------
+double *c_inR::   Input data (real)                    
+double *c_inI::   Input data (imaginary)               
+int LengthCin::   Length of this array                 
+int firstCin::     <-- MAN: added since missing...     
+double *GR::      Lowpass Filter                   
+double *GI::      Lowpass Filter                   
+int LengthH::     Length of filter                 
+double *d_outR::  Output data (real)                   
+double *d_outI::  Output data (imaginary)              
+int LengthDout::  Length of above array                
+int firstDout::   First index of C array               
+int lastDout::    Last index of C array                
+int type::        Type of wavelet decomposition            
+int step_factor:: For stationary wavelets only             
+int bc::          Method of boundary correction PERIODIC, SYMMETRIC    
+ *---------------------*/
 {
 double sumR, sumI;
 double a,b,c,d,e,f;
@@ -3675,29 +3734,38 @@ for(k=firstDout; k<=lastDout; ++k)  {
  * Complex version of wavelet transform
  */
 
-void comwd(CR, CI, LengthC, DR, DI, LengthD, HR, HI, GR, GI, LengthH,
-levels, firstC,lastC, offsetC, firstD, lastD, offsetD, type, bc, error)
-double *CR;              /* Input data, and the subsequent smoothed data */
-double *CI;              /* Input data, and the subsequent smoothed data */
-int *LengthC;          /* Length of C array                            */
-double *DR;              /* The wavelet coefficients                     */
-double *DI;              /* The wavelet coefficients                     */
-int *LengthD;          /* Length of D array                            */
-double *HR;              /* The smoothing filter H                       */
-double *HI;              /* The smoothing filter H                       */
-double *GR;              /* The highpass filter H                       */
-double *GI;              /* The highpass filter H                       */
-int *LengthH;          /* Length of smoothing filter                   */
-int *levels;           /* The number of levels in this decomposition   */
-int *firstC;           /* The first possible C coef at a given level   */
-int *lastC;            /* The last possible C coef at a given level    */
-int *offsetC;          /* Offset from C[0] for certain level's coeffs  */
-int *firstD;           /* The first possible D coef at a given level   */
-int *lastD;            /* The last possible D coef at a given level    */
-int *offsetD;          /* Offset from D[0] for certain level's coeffs  */
-int *type;      /* The type of wavelet decomposition        */
-int *bc;        /* Method of boundary correction        */
-int *error;            /* Error code                                   */
+void comwd(double *CR, double *CI, int *LengthC,
+	   double *DR, double *DI, int *LengthD,
+	double *HR, double *HI, double *GR, double *GI, int *LengthH,
+	int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *CR::             Input data, and the subsequent smoothed data 
+double *CI::             Input data, and the subsequent smoothed data 
+int *LengthC::           Length of C array                            
+double *DR::             The wavelet coefficients                     
+double *DI::             The wavelet coefficients                     
+int *LengthD::           Length of D array                            
+double *HR::             The smoothing filter H                       
+double *HI::             The smoothing filter H                       
+double *GR::             The highpass filter H                       
+double *GI::             The highpass filter H                       
+int *LengthH::           Length of smoothing filter                   
+int *levels::            The number of levels in this decomposition   
+int *firstC::            The first possible C coef at a given level   
+int *lastC::             The last possible C coef at a given level    
+int *offsetC::           Offset from C[0] for certain level's coeffs  
+int *firstD::            The first possible D coef at a given level   
+int *lastD::             The last possible D coef at a given level    
+int *offsetD::           Offset from D[0] for certain level's coeffs  
+int *type::       	 The type of wavelet decomposition        
+int *bc::        	 Method of boundary correction        
+int *error::             Error code                                   
+ *---------------------*/
 {
 register int next_level,at_level;
 register int step_factor;   /* Controls width of filter for station */
@@ -3797,33 +3865,44 @@ if (verbose)
     Rprintf("\n");
 return;
 }
+
 /*
- * waverecons:  Do 1D wavelet reconstruction
+ * comwr:  Do 1D complex wavelet reconstruction
  */
 
-void comwr(CR, CI, LengthC, DR, DI, LengthD, HR, HI, GR, GI, LengthH, levels,
-    firstC, lastC, offsetC, firstD, lastD, offsetD, type, bc, error)
-double *CR;              /* Input data, and the subsequent smoothed data */
-double *CI;              /* Input data, and the subsequent smoothed data */
-int *LengthC;          /* Length of C array                            */
-double *DR;              /* The wavelet coefficients                     */
-double *DI;              /* The wavelet coefficients                     */
-int *LengthD;          /* Length of D array                            */
-double *HR;              /* The smoothing filter H                       */
-double *HI;              /* The smoothing filter H                       */
-double *GR;              /* The bandpass filter G                       */
-double *GI;              /* The bandpass filter G                       */
-int *LengthH;          /* Length of smoothing filter                   */
-int *levels;           /* The number of levels in this decomposition   */
-int *firstC;           /* The first possible C coef at a given level   */
-int *lastC;            /* The last possible C coef at a given level    */
-int *offsetC;          /* Offset from C[0] for certain level's coeffs  */
-int *firstD;           /* The first possible D coef at a given level   */
-int *lastD;            /* The last possible D coef at a given level    */
-int *offsetD;          /* Offset from D[0] for certain level's coeffs  */
-int *type;      /* The type of wavelet decomposition        */
-int *bc;        /* Which boundary handling are we doing     */
-int *error;            /* Error code                                   */
+void comwr(double *CR, double *CI, int *LengthC,
+	   double *DR, double *DI, int *LengthD,
+	double *HR, double *HI, double *GR, double *GI, int *LengthH,
+	int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *CR::             Input data, and the subsequent smoothed data 
+double *CI::             Input data, and the subsequent smoothed data 
+int *LengthC::           Length of C array                            
+double *DR::             The wavelet coefficients                     
+double *DI::             The wavelet coefficients                     
+int *LengthD::           Length of D array                            
+double *HR::             The smoothing filter H                       
+double *HI::             The smoothing filter H                       
+double *GR::             The highpass filter H                       
+double *GI::             The highpass filter H                       
+int *LengthH::           Length of smoothing filter                   
+int *levels::            The number of levels in this decomposition   
+int *firstC::            The first possible C coef at a given level   
+int *lastC::             The last possible C coef at a given level    
+int *offsetC::           Offset from C[0] for certain level's coeffs  
+int *firstD::            The first possible D coef at a given level   
+int *lastD::             The last possible D coef at a given level    
+int *offsetD::           Offset from D[0] for certain level's coeffs  
+int *type::       	 The type of wavelet decomposition        
+int *bc::        	 Method of boundary correction        
+int *error::             Error code                                   
+ *---------------------*/
+
 {
 register int next_level, at_level;
 register int verbose;   /* Printing messages, passed in error       */
@@ -3903,6 +3982,7 @@ if (verbose)
     Rprintf("\n");
 
 return;
+
 }
 /*
  * Emulate the WavDE function in C (but not plotting information)
@@ -3911,40 +3991,49 @@ return;
 
 #define HARDTHRESH(w,t) ( fabs((w)) > (t) ? (w) : (0.0))
 
-void CWavDE(x, n, minx, maxx, Jmax, threshold, xout, fout, nout,
-    PrimRes, SFx, SFy, lengthSF, WVx, WVy, lengthWV,
-    kmin, kmax, kminW, kmaxW, xminW, xmaxW,
-    phiLH, phiRH, psiLH, psiRH, verbose, error)
-double *x;  /* The data                     */
-int *n; /* The length of the data               */
-double *minx;   /* The min of the data                  */
-double *maxx;   /* The max of the data                  */
-int *Jmax;  /* The number of levels in the expansion        */
-double *threshold;  /* Threshold value for thresholding the wv coefs*/
-/* Output Variables */
-double *xout;   /* The grid on which the density estimate is defined    */ 
-double *fout;   /* The density estimate defined on the above grid   */ 
-int *nout;  /* The length of the grid               */
-/* Input variables again */
-double *PrimRes;/* The primary resolution               */
-double *SFx;    /* The grid on which the scaling function is defined    */
-double *SFy;    /* The scaling function                 */
-int *lengthSF;  /* The length of the grid               */
-double *WVx;    /* The grid on which the wavelet is defined     */
-double *WVy;    /* The wavelet function                 */
-int *lengthWV;  /* The length of the grid               */
-int *kmin;  /* minimum k for scaling function coefficient comp. */
-int *kmax;  /* maximum k for scaling function coefficient comp. */
-int *kminW; /* as above but for each wavelet level (1:Jmax)     */
-int *kmaxW; /* as above but for each wavelet level (1:Jmax)     */
-double *xminW;  /* minimum x value for each level for wavelet       */
-double *xmaxW;  /* maximum x value for each level for wavelet       */
-double *phiLH;  /* left hand end of support of Phi          */
-double *phiRH;  /* right hand end of support of Phi         */
-double *psiLH;  /* left hand end of support of psi          */
-double *psiRH;  /* right hand end of support of psi         */
-int *verbose;   /* Print messages or not?               */
-int *error; /* Error codes                      */
+void CWavDE(double *x, int *n, double *minx, double *maxx, int *Jmax,
+	double *threshold, double *xout, double *fout, int *nout,
+	double *PrimRes,
+	double *SFx, double *SFy, int *lengthSF,
+	double *WVx, double *WVy, int *lengthWV,
+	int *kmin, int *kmax, int *kminW, int *kmaxW,
+	double *xminW, double *xmaxW,
+	double *phiLH, double *phiRH, double *psiLH, double *psiRH,
+	int *verbose, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *x::   		The data                     
+int *n::  		The length of the data               
+double *minx::		The min of the data                  
+double *maxx::		The max of the data                  
+int *Jmax::		The number of levels in the expansion        
+double *threshold::	Threshold value for thresholding the wv coefs
+	vvv Output Variables vvv
+double *xout::    	The grid on which the density estimate is defined     
+double *fout::    	The density estimate defined on the above grid    
+int *nout::		The length of the grid               
+	vvv Input variables again vvv
+double *PrimRes:: 	The primary resolution               
+double *SFx::     	The grid on which the scaling function is defined    
+double *SFy::     	The scaling function                 
+int *lengthSF::   	The length of the grid               
+double *WVx::     	The grid on which the wavelet is defined     
+double *WVy::     	The wavelet function                 
+int *lengthWV::   	The length of the grid               
+int *kmin::   		minimum k for scaling function coefficient comp. 
+int *kmax::   		maximum k for scaling function coefficient comp. 
+int *kminW::  		as above but for each wavelet level (1:Jmax)     
+int *kmaxW::  		as above but for each wavelet level (1:Jmax)     
+double *xminW::   	minimum x value for each level for wavelet       
+double *xmaxW::   	maximum x value for each level for wavelet       
+double *phiLH::   	left hand end of support of Phi          
+double *phiRH::   	right hand end of support of Phi         
+double *psiLH::   	left hand end of support of psi          
+double *psiRH::   	right hand end of support of psi         
+int *verbose::    	Print messages or not?               
+int *error::  		Error codes                      
+ *---------------------*/
 
 /* Error codes
 
@@ -3960,7 +4049,7 @@ double *a;
 double sum;
 double divisor;
 double widthSF,widthWV;
-double evalF();
+double evalF(double *Fx, double *Fy, int *lengthF, double widthF, double x);
 double xmin, xmax; /* Note these are not the same as maxx and minx */
 double SFYscale, WVYscale; /* I forgot to multiply by p^{1/2} etc. */
 
@@ -4110,17 +4199,22 @@ for(j=0; j<(int)*Jmax; ++j) {
 *error = 0;
 }
 
-void SCevalF(Fx, Fy, lengthF, widthF, x, nx, answer)
-double *Fx; /* Grid upon which function is defined          */
-double *Fy; /* Function definition                  */
-int *lengthF;   /* Length of above grids                */
-double *widthF; /* Width end Fx - start Fx              */
-double *x;  /* Vector x to evaluate function at         */
-int *nx;    /* Length of x                      */
-double *answer; /* The answer (again vector of length x)        */
+void SCevalF(double *Fx, double *Fy, int *lengthF, double *widthF,
+	double *x, int *nx, double *answer)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Fx::	  Grid upon which function is defined          
+double *Fy::	  Function definition                  
+int *lengthF::    Length of above grids                
+double *widthF::  Width end Fx - start Fx              
+double *x::       Vector x to evaluate function at         
+int *nx::         Length of x                      
+double *answer::  The answer (again vector of length x)        
+ *---------------------*/
 {
 register int i;
-double evalF();
+double evalF(double *Fx, double *Fy, int *lengthF, double widthF, double x);
 
 for(i=0; i< (int)*nx; ++i)  {
     *(answer+i) = evalF(Fx, Fy, lengthF, *widthF, *(x+i));
@@ -4135,12 +4229,16 @@ for(i=0; i< (int)*nx; ++i)  {
  * Fx must be a strictly increasing equally spaced design
  */
 
-double evalF(Fx, Fy, lengthF, widthF, x)
-double *Fx; /* Grid upon which function is defined          */
-double *Fy; /* Function definition                  */
-int *lengthF;   /* Length of above grids                */
-double widthF;  /* Width end Fx - start Fx              */
-double x;   /* Value of x to evaluate function at           */
+double evalF(double *Fx, double *Fy, int *lengthF, double widthF, double x)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Fx::	  Grid upon which function is defined          
+double *Fy::	  Function definition                  
+int *lengthF::    Length of above grids                
+double widthF::  Width end Fx - start Fx              
+double x::       Vector x to evaluate function at         
+ *---------------------*/
 {
 register int il,ir;
 double a;
@@ -4177,15 +4275,11 @@ fp = a - (double)il;
 
 return( ((1.0-fp)* *(Fy+il)) + (fp* *(Fy+ir)) );
 }
+
 #define MAX(a,b)    ( (a) < (b) ? (b) : (a))
 #define MIN(a,b)    ( (a) < (b) ? (a) : (b))
 
-void CScalFn(v, ans, res, H, lengthH)
-double *v;
-double *ans;
-int *res;
-double *H;
-int *lengthH;
+void CScalFn(double *v, double *ans, int *res, double *H, int *lengthH)
 {
 register int k,n;
 double sum;
@@ -4204,35 +4298,39 @@ for(n=0; n< (int)*res; ++n) {
 
 /* Perform tensor product wavelet transform */
 
-void tpwd(image, nrow, ncol, levr, levc, 
-    firstCr, lastCr, offsetCr,
-    firstDr, lastDr, offsetDr,
-    firstCc, lastCc, offsetCc,
-    firstDc, lastDc, offsetDc,
-    type, bc,
-    H, LengthH, error)
-double *image;      /* The image to decompose           */
-int *nrow;      /* The number of rows in the image      */
-int *ncol;      /* The number of cols in the image      */
-int *levr;      /* The number of levels as rows in the image    */
-int *levc;      /* The number of levels as cols in the image    */
-int *firstCr;           /* The first possible C coef at a given level   */
-int *lastCr;            /* The last possible C coef at a given level    */
-int *offsetCr;          /* Offset from C[0] for certain level's coeffs  */
-int *firstDr;           /* The first possible D coef at a given level   */
-int *lastDr;            /* The last possible D coef at a given level    */
-int *offsetDr;          /* Offset from D[0] for certain level's coeffs  */
-int *firstCc;           /* The first possible C coef at a given level   */
-int *lastCc;            /* The last possible C coef at a given level    */
-int *offsetCc;          /* Offset from C[0] for certain level's coeffs  */
-int *firstDc;           /* The first possible D coef at a given level   */
-int *lastDc;            /* The last possible D coef at a given level    */
-int *offsetDc;          /* Offset from D[0] for certain level's coeffs  */
-int *type;             /* The type of wavelet decomposition            */
-int *bc;               /* Method of boundary correction                */
-double *H;      /* The wavelet filter               */
-int *LengthH;       /* The length of the wavelet filter     */
-int *error;     /* 0=no error, various errors possible      */
+void tpwd(double *image, int *nrow, int *ncol, int *levr, int *levc, 
+    int *firstCr, int *lastCr, int *offsetCr,
+    int *firstDr, int *lastDr, int *offsetDr,
+    int *firstCc, int *lastCc, int *offsetCc,
+    int *firstDc, int *lastDc, int *offsetDc,
+    int *type, int *bc,
+    double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *image::   The image to decompose           
+int *nrow::       The number of rows in the image      
+int *ncol::       The number of cols in the image      
+int *levr::       The number of levels as rows in the image    
+int *levc::       The number of levels as cols in the image    
+int *firstCr::    The first possible C coef at a given level   
+int *lastCr::     The last possible C coef at a given level    
+int *offsetCr::   Offset from C[0] for certain level's coeffs  
+int *firstDr::    The first possible D coef at a given level   
+int *lastDr::     The last possible D coef at a given level    
+int *offsetDr::   Offset from D[0] for certain level's coeffs  
+int *firstCc::    The first possible C coef at a given level   
+int *lastCc::     The last possible C coef at a given level    
+int *offsetCc::   Offset from C[0] for certain level's coeffs  
+int *firstDc::    The first possible D coef at a given level   
+int *lastDc::     The last possible D coef at a given level    
+int *offsetDc::   Offset from D[0] for certain level's coeffs  
+int *type::       The type of wavelet decomposition            
+int *bc::         Method of boundary correction                
+double *H::       The wavelet filter               
+int *LengthH::    The length of the wavelet filter     
+int *error::      0=no error, various errors possible      
+ *---------------------*/
 {
 register int i,j;
 
@@ -4240,7 +4338,10 @@ double *C;      /* temporary store for input/output data    */
 double *D;      /* temporary store for wavelet coefficients */
 
 
-void wavedecomp();  /* The famous wavelet decomposition routine */
+void wavedecomp(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
 
 *error = 0;
 
@@ -4348,42 +4449,50 @@ free(D);
 
 /* Inverse tensor product wavelet transform             */
 
-void tpwr(image, nrow, ncol, levr, levc, 
-    firstCr, lastCr, offsetCr,
-    firstDr, lastDr, offsetDr,
-    firstCc, lastCc, offsetCc,
-    firstDc, lastDc, offsetDc,
-    type, bc,
-    H, LengthH, error)
-double *image;      /* The tpwd coefficients to reconstruct     */
-int *nrow;      /* The number of rows in the image      */
-int *ncol;      /* The number of cols in the image      */
-int *levr;      /* The number of levels as rows in the image    */
-int *levc;      /* The number of levels as cols in the image    */
-int *firstCr;           /* The first possible C coef at a given level   */
-int *lastCr;            /* The last possible C coef at a given level    */
-int *offsetCr;          /* Offset from C[0] for certain level's coeffs  */
-int *firstDr;           /* The first possible D coef at a given level   */
-int *lastDr;            /* The last possible D coef at a given level    */
-int *offsetDr;          /* Offset from D[0] for certain level's coeffs  */
-int *firstCc;           /* The first possible C coef at a given level   */
-int *lastCc;            /* The last possible C coef at a given level    */
-int *offsetCc;          /* Offset from C[0] for certain level's coeffs  */
-int *firstDc;           /* The first possible D coef at a given level   */
-int *lastDc;            /* The last possible D coef at a given level    */
-int *offsetDc;          /* Offset from D[0] for certain level's coeffs  */
-int *type;             /* The type of wavelet decomposition            */
-int *bc;               /* Method of boundary correction                */
-double *H;      /* The wavelet filter               */
-int *LengthH;       /* The length of the wavelet filter     */
-int *error;     /* 0=no error, various errors possible      */
+void tpwr(double *image, int *nrow, int *ncol, int *levr, int *levc, 
+    int *firstCr, int *lastCr, int *offsetCr,
+    int *firstDr, int *lastDr, int *offsetDr,
+    int *firstCc, int *lastCc, int *offsetCc,
+    int *firstDc, int *lastDc, int *offsetDc,
+    int *type, int *bc,
+    double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *image::   The tpwd coefficients to reconstruct     
+int *nrow::       The number of rows in the image      
+int *ncol::       The number of cols in the image      
+int *levr::       The number of levels as rows in the image    
+int *levc::       The number of levels as cols in the image    
+int *firstCr::    The first possible C coef at a given level   
+int *lastCr::     The last possible C coef at a given level    
+int *offsetCr::   Offset from C[0] for certain level's coeffs  
+int *firstDr::    The first possible D coef at a given level   
+int *lastDr::     The last possible D coef at a given level    
+int *offsetDr::   Offset from D[0] for certain level's coeffs  
+int *firstCc::    The first possible C coef at a given level   
+int *lastCc::     The last possible C coef at a given level    
+int *offsetCc::   Offset from C[0] for certain level's coeffs  
+int *firstDc::    The first possible D coef at a given level   
+int *lastDc::     The last possible D coef at a given level    
+int *offsetDc::   Offset from D[0] for certain level's coeffs  
+int *type::       The type of wavelet decomposition            
+int *bc::         Method of boundary correction                
+double *H::       The wavelet filter               
+int *LengthH::    The length of the wavelet filter     
+int *error::      0=no error, various errors possible      
+ *---------------------*/
 {
 register int i,j;
 
 double *C;      /* temporary store for input data       */
 double *D;      /* temporary store for wavelet coefficients */
 
-void waverecons();  /* The 1D wavelet reconstruction function   */
+/* The 1D wavelet reconstruction function   */
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
 /* Basically just do tpwd backwards! */
 
 *error = 0;
@@ -4489,12 +4598,8 @@ free(D);
 #define RIGHT       3       /* Code for going right     */
 
 /* Compute Shannon-Weaver entropy substitute - the l^2 log (l^2) "norm" */
-void ShannonEntropy(v, lengthv, zilchtol, answer, error)
-double *v;
-int *lengthv;
-double *zilchtol;
-double *answer;
-int *error;
+void ShannonEntropy(double *v, int *lengthv, double *zilchtol, double *answer,
+	int *error)
 {
 register int i;
 double *vsq;
@@ -4532,17 +4637,21 @@ return;
 
 #define ACCESSU(uvec, fv, lev, j)   *(uvec + *(fv+lev) + j)
 
-void Cmnv(wst, wstC, LengthData, nlevels, upperctrl, upperl, firstl, verbose,
-        error)
-double *wst;        /* Table of wavelet packet coefficients     */
-double *wstC;       /* Table of scaling function coefficients   */
-int *LengthData;    /* Length of original data set          */
-int *nlevels;       /* Number of levels in the decomposition    */
-int *upperctrl; /* Vector to record "control" decisions     */
-double *upperl;     /* Vector to record minimum entropies       */
-int *firstl;        /* Index vector into previous two vectors   */
-int *verbose;       /* Print out verbose messages (1=yes, 0=no) */
-int *error;     /* Error condition              */
+void Cmnv(double *wst, double *wstC, int *LengthData, int *nlevels,
+	int *upperctrl, double *upperl, int *firstl, int *verbose, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *wst::         Table of wavelet packet coefficients     
+double *wstC::        Table of scaling function coefficients   
+int *LengthData::     Length of original data set          
+int *nlevels::        Number of levels in the decomposition    
+int *upperctrl::      Vector to record "control" decisions     
+double *upperl::      Vector to record minimum entropies       
+int *firstl::         Index vector into previous two vectors   
+int *verbose::        Print out verbose messages (1=yes, 0=no) 
+int *error::          Error condition              
+ *---------------------*/
 {
 register int i,j,k;
 register int nll, nul;  /* Number of packets in lower and upper levels  */
@@ -4553,8 +4662,9 @@ double *cpkt;       /* Combined packet for level zero computations  */
 double mpE, dlE, drE;   /* Entropies for mother and left & right daughters */
 double zilchtol;    /* A zero tolerance             */
 
-double *getpacket();    /* Get a packet                 */
-void ShannonEntropy();  /* Computes entropy             */
+double *getpacket(double *wst, int nlevels, int level, int index, int *error);
+void ShannonEntropy(double *v, int *lengthv, double *zilchtol, double *answer,
+	int *error);
 
 *error = 0;
 zilchtol = ZILCHTOL;
@@ -4773,16 +4883,20 @@ for(i=0; i <= *nlevels-1; ++i)  {
 #define TOP 1
 #define BOTTOM  2
 
-void wpCmnv(wp, LengthData, nlevels, upperctrl, upperl, firstl, verbose,
-        error)
-double *wp;     /* Table of wavelet packet coefficients     */
-int *LengthData;    /* Length of original data set          */
-int *nlevels;       /* Number of levels in the decomposition    */
-int *upperctrl; /* Vector to record "control" decisions     */
-double *upperl;     /* Vector to record minimum entropies       */
-int *firstl;        /* Index vector into previous two vectors   */
-int *verbose;       /* Print out verbose messages (1=yes, 0=no) */
-int *error;     /* Error condition              */
+void wpCmnv(double *wp, int *LengthData, int *nlevels,
+        int *upperctrl, double *upperl, int *firstl, int *verbose, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *wp::          Table of wavelet packet coefficients
+int *LengthData::     Length of original data set
+int *nlevels::        Number of levels in the decomposition
+int *upperctrl::      Vector to record "control" decisions
+double *upperl::      Vector to record minimum entropies
+int *firstl::         Index vector into previous two vectors
+int *verbose::        Print out verbose messages (1=yes, 0=no)
+int *error::          Error condition
+ *---------------------*/
 {
 register int i,j;
 register int nll, nul;  /* Number of packets in lower and upper levels  */
@@ -4793,8 +4907,9 @@ double mpE, dE;     /* Entropies for mother and daughters */
 double zilchtol;    /* A zero tolerance             */
 double tmp;     /* Temporary holder             */
 
-double *getpacket();    /* Get a packet                 */
-void ShannonEntropy();  /* Computes entropy             */
+double *getpacket(double *wst, int nlevels, int level, int index, int *error);
+void ShannonEntropy(double *v, int *lengthv, double *zilchtol, double *answer,
+	int *error);
 
 *error = 0;
 zilchtol = ZILCHTOL;
@@ -4917,36 +5032,40 @@ for(i=0; i <= *nlevels-1; ++i)  {
  * WPST -   Stationary wavelet packet algorithm (i.e "The nightmare")
  */
 
-void wpst(ansvec, lansvec, nlev, finish_level, avixstart, H, LengthH, error)
-double *ansvec; /* Vector of length *lansvec that contains the original
-         * data and will contain the stationary wavelet packet
-         * coefficients on exit
-         */
-int *lansvec;   /* Length of the ansvec vector              */
-int *nlev;  /* The number of levels in this transform       */
-int *finish_level; /* The last level to decompose to            */
-int *avixstart;/* A vector of length (*nlev+1). The index ranging from
-         * 0 to *nlev. The entries in this vector are indices into
-         * the ansvec vector indicating the start index for
-         * packets for a given level.
-         * e.g.  *(avixstart + 0) = 0 (always). So that the first
-         * index for level 0 packets in ansvec is 0.
-         *
-         * e.g. *(avixstart+1)=256 (for *nlev=4). So that the first
-         * index for level 1 packets in ansvec is 256 etc.
-         */
-
-double *H;  /* Filter smoothing coefficients as with all other algs */
-int *LengthH;   /* The number of filter smoothing coefficients      */
-int *error; /* Error code. 0=o.k.                   */
-        /*  1 - memory error in creating c_in       */
-        /*  2-5 - memory error for c_out, d_out, c_outR, d_outR */
+void wpst(double *ansvec, int *lansvec, int *nlev, int *finish_level,
+	int *avixstart, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *ansvec::	Vector of length *lansvec that contains the original
+			data and will contain the stationary wavelet packet
+			coefficients on exit
+int *lansvec::		Length of the ansvec vector              
+int *nlev::		The number of levels in this transform       
+int *finish_level::	The last level to decompose to            
+int *avixstart::	A vector of length (*nlev+1). The index ranging from
+		 0 to *nlev. The entries in this vector are indices into
+		 the ansvec vector indicating the start index for
+		 packets for a given level.
+		 e.g.  *(avixstart + 0) = 0 (always). So that the first
+		 index for level 0 packets in ansvec is 0.
+         
+		 e.g. *(avixstart+1)=256 (for *nlev=4). So that the first
+		 index for level 1 packets in ansvec is 256 etc.
+         
+double *H::		Filter smoothing coefficients as with all other algs 
+int *LengthH::		The number of filter smoothing coefficients      
+int *error::		Error code. 0=o.k.                   
+			  1 - memory error in creating c_in       
+			  2-5 - memory error for c_out, d_out, c_outR, d_outR 
+ *---------------------*/
 {
 register int i,j,k, plev;
 int pnpkts, ppktlength;
 double *c_in, *c_out, *d_out, *c_outR, *d_outR;
 
-void wpsub();
+void wpsub(double *c_in, int lc_in, double *c_out, double *d_out,
+	double *c_outR, double *d_outR, double *H, int *LengthH);
 
 
 /*
@@ -5029,21 +5148,32 @@ for(i=(int)*nlev-1; i>=(int)*finish_level; --i) {
  *          wavelet packet algorithm.
  */
 
-void wpsub(c_in, lc_in, c_out, d_out, c_outR, d_outR, H, LengthH)
-double *c_in;   /* Data input                       */
-int lc_in;  /* Length of input                  */
-double *c_out;  /* result of low pass applied to input          */
-double *d_out;  /* result of high pass applied to input         */
-double *c_outR; /* result of low pass applied to rotated input      */
-double *d_outR; /* result of high pass applied to rotated input     */
-double *H;  /* Wavelet filter                   */
-int *LengthH;   /* Length of wavelet filter             */
+void wpsub(double *c_in, int lc_in, double *c_out, double *d_out,
+	double *c_outR, double *d_outR, double *H, int *LengthH)
+/*---------------------
+ * Argument description
+ *---------------------
+double *c_in::    Data input                       
+int lc_in::   	  Length of input                  
+double *c_out::   result of low pass applied to input          
+double *d_out::   result of high pass applied to input         
+double *c_outR::  result of low pass applied to rotated input      
+double *d_outR::  result of high pass applied to rotated input     
+double *H::       Wavelet filter                   
+int *LengthH::    Length of wavelet filter             
+ *---------------------*/
 {
 int lengthout;
 
-void convolveC();
-void convolveD();
-void rotater();
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
+void rotater(double *book, int length);
 
 lengthout = lc_in/2;
 
@@ -5074,24 +5204,26 @@ convolveD(c_in, lc_in, 0, H, (int)*LengthH,
 }
 
 
-void accessDwpst(coefvec, lansvec, nlev, avixstart, primaryindex, nwppkt,
-    pklength, level, weave, lweave, error)
-double *coefvec;    /* Vector storing the stat. wavelet pack. coefs */
-int *lansvec;       /* Length of previous vector            */
-int *nlev;      /* The number of levels in the transform    */
-int *avixstart; /* Index into coefvec for starting position
-             * of each level of coefficients        */
-int *primaryindex;  /* Packet numbers in the SWPT scheme to take out
-             * and interweave
-             */
-int *nwppkt;        /* The number of ordinary WP packets at this level
-             * Also the length of the primaryindex vector
-             */
-int *pklength;      /* The length of an SWPT packet         */
-int *level;     /* The level that we're extracting from     */
-double *weave;      /* A vector to store the answer         */
-int *lweave;        /* The length of the weave vector       */
-int *error;     /* An error code                */
+void accessDwpst(double *coefvec, int *lansvec, int *nlev, int *avixstart,
+	int *primaryindex, int *nwppkt, int *pklength, int *level,
+	double *weave, int *lweave, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *coefvec::     Vector storing the stat. wavelet pack. coefs 
+int *lansvec::        Length of previous vector            
+int *nlev::           The number of levels in the transform    
+int *avixstart::      Index into coefvec for starting position
+             	      of each level of coefficients        
+int *primaryindex::   Packet numbers in the SWPT scheme to take out & interweave
+int *nwppkt::         The number of ordinary WP packets at this level
+             	      Also the length of the primaryindex vector
+int *pklength::       The length of an SWPT packet         
+int *level::          The level that we're extracting from     
+double *weave::       A vector to store the answer         
+int *lweave::         The length of the weave vector       
+int *error::          An error code                
+ *---------------------*/
 {
 register int counter, pklcount, i;
 
@@ -5115,9 +5247,7 @@ for(pklcount=0; pklcount< *pklength; ++pklcount)    {
  * Use the binary representation of *l to build a number in base 4
  */
 
-void c2to4(l, a)
-int *l;
-int *a;
+void c2to4(int *l, int *a)
 {
 register int ndigits,i ;
 int mask;
@@ -5182,7 +5312,7 @@ t=0;
     return t;
   }
 
-void makegrid(double *x,double *y,int *n,double *gridx,double *gridy,
+void makegrid(double *x, double *y, int *n, double *gridx, double *gridy,
                int *gridn, double *G, int *Gindex)
 
                /* This function computes from observations in x und y
@@ -5379,9 +5509,9 @@ void computec(int *n,double *c,int *gridn,double *Gmatrix,int *Gindex,
   struct sigmastruct Sigma,Sigma2,Sigma3;
   int rc;
 
-  int createSigma();
-  int putSigma();
-  int allocateSigma();
+  int createSigma(struct sigmastruct *Sigma, int n);
+  int putSigma(struct sigmastruct *Sigma, int i, int j, double s);
+  int allocateSigma(struct sigmastruct *Sigma, int *d);
 
   if(*LengthH>20)
     {
@@ -5865,6 +5995,7 @@ void computec(int *n,double *c,int *gridn,double *Gmatrix,int *Gindex,
   free(NEEDIT);
   }
 
+/* Back to GPN code */
 
 /*
  * Error codes for the rainmat suite.
@@ -5913,18 +6044,21 @@ void computec(int *n,double *c,int *gridn,double *Gmatrix,int *Gindex,
  *
  */
 
-void rainmat(J, donej, coefvec, lvec, fmat, error)
-int *J;        /* The desired maximum level (positive)     */
-int *donej;        /* The first j columns already filled       */
-double **coefvec;   /* The \psi_{jk} stacked into one vector    */
-int *lvec;     /* A vector of lengths of each \psi_j vector in
-               coefvec. The jth element is the length of the
-               jth \psi_j in coefvec
-             */
-double *fmat;       /* This vector will contain the answer. This is
-               the lower triangular portion of the J*J matrix,
-               and therefore is of length J(J-1)/2 */
-int *error;        /* Error code                   */
+void rainmat(int *J, int *donej, double **coefvec, int *lvec,
+	double *fmat, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::	     The desired maximum level (positive)     
+int *donej::         The first j columns already filled       
+double **coefvec::   The \psi_{jk} stacked into one vector    
+int *lvec::          A vector of lengths of each \psi_j vector in coefvec.
+		     The jth element is the length of the jth \psi_j in coefvec
+double *fmat::       This vector will contain the answer. This is
+                     the lower triangular portion of the J*J matrix,
+                     and therefore is of length J(J-1)/2 
+int *error::         Error code                   
+ *---------------------*/
 {
 
 /* First we compute the w. One for each j           */
@@ -5991,12 +6125,7 @@ free((void *)w);
 
 
 
-void wlpart(J, BigJ, H, LengthH, error)
-int *J;
-int *BigJ;
-double *H;
-int *LengthH;
-int *error;
+void wlpart(int *J, int *BigJ, double *H, int *LengthH, int *error)
 {
 register int KeepGoing;
 register int somefull;
@@ -6012,8 +6141,15 @@ int type,bc;
 int *ixvec;
 
 
-void simpleWT();
-void waverecons();
+void simpleWT(double *TheData, int *ndata, double *H, int *LengthH,
+    double **C, int *LengthC, double **D, int *LengthD, int *levels,
+    int **firstC, int **lastC, int **offsetC,
+    int **firstD, int **lastD, int **offsetD,
+    int *type, int *bc, int *error);
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
 
 
 *error=0;
@@ -6125,9 +6261,7 @@ while(KeepGoing)    {
  * Return -1 if no such exists
  */
 
-int idlastzero(v, nv)
-double *v;
-int *nv;
+int idlastzero(double *v, int *nv)
 {
 register int i;
 
@@ -6143,11 +6277,7 @@ return(i);
  * (a C replacement for guyrot)
  */
 
-void rotateleft(v, nv, n, error)
-double *v;
-int *nv;
-int *n;
-int *error;
+void rotateleft(double *v, int *nv, int *n, int *error)
 {
 register int i;
 double *tmp;    /* Storage for the ones the fall off the left   */
@@ -6176,13 +6306,18 @@ for(i=0; i< *n; ++i)
 free((void *)tmp);
 }
 
-void rainmatPARENT(J, H, LengthH, fmat, tol, error)
-int *J;    /* The dimension of the problem             */
-double *H;  /* The wavelet filter coefficients          */
-int *LengthH;  /* The number of wavelet filter coefficients        */
-double *fmat;   /* The answer                       */
-double *tol;    /* Elements smaller than this will be deleted       */
-int *error;    /* Error code. Nonzero is an error          */
+void rainmatPARENT(int *J, double *H, int *LengthH, double *fmat,
+	double *tol, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::     	 The dimension of the problem             
+double *H::      The wavelet filter coefficients          
+int *LengthH::   The number of wavelet filter coefficients        
+double *fmat::   The answer                       
+double *tol::    Elements smaller than this will be deleted       
+int *error::     Error code. Nonzero is an error          
+ *---------------------*/
 {
 register int i;
 int BigJ;  /* The level we must go to to be able to compute
@@ -6195,10 +6330,12 @@ int *lvec;     /* Vector of length *J contains the length
              * of each vector in coefvec
              */
 
-void wlpart();  /* Substitute for whichlevel function           */
-void mkcoef();
-void rainmat();
-void haarmat(); /* Computes matrix exactly using formula        */
+void wlpart(int *J, int *BigJ, double *H, int *LengthH, int *error);
+void mkcoef(int *J, int BigJ, double *H, int *LengthH, double ***coefvec,
+	int *lvec, double *tol, int *error);
+void rainmat(int *J, int *donej, double **coefvec, int *lvec,
+	double *fmat, int *error);
+void haarmat(int *J, int *donej, double *fmat, int *error);
 
 donej = 0;
 
@@ -6248,16 +6385,21 @@ free((void *)coefvec);
 
 /* Make \Psi_j(\tau) components */
 
-void mkcoef(J, BigJ, H, LengthH, coefvec, lvec, tol, error)
-int *J;    /* Dimension of the problem             */
-int BigJ;  /* The maximum depth that we have to go to      */
-double *H;  /* Wavelet filter coefficients              */
-int *LengthH;  /* Number of wavelet filter coefficients        */
-double ***coefvec; /* Coefficients of \Psi_j(\tau)          */
-int *lvec; /* Vector of length *J that will contain length of
-         * each component of coefvec */
-double *tol;    /* Elements smaller than this will be deleted       */
-int *error;    /* Error code                       */
+void mkcoef(int *J, int BigJ, double *H, int *LengthH, double ***coefvec,
+	int *lvec, double *tol, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::             Dimension of the problem             
+int BigJ::           The maximum depth that we have to go to      
+double *H::          Wavelet filter coefficients              
+int *LengthH::       Number of wavelet filter coefficients        
+double ***coefvec::  Coefficients of \Psi_j(\tau)          
+int *lvec::          Vector of length *J that will contain length of each
+		     component of coefvec 
+double *tol::        Elements smaller than this will be deleted       
+int *error::         Error code                       
+ *---------------------*/
 {
 register int i,j;
 register int large_ones;
@@ -6275,10 +6417,17 @@ int type,bc;
 int n_to_rotate;
 
 
-void simpleWT();
-int idlastzero();
-void rotateleft();
-void waverecons();
+void simpleWT(double *TheData, int *ndata, double *H, int *LengthH,
+    double **C, int *LengthC, double **D, int *LengthD, int *levels,
+    int **firstC, int **lastC, int **offsetC,
+    int **firstD, int **lastD, int **offsetD,
+    int *type, int *bc, int *error);
+int idlastzero(double *v, int *nv);
+void rotateleft(double *v, int *nv, int *n, int *error);
+void waverecons(double *C, double *D, double *H, int *LengthH, int *levels,
+	int *firstC, int *lastC, int *offsetC,
+	int *firstD, int *lastD, int *offsetD,
+	int *type, int *bc, int *error);
 
 ndata = (int)0x01 << BigJ;
 
@@ -6391,21 +6540,23 @@ free((void *)ixvec);
 free((void *)TheData);
 }
 
-void rainmatOLD(J, coefvec, ixvec, lvec, fmat, error)
-int *J;        /* The desired maximum level (positive)     */
-double *coefvec;    /* The \psi_{jk} stacked into one vector    */
-int *ixvec;
-int *lvec;     /* A vector of lengths of each \psi_j vector in
-               coefvec. The jth element is the length of the
-               jth \psi_j in coefvec
-             */
-double *fmat;       /* This vector will contain the answer. This is
-               the lower triangular portion of the J*J matrix,
-               and therefore is of length J(J-1)/2 */
-int *error;        /* Error code
-                1-  Generating **w
-                2+j Memory error on 2+j th one
-            */
+void rainmatOLD(int *J, double *coefvec, int *ixvec, int *lvec,
+	double *fmat, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::           The desired maximum level (positive)     
+double *coefvec::  The \psi_{jk} stacked into one vector    
+int *ixvec::
+int *lvec::        A vector of lengths of each \psi_j vector in coefvec.
+		   The jth element is the length of the jth \psi_j in coefvec
+double *fmat::     This vector will contain the answer. This is the lower
+		   triangular portion of the J*J matrix, and therefore is of
+		   length J(J-1)/2 
+int *error::       Error code
+                	1-  Generating **w
+                	2+j Memory error on 2+j th one
+ *---------------------*/
 {
 
 /* First we compute the w. One for each j           */
@@ -6470,14 +6621,19 @@ free((void *)w);
 
 /* rainmatPARTIAL - partial matrix filling              */
 
-void rainmatPARTIAL(J, donej, H, LengthH, fmat, tol, error)
-int *J;    /* The dimension of the problem             */
-int *donej;    /* The first j dimensions are already filled        */
-double *H;  /* The wavelet filter coefficients          */
-int *LengthH;  /* The number of wavelet filter coefficients        */
-double *fmat;   /* The answer                       */
-double *tol;    /* Elements smaller than this will be deleted       */
-int *error;    /* Error code. Nonzero is an error          */
+void rainmatPARTIAL(int *J, int *donej, double *H, int *LengthH,
+	double *fmat, double *tol, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::         The dimension of the problem             
+int *donej::     The first j dimensions are already filled        
+double *H::      The wavelet filter coefficients          
+int *LengthH::   The number of wavelet filter coefficients        
+double *fmat::   The answer                       
+double *tol::    Elements smaller than this will be deleted       
+int *error::     Error code. Nonzero is an error          
+ *---------------------*/
 {
 register int i;
 int BigJ;  /* The level we must go to to be able to compute
@@ -6489,10 +6645,12 @@ int *lvec;     /* Vector of length *J contains the length
              * of each vector in coefvec
              */
 
-void wlpart();  /* Substitute for whichlevel function           */
-void mkcoef();
-void rainmat();
-void haarmat(); /* Computes matrix exactly using formula        */
+void wlpart(int *J, int *BigJ, double *H, int *LengthH, int *error);
+void mkcoef(int *J, int BigJ, double *H, int *LengthH, double ***coefvec,
+	int *lvec, double *tol, int *error);
+void rainmat(int *J, int *donej, double **coefvec, int *lvec,
+	double *fmat, int *error);
+void haarmat(int *J, int *donej, double *fmat, int *error);
 
 if (*LengthH == 2)  /* Haar - can compute exactly */
     {
@@ -6537,15 +6695,20 @@ for(i=0; i<*J; ++i)
 free((void *)coefvec);
 }
 
-void PsiJ(J, H, LengthH, tol, wout, lwout, rlvec, error)
-int *J;    /* The dimension of the problem             */
-double *H;  /* The wavelet filter coefficients          */
-int *LengthH;  /* The number of wavelet filter coefficients        */
-double *tol;    /* Elements smaller than this will be deleted       */
-double *wout;   /* Answers for \Psi_j(\tau)             */
-int *lwout;    /* Length of previous array             */
-int *rlvec;    /* Vector of length J contains lengths of \psi_j    */
-int *error;    /* Error code. Nonzero is an error          */
+void PsiJ(int *J, double *H, int *LengthH, double *tol, double *wout,
+	int *lwout, int *rlvec, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::          The dimension of the problem             
+double *H::       The wavelet filter coefficients          
+int *LengthH::    The number of wavelet filter coefficients        
+double *tol::     Elements smaller than this will be deleted       
+double *wout::    Answers for \Psi_j(\tau)             
+int *lwout::      Length of previous array             
+int *rlvec::      Vector of length J contains lengths of \psi_j    
+int *error::      Error code. Nonzero is an error          
+ *---------------------*/
 {
 register int i;
 int BigJ;  /* The level we must go to to be able to compute
@@ -6556,9 +6719,11 @@ int *lvec;     /* Vector of length *J contains the length
              * of each vector in coefvec
              */
 
-void wlpart();  /* Substitute for whichlevel function           */
-void mkcoef();
-void PsiJonly();
+void wlpart(int *J, int *BigJ, double *H, int *LengthH, int *error);
+void mkcoef(int *J, int BigJ, double *H, int *LengthH, double ***coefvec,
+	int *lvec, double *tol, int *error);
+void PsiJonly(int *J, double **coefvec, int *lvec, double *wout,
+	int *lwout, int *error);
 
 /* whichlevel */
 
@@ -6599,17 +6764,21 @@ for(i=0; i<*J; ++i)
 free((void *)coefvec);
 }
 
-void PsiJonly(J, coefvec, lvec, wout, lwout, error)
-int *J;        /* The desired maximum level (positive)     */
-double **coefvec;   /* The \psi_{jk} stacked into one vector    */
-int *lvec;     /* A vector of lengths of each \psi_j vector in
-               coefvec. The jth element is the length of the
-               jth \psi_j in coefvec
-             */
-double *wout;       /* Output contains the \Psi_j(\tau)     */
-int *lwout;        /* Length of this vector. If it is not long
-             * enough an error code is returned     */
-int *error;        /* Error code                   */
+void PsiJonly(int *J, double **coefvec, int *lvec, double *wout,
+	int *lwout, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::              The desired maximum level (positive)     
+double **coefvec::    The \psi_{jk} stacked into one vector    
+int *lvec::           A vector of lengths of each \psi_j vector in
+                      coefvec. The jth element is the length of the
+                      jth \psi_j in coefvec
+double *wout::        Output contains the \Psi_j(\tau)     
+int *lwout::          Length of this vector. If it is not long enough an
+		      error code is returned     
+int *error::          Error code                   
+ *---------------------*/
 {
 
 /* First we compute the w. One for each j           */
@@ -6684,13 +6853,17 @@ free((void *)w);
 
 /* haarmat - Computes matrix exactly using formula      */
 
-void haarmat(J, donej, fmat, error)
-int *J;        /* The desired maximum level (positive)     */
-int *donej;        /* The first j columns already filled       */
-double *fmat;       /* This vector will contain the answer. This is
-               the lower triangular portion of the J*J matrix,
-               and therefore is of length J(J-1)/2 */
-int *error;        /* Error code                   */
+void haarmat(int *J, int *donej, double *fmat, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+int *J::         The desired maximum level (positive)     
+int *donej::     The first j columns already filled       
+double *fmat::   This vector will contain the answer. This is the lower
+		 triangular portion of the J*J matrix, and therefore is of
+ 		 length J(J-1)/2 
+int *error::     Error code                   
+ *---------------------*/
 {
 register int j,l;
 double a;
@@ -6727,19 +6900,26 @@ for(j=0; j<*J; ++j) {
  * Perform whole of SWT2D after initialising
  */
 
-void SWT2Dall(m, nm, am, J, H, LengthH, error)
-double *m;  /* The input data                   */
-int *nm;    /* The dimension of the square matrix m         */
-double *am; /* The *big* answer 3D array                */
-int *J; /* The level at which to store the initial information  */
-double *H;      /* The smoothing filter             */
-int *LengthH;       /* The length of the smoothing filter       */
-int *error; /* Error code 0=ok, anything else is memory error   */
+void SWT2Dall(double *m, int *nm, double *am, int *J, double *H,
+	int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *m::    The input data                   
+int *nm::      The dimension of the square matrix m         
+double *am::   The *big* answer 3D array                
+int *J::       The level at which to store the initial information  
+double *H::    The smoothing filter             
+int *LengthH:: The length of the smoothing filter       
+int *error::   Error code 0=ok, anything else is memory error   
+ *---------------------*/
 {
 int D1, D12;    /* Dimensions of am array               */
 int nm2, nm4;   /* nm divided by 2 then 4               */
-void initSWT2D();   /* Initialise the answer matrix         */
-void SWT2Drec();    /* Recursive array filler           */
+void initSWT2D(double *m, int *nm, double *am, int *J, double *H,
+	int *LengthH, int *error);
+void SWT2Drec(double *am, int D1, int D12, int x, int y, int TWOsl,
+	int sl, int J, double *H, int *LengthH, int *error);
 
 *error = 0;
 
@@ -6778,21 +6958,27 @@ if (*error != 0)
     return;
 }
 
-void SmallStore(am, D1, D12, J, sl, x, y, ix, jy, hhout, hgout, ghout, ggout,nm)
-double *am; /* The *big* matrix to store everything in      */
-int D1; /* First dimension of am                */
-int D12;    /* First and second dimensions of am multiplied     */
-int J;      /* The level to fill                    */
-int sl; /* Side length of small packets             */
-int x;      /* The origin x coordinate              */
-int y;      /* The origin y coordinate              */
-int ix; /* The smaller matrix i offset              */
-int jy; /* The smaller matrix j offset              */
-double *hhout;  /* The new smoothed matrix              */
-double *hgout;  /* The new horizontal detail matrix         */
-double *ghout;  /* The new vertical detail matrix           */
-double *ggout;  /* The new diagonal detail matrix           */
-int nm; /* Size of the hhout, hgout, ghout, ggout       */
+void SmallStore(double *am, int D1, int D12, int J, int sl, int x, int y,
+	int ix, int jy,
+	double *hhout, double *hgout, double *ghout, double *ggout, int nm)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::      The *big* matrix to store everything in      
+int D1::          First dimension of am                
+int D12::         First and second dimensions of am multiplied     
+int J::           The level to fill                    
+int sl::          Side length of small packets             
+int x::           The origin x coordinate              
+int y::           The origin y coordinate              
+int ix::          The smaller matrix i offset              
+int jy::          The smaller matrix j offset              
+double *hhout::   The new smoothed matrix              
+double *hgout::   The new horizontal detail matrix         
+double *ghout::   The new vertical detail matrix           
+double *ggout::   The new diagonal detail matrix           
+int nm::          Size of the hhout, hgout, ghout, ggout       
+ *---------------------*/
 {
 register int i,j;
 
@@ -6807,21 +6993,29 @@ for(i=0; i< sl; ++i)
 
 /* initialise the answer matrix */
 
-void initSWT2D(m, nm, am, J, H, LengthH, error)
-double *m;  /* The input data                   */
-int *nm;    /* The dimension of the square matrix m         */
-double *am; /* The *big* answer 3D array                */
-int *J; /* The level at which to store the initial information  */
-double *H;      /* The smoothing filter             */
-int *LengthH;       /* The length of the smoothing filter       */
-int *error; /* Error code 0=ok, anything else is memory error   */
+void initSWT2D(double *m, int *nm, double *am, int *J, double *H,
+	int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *m::     The input data                   
+int *nm::       The dimension of the square matrix m         
+double *am::    The *big* answer 3D array                
+int *J::        The level at which to store the initial information  
+double *H::     The smoothing filter             
+int *LengthH::	The length of the smoothing filter       
+int *error::    Error code 0=ok, anything else is memory error   
+ *---------------------*/
 {
 int mlength;    /* Length of vector representing matrix         */
 int D1, D12;    /* 1st and Second dimension of answer matrix        */
 double *hhout, *hgout, *ghout, *ggout;  /* Intermediate stores      */
 int nm2;    /* Half of *nm                      */
 
-void SWT2D();   /* Carries out a step of the SWT2D algorithm        */
+/* Carries out a step of the SWT2D algorithm        */
+void SWT2D(double *m, int *nm,
+	double *hhout, double *hgout, double *ghout, double *ggout,
+	double *H, int *LengthH, int *error);
 
 *error = 0;
 
@@ -6901,18 +7095,23 @@ free((void *)ggout);
 
     
 
-void SWT2Drec(am, D1, D12, x, y, TWOsl, sl, J, H, LengthH, error)
-double *am; /* The big storage array                */
-int D1; /* First dimension of am                */
-int D12;    /* First and second dimensions of am multiplied     */
-int x;      /* X origin coordinate of smoothed data         */
-int y;      /* Y origin coordinate of smoothed data         */
-int TWOsl;  /* Side length of smoothed data             */
-int sl; /* Side length of result packets (2*sl = TWOsl)     */
-int J;      /* Level we accessing from (and putting into j-1)   */
-double *H;      /* The smoothing filter             */
-int *LengthH;       /* The length of the smoothing filter       */
-int *error; /* Error code                       */
+void SWT2Drec(double *am, int D1, int D12, int x, int y, int TWOsl,
+	int sl, int J, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::    The big storage array                
+int D1::        First dimension of am                
+int D12::       First and second dimensions of am multiplied     
+int x::         X origin coordinate of smoothed data         
+int y::         Y origin coordinate of smoothed data         
+int TWOsl::     Side length of smoothed data             
+int sl::        Side length of result packets (2*sl = TWOsl)     
+int J::         Level we accessing from (and putting into j-1)   
+double *H::     The smoothing filter             
+int *LengthH::	The length of the smoothing filter       
+int *error::    Error code                       
+ *---------------------*/
 {
 register int i,j;
 double *m;  /* Somewhere to put the smoothed data           */
@@ -6920,9 +7119,14 @@ int mlength;    /* The length of this matrix                */
 double *hhout, *hgout, *ghout, *ggout; /* Smoothed, hori, verti & diag  */
 int sl2;    /* sl divided by 2                  */
 
-void SmallStore();
-void SWT2D();
-void SWT2Drec();
+void SmallStore(double *am, int D1, int D12, int J, int sl, int x, int y,
+	int ix, int jy,
+	double *hhout, double *hgout, double *ghout, double *ggout, int nm);
+void SWT2D(double *m, int *nm,
+	double *hhout, double *hgout, double *ghout, double *ggout,
+	double *H, int *LengthH, int *error);
+void SWT2Drec(double *am, int D1, int D12, int x, int y, int TWOsl,
+	int sl, int J, double *H, int *LengthH, int *error);
 
 *error = 0;
 
@@ -7031,24 +7235,33 @@ if (*error != 0)
  * in S
  */
 
-
-void SWT2D(m, nm, hhout, hgout, ghout, ggout, H, LengthH, error)
-double *m;      /* The matrix to decompose          */
-int *nm;        /* The dimension of the square matrix m     */
-double *hhout;      /* The smoothed-smoothed matrix of dimension m  */
-double *ghout;      /* The detail-smoothed matrix of dimension m    */
-double *hgout;      /* The smoothed-detail matrix of dimension m    */
-double *ggout;      /* The detail-detail matrix of dimension m  */
-double *H;      /* The smoothing filter             */
-int *LengthH;       /* The length of the smoothing filter       */
-int *error;     /* Error code 0=ok, 1=memory error      */
+void SWT2D(double *m, int *nm,
+	double *hhout, double *hgout, double *ghout, double *ggout,
+	double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *m::       The matrix to decompose          
+int *nm::         The dimension of the square matrix m     
+double *hhout::   The smoothed-smoothed matrix of dimension m  
+double *ghout::   The detail-smoothed matrix of dimension m    
+double *hgout::   The smoothed-detail matrix of dimension m    
+double *ggout::   The detail-detail matrix of dimension m  
+double *H::       The smoothing filter             
+int *LengthH::    The length of the smoothing filter       
+int *error::      Error code 0=ok, 1=memory error      
+ *---------------------*/
 {
 int mlength;        /* The number of items in h and g       */
 double *h;      /* Intermediate smoothed matrix         */
 double *g;      /* Intermediate detail matrix           */
 
-void SWT2DROWblock();   /* Apply H and G smoothers across rows      */
-void SWT2DCOLblock();   /* Apply H and G smoothers across cols      */
+/* Apply H and G smoothers across rows      */
+void SWT2DROWblock(double *m, int *nm, double *hout, double *gout,
+	double *H, int LengthH, int *error);
+/* Apply H and G smoothers across cols      */
+void SWT2DCOLblock(double *m, int *nm, double *hout, double *gout,
+	double *H, int LengthH, int *error);
 
 *error = 0;
 
@@ -7098,23 +7311,34 @@ free((void *)g);
  * the matrix. Then this is done again but to the rotated versions.
  */ 
 
-void SWT2DROWblock(m, nm, hout, gout, H, LengthH, error)
-double *m;      /* Input matrix                 */
-int *nm;        /* Dimension of square input matrix     */
-double *hout;       /* Smoothed answer matrix (same dim as m)   */
-double *gout;       /* Detail answer matrix (same dim as m)     */
-double *H;      /* The smoothing filter             */
-int LengthH;        /* The length of the smoothing filter       */
-int *error;     /* Error code. 0=ok, 1=memory error     */
+void SWT2DROWblock(double *m, int *nm, double *hout, double *gout,
+	double *H, int LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *m::       Input matrix                 
+int *nm::         Dimension of square input matrix     
+double *hout::    Smoothed answer matrix (same dim as m)   
+double *gout::    Detail answer matrix (same dim as m)     
+double *H::       The smoothing filter             
+int LengthH::     The length of the smoothing filter       
+int *error::      Error code. 0=ok, 1=memory error     
+ *---------------------*/
 {
 register int i,j;
 int lengthout;      /* Length of out matrices (half of *nm)     */
 double *col;        /* A container for columns of matrices      */
 double *out;        /* A vector for storing the processed coeffs    */
 
-void convolveC();   /* Wavelet smoothing filter         */
-void convolveD();   /* Wavelet detail filter            */
-void rotater();     /* Do vector rotation               */
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
+void rotater(double *book, int length);
 
 *error = 0;
 
@@ -7203,23 +7427,35 @@ return;
  * the matrix. Then this is done again but to the rotated versions.
  */ 
 
-void SWT2DCOLblock(m, nm, hout, gout, H, LengthH, error)
-double *m;      /* Input matrix                 */
-int *nm;        /* Dimension of square input matrix     */
-double *hout;       /* Smoothed answer matrix (same dim as m)   */
-double *gout;       /* Detail answer matrix (same dim as m)     */
-double *H;      /* The smoothing filter             */
-int LengthH;        /* The length of the smoothing filter       */
-int *error;     /* Error code. 0=ok, 1=memory error     */
+
+void SWT2DCOLblock(double *m, int *nm, double *hout, double *gout,
+	double *H, int LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *m::       Input matrix                 
+int *nm::         Dimension of square input matrix     
+double *hout::    Smoothed answer matrix (same dim as m)   
+double *gout::    Detail answer matrix (same dim as m)     
+double *H::       The smoothing filter             
+int LengthH::     The length of the smoothing filter       
+int *error::      Error code. 0=ok, 1=memory error     
+ *---------------------*/
 {
 register int i,j;
 int lengthout;      /* Length of out matrices (half of *nm)     */
 double *row;        /* A container for columns of matrices      */
 double *out;        /* A vector for storing the processed coeffs    */
 
-void convolveC();   /* Wavelet smoothing filter         */
-void convolveD();   /* Wavelet detail filter            */
-void rotater();     /* Do vector rotation               */
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
+void rotater(double *book, int length);
 
 *error = 0;
 
@@ -7301,12 +7537,7 @@ free((void *)out);
 return;
 }
 
-void ixtoco(level, maxlevel, index, x, y)
-int *level;
-int *maxlevel;
-int *index;
-int *x;
-int *y;
+void ixtoco(int *level, int *maxlevel, int *index, int *x, int *y)
 {
 register int i;
 int lic;
@@ -7326,17 +7557,22 @@ for(i=*level; i<= *maxlevel; ++i)        {
 
 /* A reconstruction at level levj   */
 
-void SWTRecon(am, D1, D12, levj, out, x, y, H, LengthH, error)
-double *am; /* The big storage array                */
-int D1; /* First dimension of am                */
-int D12;    /* First and second dimensions of am multiplied     */
-int levj;   /* The level to reconstruct             */
-double *out;    /* The matrix where the reconstruction is put       */
-int x;      /* The x coordinate of the origin           */
-int y;      /* The y coordinate of the origin           */
-double *H;  /* The filter                       */
-int *LengthH;   /* The length of the filter             */
-int *error; /* Error code 0=ok                  */
+void SWTRecon(double *am, int D1, int D12, int levj, double *out,
+	int x, int y, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::  The big storage array                
+int D1::      First dimension of am                
+int D12::     First and second dimensions of am multiplied     
+int levj::    The level to reconstruct             
+double *out:: The matrix where the reconstruction is put       
+int x::       The x coordinate of the origin           
+int y::       The y coordinate of the origin           
+double *H::   The filter                       
+int *LengthH::The length of the filter             
+int *error::  Error code 0=ok                  
+ *---------------------*/
 {
 register int i,j;
 int sl; /* Side length of matrix holding details        */
@@ -7344,9 +7580,18 @@ int matele; /* Number of elements in matrix             */
 int bc=PERIODIC;    /* Periodic boundary conditions         */
 double *hhout, *hgout, *ghout, *ggout;
 
-void SWTGetSmooth();    /* Get the smooth coefficients at partclr level */
-void ImageReconstructStep();    /* Do the inverse transform step    */
-void tpose();
+/* Get the smooth coefficients at partclr level */
+void SWTGetSmooth(double *am, int D1, int D12, double *TheSmooth, int levj,
+	int x, int y, int sl, double *H, int *LengthH, int *error);
+
+void ImageReconstructStep(double *ImCC, double *ImCD, double *ImDC,
+	double *ImDD,
+	int LengthCin, int firstCin,
+	int LengthDin, int firstDin,
+	double *H, int LengthH,
+	int LengthCout, int firstCout, int lastCout,
+	double *ImOut, int *bc, int *error);
+void tpose(double *m, int l);
 
 *error = 0;
 
@@ -7465,18 +7710,25 @@ free((void *)ghout);
 free((void *)ggout);
 }
 
-void SAvBasis(am, D1, D12, TheSmooth, levj, H, LengthH, error)
-double *am; /* The big storage array                */
-int *D1;    /* First dimension of am                */
-int *D12;   /* First and second dimensions of am multiplied     */
-double *TheSmooth;  /* The returned smooth              */
-int *levj;      /* The level you want it at         */
-double *H;      /* The filter                   */
-int *LengthH;       /* Length of the filter             */
-int *error;     /* Error code. O=ok             */
+void SAvBasis(double *am, int *D1, int *D12, double *TheSmooth, int *levj,
+	double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::          The big storage array                
+int *D1::             First dimension of am                
+int *D12::            First and second dimensions of am multiplied     
+double *TheSmooth::   The returned smooth              
+int *levj::           The level you want it at         
+double *H::           The filter                   
+int *LengthH::        Length of the filter             
+int *error::          Error code. O=ok             
+ *---------------------*/
 {
-void tpose();
-void SWTGetSmooth();
+void tpose(double *m, int l);
+/* Get the smooth coefficients at partclr level */
+void SWTGetSmooth(double *am, int D1, int D12, double *TheSmooth, int levj,
+	int x, int y, int sl, double *H, int *LengthH, int *error);
 
 *error = 0;
 
@@ -7490,18 +7742,23 @@ tpose(TheSmooth, 1<<*levj);
 
 }
 
-void SWTGetSmooth(am, D1, D12, TheSmooth, levj, x, y, sl, H, LengthH, error)
-double *am; /* The big storage array                */
-int D1; /* First dimension of am                */
-int D12;    /* First and second dimensions of am multiplied     */
-double *TheSmooth;  /* The returned smooth              */
-int levj;       /* The level you want it at         */
-int x;          /* The x ordinate for the origin        */
-int y;          /* The y ordinate for the origin        */
-int sl;     /* Sidelength of TheSmooth array        */
-double *H;      /* The filter                   */
-int *LengthH;       /* Length of the filter             */
-int *error;     /* Error code. O=ok             */
+void SWTGetSmooth(double *am, int D1, int D12, double *TheSmooth, int levj,
+	int x, int y, int sl, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::          The big storage array                
+int D1::              First dimension of am                
+int D12::             First and second dimensions of am multiplied     
+double *TheSmooth::   The returned smooth              
+int levj::            The level you want it at         
+int x::               The x ordinate for the origin        
+int y::               The y ordinate for the origin        
+int sl::              Sidelength of TheSmooth array        
+double *H::           The filter                   
+int *LengthH::        Length of the filter             
+int *error::          Error code. O=ok             
+ *---------------------*/
 {
 register int i,j;
 double *holder, *holder2;   /* Some storage space           */
@@ -7509,9 +7766,12 @@ double *rc0, *rc1, *rc2, *rc3;
             /* The four reconstructions         */
 int matele;     /* Number of elements in the recon matrices */
 
-void tpose();
-void rotateback();  /* Rotate a vector back             */
-void SWTRecon();    /* Get a reconstruction at level,x,y        */
+void tpose(double *m, int l);
+void rotateback(double *book, int length);
+
+/* Get a reconstruction at level,x,y        */
+void SWTRecon(double *am, int D1, int D12, int levj, double *out,
+	int x, int y, double *H, int *LengthH, int *error);
 
 /*
  * Get memory for SWTRecon
@@ -7687,9 +7947,7 @@ free((void *)rc2);
 free((void *)rc3);
 }
 
-void tpose(m, l)
-double *m;
-int l;
+void tpose(double *m, int l)
 {
 double tmp;
 register int i,j;
@@ -7702,21 +7960,28 @@ for(i=0; i<l; ++i)
         }
 }
 
-void getpacketwst2D(am, D1, D12, maxlevel, level, index, type, out, sl)
-double *am; /* The big storage array                */
-int *D1;    /* First dimension of am                */
-int *D12;   /* First and second dimensions of am multiplied     */
-int *maxlevel; /* The maximum level (in C numbering)            */
-int *level; /* Which level of coefficients you require      */
-int *index; /* The index number of the packet           */
-int *type;  /* The type of coefficients S,H,V or D (TYPES etc.) */
-double *out;    /* A square matrix of dimension sl          */ 
-int *sl;    /* Dimension of out square matrix           */
+void getpacketwst2D(double *am, int *D1, int *D12, int *maxlevel,
+	int *level, int *index, int *type, double *out, int *sl)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::     The big storage array                
+int *D1::        First dimension of am                
+int *D12::       First and second dimensions of am multiplied     
+int *maxlevel::  The maximum level (in C numbering)            
+int *level::     Which level of coefficients you require      
+int *index::     The index number of the packet           
+int *type::      The type of coefficients S,H,V or D (TYPES etc.) 
+double *out::    A square matrix of dimension sl           
+int *sl::        Dimension of out square matrix           
+ *---------------------*/
 {
 register int i,j;
 int x,y;    /* The coordinates into am              */
-void ixtoco();  /* Convert index to coordinates             */
-void tpose();
+
+/* Convert index to coordinates             */
+void ixtoco(int *level, int *maxlevel, int *index, int *x, int *y);
+void tpose(double *m, int l);
 
 x=y=0;
 ixtoco(level, maxlevel, index, &x, &y);
@@ -7746,21 +8011,26 @@ for(i=0; i<*sl; ++i)
 tpose(out, *sl);
 
 }
-
-void putpacketwst2D(am, D1, D12, maxlevel, level, index, type, in, sl)
-double *am; /* The big storage array                */
-int *D1;    /* First dimension of am                */
-int *D12;   /* First and second dimensions of am multiplied     */
-int *maxlevel; /* The maximum level (in C numbering)            */
-int *level; /* Which level of coefficients you require      */
-int *index; /* The index number of the packet           */
-int *type;  /* The type of coefficients S,H,V or D (TYPES etc.) */
-double *in; /* A square matrix of dimension sl          */ 
-int *sl;    /* Dimension of out square matrix           */
+void putpacketwst2D(double *am, int *D1, int *D12, int *maxlevel,
+	int *level, int *index, int *type, double *in, int *sl)
+/*---------------------
+ * Argument description
+ *---------------------
+double *am::     The big storage array                
+int *D1::        First dimension of am                
+int *D12::       First and second dimensions of am multiplied     
+int *maxlevel::  The maximum level (in C numbering)            
+int *level::     Which level of coefficients you require      
+int *index::     The index number of the packet           
+int *type::      The type of coefficients S,H,V or D (TYPES etc.) 
+double *in::     A square matrix of dimension sl           
+int *sl::        Dimension of out square matrix           
+ *---------------------*/
 {
 register int i,j;
 int x,y;    /* The coordinates into am              */
-void ixtoco();  /* Convert index to coordinates             */
+/* Convert index to coordinates             */
+void ixtoco(int *level, int *maxlevel, int *index, int *x, int *y);
 
 x=y=0;
 ixtoco(level, maxlevel, index, &x, &y);
@@ -7793,10 +8063,11 @@ for(i=0; i<*sl; ++i)
 }
 
 /*
- * The following code was first written in C++ by Markus Monnerjahn, Universitat
- * Kaiserslautern. The code was rewritten in C (and a few errors corrected)
- * by Piotr Fryzlewicz, Wroclaw University whilst he was visiting University of
- * Bristol in 1998-9. The code is designed to integrate with S-Plus
+ * The following code was first written in C++ by Markus Monnerjahn,
+ * Universitat * Kaiserslautern. The code was rewritten in C
+ * (and a few errors corrected) * by Piotr Fryzlewicz, Wroclaw University
+ * whilst he was visiting University of * Bristol in 1998-9. The code is
+ * designed to integrate with S-Plus
  */
 
 /* The following was in Fryzlewicz's ``Filters.h'' */
@@ -8853,11 +9124,7 @@ double Sum(double* vect, int length) {
  */
 
 
-double *CreateArray3D(nr, nc, ns, error)
-int nr;
-int nc;
-int ns;
-int *error;
+double *CreateArray3D(int nr, int nc, int ns, int *error)
 {
 double *array;
 
@@ -8885,9 +9152,7 @@ else
  *
  */
 
-void DestroyArray3D(array, error)
-double *array;
-int *error;
+void DestroyArray3D(double *array, int *error)
 {
 
 
@@ -8908,15 +9173,19 @@ else
  */
 
 
-void wd3Dstep(Carray, truesize, size, H, LengthH, error)
-double *Carray; /* Input 3D array. All dimensions are size      */
-int *truesize;  /* The true dimensions of the Carray            */
-int *size;  /* Number of rows, columns and sides (power of 2)   */
-        /* For this invocation of the routine only      */
-double *H;  /* Wavelet filter coefficients              */
-int *LengthH;   /* Number of wavelet filter coefficients        */
-int *error; /* Error code.  0=O.k.                  */
-        /* Memory errors 3003 to 3017               */
+void wd3Dstep(double *Carray, int *truesize, int *size, double *H,
+	int *LengthH, int *error)
+/*---------------------
+ * Argument description
+double *Carray::  Input 3D array. All dimensions are size      
+int *truesize::   The true dimensions of the Carray            
+int *size::       Number of rows, columns and sides (power of 2)   
+                  For this invocation of the routine only      
+double *H::       Wavelet filter coefficients              
+int *LengthH::    Number of wavelet filter coefficients        
+int *error::      Error code.  0=O.k.                  
+         Memory errors 3003 to 3017               
+ *---------------------*/
 {
 register int r,c,s; /* Counters for rows, cols and sides        */
 double *Ha,*Ga; /* Will be storage for first application of filters */
@@ -8931,9 +9200,17 @@ int halfsize;
 
 double *c_in, *c_out, *d_out;
 
-double *CreateArray3D();    /* Creates a 3D array           */
-void convolveC();       /* Convolve with wavelet smoother   */
-void convolveD();       /* Convolve with wavelet detailer   */
+/* Creates a 3D array           */
+double *CreateArray3D(int nr, int nc, int ns, int *error);
+
+void convolveC(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *c_out, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void convolveD(double *c_in, int LengthCin, int firstCin,
+	double *H, int LengthH,
+	double *d_out, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
 
 
 
@@ -9464,15 +9741,20 @@ free((void *)d_out);
 }
 
 
-void wd3D(Carray, size, H, LengthH, error)
-double *Carray;     /* Input and output coefficients        */
-int *size;      /* Dimension of this array          */
-double *H;      /* The wavelet coefficients         */
-int *LengthH;       /* Number of wavelet coefficients       */
-int *error;     /* Error code 0=o.k.                */
+void wd3D(double *Carray, int *size, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Carray::      Input and output coefficients        
+int *size::           Dimension of this array          
+double *H::           The wavelet coefficients         
+int *LengthH::        Number of wavelet coefficients       
+int *error::          Error code 0=o.k.                
+ *---------------------*/
 {
 int insize;
-void wd3Dstep();
+void wd3Dstep(double *Carray, int *truesize, int *size, double *H,
+	int *LengthH, int *error);
 
 *error = 0;
 
@@ -9498,19 +9780,24 @@ while(insize >= 2)  {
  * Reconstruct 3D wavelet object in Carray
  */
 
-void wr3D(Carray, truesize, H, LengthH, error)
-double *Carray; /* Contains array of wavelet coefficients       */
-int *truesize;  /* Dimension of 3D array Carray             */
-double *H;  /* The wavelet filter coefficients          */
-int *LengthH;   /* Number of wavelet filter coefficients        */
-int *error; /* Error code   (0=o.k.)                */
-        /* Memory errors from wr3Dstep              */
-        /* 3035l the dimension of Carray is 1, therefore cannot */
-        /*  do any further reconstruction           */
+void wr3D(double *Carray, int *truesize, double *H, int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *Carray::  Contains array of wavelet coefficients       
+int *truesize::   Dimension of 3D array Carray             
+double *H::       The wavelet filter coefficients          
+int *LengthH::    Number of wavelet filter coefficients        
+int *error::      Error code   (0=o.k.)                
+         	  Memory errors from wr3Dstep              
+         	  3035l the dimension of Carray is 1, therefore cannot 
+		  do any further reconstruction           
+ *---------------------*/
 {
 int sizeout;
 
-void wr3Dstep();
+void wr3Dstep(double *Carray, int *truesize, int *sizeout,
+	double *H, int *LengthH, int *error);
 
 *error = 0;
 
@@ -9541,16 +9828,19 @@ while(sizeout <= *truesize) {
  * wr3Dstep:    Perform 3D wavelet reconstruction step
  */
 
-void wr3Dstep(Carray, truesize, sizeout, H, LengthH, error) 
-double *Carray; /* Array of wavelet coefficients and previous Cs to replace */
-int *truesize;  /* True size of Carray                          */  
-int *sizeout;   /* Size of answer array                     */
-double *H;  /* The wavelet coefficients                 */
-int *LengthH;   /* Number of wavelet coefficients               */
-int *error; /* Error code. 0=o.k.
-         * Memory errors 3018 to 3034
-         *
-         */
+void wr3Dstep(double *Carray, int *truesize, int *sizeout,
+	double *H, int *LengthH, int *error) 
+/*---------------------
+ * Argument description
+ *---------------------
+double *Carray::  Array of wavelet coefficients and previous Cs to replace 
+int *truesize::   True size of Carray                            
+int *sizeout::    Size of answer array                     
+double *H::       The wavelet coefficients                 
+int *LengthH::    Number of wavelet coefficients               
+int *error::      Error code. 0=o.k.
+                  Memory errors 3018 to 3034
+ *---------------------*/
 {
 register int r,c,s;
 double *Ha,*Ga; /* Will be storage for third application of filters */
@@ -9562,7 +9852,11 @@ double *c_in, *d_in, *c_out;
 int halfsize;
 int type,bc;
 
-void conbar();
+void conbar(double *c_in, int LengthCin, int firstCin,
+	double *d_in, int LengthDin, int firstDin,
+	double *H, int LengthH,
+	double *c_out, int LengthCout, int firstCout, int lastCout,
+	int type, int bc);
 
 *error = 0;
 type = WAVELET;
@@ -10020,13 +10314,7 @@ free((void *)d_in);
 }
 
 
-
-void getARRel(Carray, size, level,
-    GHH, HGH, GGH, HHG, GHG, HGG, GGG)
-double *Carray;
-int *size;
-int *level;
-double *GHH,*HGH,*GGH,*HHG,*GHG,*HGG,*GGG; 
+void getARRel(double *Carray, int *size, int *level, double *GHH, double *HGH, double *GGH, double *HHG, double *GHG, double *HGG, double *GGG)
 {
 register int r,c,s;
 int halfsize;
@@ -10095,12 +10383,8 @@ for(r=0; r < (int)halfsize; ++r)
 #define IX_HGG  6
 #define IX_GGG  7
 
-void putarr(Carray, truesize, level, Iarrayix, Iarray)
-double *Carray;
-int *truesize;
-int *level;
-int *Iarrayix;
-double *Iarray;
+void putarr(double *Carray, int *truesize, int *level,
+	int *Iarrayix, double *Iarray)
 {
 register int r,c,s;
 int halfsize;
@@ -10232,32 +10516,40 @@ switch(*Iarrayix)   {
 /*TRD November 1994              */
 /*last updated May 1995          */
 
-void multiwd(C, lengthc, D, lengthd, nlevels,nphi,npsi,ndecim,H, G, NH, lowerc, upperc, offsetc, 
-   lowerd, upperd, offsetd,nbc)
-double *C;        /*C coefficients matrix */
-int *lengthc;    /*number of coefficients in C */
-double *D;        /*D coefficients matrix */
-int  *lengthd;   /*number of coefficients in D */
-int  *nlevels;   /*number of levels in decomposition */
-int  *nphi;      /*number of scaling functions */
-int  *npsi;      /*number of wavelet functions*/
-int  *ndecim;    /*amount of decimation at each level*/
-double  *H;         /*Band pass filter*/
-double  *G;         /*High pass filter*/
-int  *NH;        /*number of coeff matrices in the filter */
-int  *lowerc;    /*for each level the lowest C coefficient */
-int  *upperc;    /*for each level the highest C coefficient */
-int  *offsetc;   /*amount to offset to access each level  */
-int  *upperd;    /*for each level the lowest C coefficient */
-int  *lowerd;    /*for each level the highest C coefficient */
-int  *offsetd;   /*amount to offset to access each level  */
-int  *nbc;        /* boundary conds 1=period 2=symm. */
+void multiwd(double *C, int *lengthc, double *D, int *lengthd, int *nlevels,
+	int *nphi, int *npsi, int *ndecim, double *H, double *G, int *NH,
+	int *lowerc, int *upperc, int *offsetc,
+	int *lowerd, int *upperd, int *offsetd, int *nbc)
+/*---------------------
+ * Argument description
+ *---------------------
+double *C::       C coefficients matrix 
+int *lengthc::    number of coefficients in C 
+double *D::       D coefficients matrix 
+int  *lengthd::   number of coefficients in D 
+int  *nlevels::   number of levels in decomposition 
+int  *nphi::      number of scaling functions 
+int  *npsi::      number of wavelet functions
+int  *ndecim::    amount of decimation at each level
+double  *H::      Band pass filter
+double  *G::      High pass filter
+int  *NH::        number of coeff matrices in the filter 
+int  *lowerc::    for each level the lowest C coefficient 
+int  *upperc::    for each level the highest C coefficient 
+int  *offsetc::   amount to offset to access each level  
+int  *upperd::    for each level the lowest C coefficient 
+int  *lowerd::    for each level the highest C coefficient 
+int  *offsetd::   amount to offset to access each level  
+int  *nbc::       boundary conds 1=period 2=symm. 
+ *---------------------*/
 {
  int level,prevlvl,prevoffsetc,index,base,k,l,m,n;
- void TRDerror();
+ void TRDerror(char *s);
 
-int trd_reflect();      /* MAN: added missing function declaration  */
-int trd_module();       /* ...  see L10209,102010 */
+int trd_reflect(int a, int b);
+
+/* ...  see L10209,102010 */
+int trd_module(int a, int b);
 
  for(level=*nlevels-1;level >=0;level--)
   {
@@ -10311,32 +10603,38 @@ int trd_module();       /* ...  see L10209,102010 */
 /*By T Downie November 1994 */
 /*updated Jan 95            */
 
-void multiwr(C, lengthc, D, lengthd, nlevels, nphi, npsi, ndecim, H, G, NH, lowerc, upperc, offsetc, 
-   lowerd, upperd, offsetd,nbc,startlevel)
-double *C; /*C coefficients an .x2 matrix */
-int *lengthc;  /*number of coefficients in C */
-double *D; /*D coefficients an .x2 matrix */
-int  *lengthd; /*number of coefficients in D */
-int  *nlevels; /*number of levels in decomposition */
-int  *nphi;    /*number of scaling functions */
-int  *npsi;    /*number of wavelet functions */
-int  *ndecim;  /*decimation/scaling factor */
-double  *H;     /*the H filter coefficients */
-double  *G;     /*the G filter coefficients */
-int  *NH;      /*number of filter matrices */
-int  *lowerc;  /*for each level the lowest C coefficient */
-int  *upperc;  /*for each level the highest C coefficient */
-int  *offsetc; /*amount to offset to access each level  */
-int  *upperd;  /*for each level the lowest D coefficient */
-int  *lowerd;  /*for each level the highest D coefficient */
-int  *offsetd; /*amount to offset to access each level  */
-int  *nbc;     /*choice of boundary conditions */
-int  *startlevel; /*level at which to start the wavelet reconstrauction*/
+void multiwr(double *C, int *lengthc, double *D, int *lengthd, int *nlevels,
+	int *nphi, int *npsi, int *ndecim, double *H, double *G, int *NH,
+	int *lowerc, int *upperc, int *offsetc,
+	int *lowerd, int *upperd, int *offsetd, int *nbc, int *startlevel)
+/*---------------------
+ * Argument description
+ *---------------------
+double *C::       C coefficients matrix 
+int *lengthc::    number of coefficients in C 
+double *D::       D coefficients matrix 
+int  *lengthd::   number of coefficients in D 
+int  *nlevels::   number of levels in decomposition 
+int  *nphi::      number of scaling functions 
+int  *npsi::      number of wavelet functions
+int  *ndecim::    amount of decimation at each level
+double  *H::      Band pass filter
+double  *G::      High pass filter
+int  *NH::        number of coeff matrices in the filter 
+int  *lowerc::    for each level the lowest C coefficient 
+int  *upperc::    for each level the highest C coefficient 
+int  *offsetc::   amount to offset to access each level  
+int  *upperd::    for each level the lowest C coefficient 
+int  *lowerd::    for each level the highest C coefficient 
+int  *offsetd::   amount to offset to access each level  
+int  *nbc::       boundary conds 1=period 2=symm. 
+int  *startlevel; level at which to start the wavelet reconstruction
+ *---------------------*/
 {
  int level,offslvlc,offslvld,index,base,newck,newcl,oldck,oldcl,olddl,lim;
 
-int trd_module();       /* MAN : added */
-int trd_reflect();      /* ... */
+int trd_module(int a, int b);
+int trd_reflect(int a, int b);
 
   for(level=*startlevel; level<*nlevels; level++){     /*level=level of convolution*/
     offslvlc=*(offsetc+level); /*ammount to offset C for this level */
@@ -10380,11 +10678,9 @@ int trd_reflect();      /* ... */
   }
 }
 
-int trd_reflect(a,b)
-int a;
-int b;
+int trd_reflect(int a, int b)
 {
-int trd_module();   /* MAN : added */
+int trd_module(int a, int b);
 
   if(b <= 0) return (-1);
   else {
@@ -10396,10 +10692,9 @@ int trd_module();   /* MAN : added */
 }
 
 
-int trd_module(a, b)
-int a,b;
+int trd_module(int a, int b)
 {
- /* roubust modulus function */
+ /* robust modulus function */
  /* returns a (mod b) for b >0 and any integer a */
  /* returns -1 if b <= 0 */
 
@@ -10427,8 +10722,7 @@ int a,b;
  *
  */
 
-int IsPowerOfTwo(n)
-int n;
+int IsPowerOfTwo(int n)
 {
 int cnt = 0;
 
@@ -10447,8 +10741,7 @@ else
     return(cnt);
 }
 
-void TRDerror(s)
-char *s;
+void TRDerror(char *s)
 {
 REprintf("Module TRDerror in WaveThresh\n");
 REprintf("%s", s);
@@ -10471,26 +10764,35 @@ error("This should not happen. Stopping.\n");
  * COMWST:  Complex-valued packet-ordered non-decimated transform
  */
 
-void comwst(CaR, CaI, DataR, DataI, LengthData, levels,
-    HR, HI, GR, GI, LengthH, error)
-double *CaR;        /* Will contain bottom most Cs (real)          */
-double *CaI;        /* Will contain bottom most Cs (imaginary)     */
-double *DataR;      /* This is a 2D array. Zeroeth level contains data */
-double *DataI;      /* This is a 2D array. Zeroeth level contains data */
-int *LengthData;    /* Length of Data, this is power of 2              */
-int *levels;        /* The number of levels, 2^(*levels)=LengthData    */
-double *HR;     /* Smoothing filter (real)             */
-double *HI;     /* Smoothing filter (imag)             */
-double *GR;     /* Detail filter (real)                */
-double *GI;     /* Detail filter (imag)    */
-int *LengthH;       /* Length of filter                */
-int *error;     /* Error code, if non-zero then it's a mem error   */
+void comwst(double *CaR, double *CaI, double *DataR, double *DataI,
+	int *LengthData, int *levels,
+	double *HR, double *HI, double *GR, double *GI,
+	int *LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *CaR::     Will contain bottom most Cs (real)          
+double *CaI::     Will contain bottom most Cs (imaginary)     
+double *DataR::   This is a 2D array. Zeroeth level contains data 
+double *DataI::   This is a 2D array. Zeroeth level contains data 
+int *LengthData:: Length of Data, this is power of 2              
+int *levels::     The number of levels, 2^(*levels)=LengthData    
+double *HR::      Smoothing filter (real)             
+double *HI::      Smoothing filter (imag)             
+double *GR::      Detail filter (real)                
+double *GI::      Detail filter (imag)    
+int *LengthH::    Length of filter                
+int *error::      Error code, if non-zero then it's a mem error   
+ *---------------------*/
 {
 int startin, outstart1, outstart2;
 register int i;
 double *bookR, *bookI;  /* Bookkeeping vectors, one for R and I        */
 
-void comwvpkstr();
+void comwvpkstr(double *CaR, double *CaI, double *DataR, double *DataI,
+	int startin, int lengthin, int outstart1, int outstart2, int level,
+	double *HR, double *HI, double *GR, double *GI, int LengthH,
+	int *LengthData, double *bookR, double *bookI, int *error);
 
 *error = 0;
 
@@ -10543,38 +10845,32 @@ else    {
     }
 }
 
-
-void comwvpkstr(CaR, CaI, DataR, DataI, startin, lengthin,
-    outstart1, outstart2,
-    level,
-    HR, HI, GR, GI, LengthH, LengthData, bookR, bookI, error)
-double *CaR;
-double *CaI;
-double *DataR;
-double *DataI;
-int startin;
-int lengthin;
-int outstart1;
-int outstart2;
-int level;  /* The level where we're at         */
-double *HR;
-double *HI;
-double *GR;
-double *GI;
-int LengthH;
-int *LengthData;
-double *bookR;
-double *bookI;
-int *error;
+void comwvpkstr(double *CaR, double *CaI, double *DataR, double *DataI,
+	int startin, int lengthin, int outstart1, int outstart2, int level,
+	double *HR, double *HI, double *GR, double *GI, int LengthH,
+	int *LengthData, double *bookR, double *bookI, int *error)
 {
 register int i;
 int lengthout;
 double *book1R, *book1I, *book2R, *book2I;
 
-void comconC();
-void comconD();
-void comrotater();
-void comwvpkstr();
+void comconC(double *c_inR, double *c_inI,
+	int LengthCin, int firstCin,
+	double *HR, double *HI, int LengthH,
+	double *c_outR, double *c_outI,
+	int LengthCout, int firstCout, int lastCout,
+	int type, int step_factor, int bc);
+void comconD(double *c_inR, double *c_inI,
+	int LengthCin, int firstCin,
+	double *GR, double *GI, int LengthH,
+	double *d_outR, double *d_outI,
+	int LengthDout, int firstDout, int lastDout,
+	int type, int step_factor, int bc);
+void comrotater(double *bookR, double *bookI, int length);
+void comwvpkstr(double *CaR, double *CaI, double *DataR, double *DataI,
+	int startin, int lengthin, int outstart1, int outstart2, int level,
+	double *HR, double *HI, double *GR, double *GI, int LengthH,
+	int *LengthData, double *bookR, double *bookI, int *error);
 
 /*
 Rprintf("wvpkstr entry\n");
@@ -10703,10 +10999,7 @@ free((void *)book2I);
  * COMROTATER: complex version of rotater
  */
 
-void comrotater(bookR, bookI, length)
-double *bookR;
-double *bookI;
-int length;
+void comrotater(double *bookR, double *bookI, int length)
 {
 register int i;
 double tmpR,tmpI;
@@ -10730,27 +11023,33 @@ struct complex  {
 
 
 
-void comAB_WRAP(wstR, wstI, wstCR, wstCI,
-    LengthData, level,
-    HR, HI, GR, GI, LengthH,
-    answerR, answerI, error)
-double *wstR;       /* Wavelet coefficients - real          */
-double *wstI;       /* Wavelet coefficients - imag          */
-double *wstCR;      /* Father coeffs - real             */  
-double *wstCI;      /* Father coeffs - imag             */
-int *LengthData;
-int *level;
-double *HR, *HI;    /* Smoothing filter, real and imag      */
-double *GR, *GI;    /* Detail filter, real and imag         */
-int *LengthH;
-double *answerR, *answerI;  /* Real and imag of answer      */
-int *error;
+void comAB_WRAP(double *wstR, double *wstI, double *wstCR, double *wstCI,
+    int *LengthData, int *level,
+    double *HR, double *HI, double *GR, double *GI, int *LengthH,
+    double *answerR, double *answerI, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *wstR::        Wavelet coefficients - real          
+double *wstI::        Wavelet coefficients - imag          
+double *wstCR::       Father coeffs - real               
+double *wstCI::       Father coeffs - imag             
+int *LengthData::
+int *level::
+double *HR, *HI::     Smoothing filter, real and imag      
+double *GR, *GI::     Detail filter, real and imag         
+int *LengthH::
+double *answerR, *answerI::   Real and imag of answer      
+int *error::
+ *---------------------*/
 {
 register int i;
 int nlevels;
 struct complex *acopy;
-struct complex *comAB();
-void destroycomplex();
+struct complex *comAB(double *wstR, double *wstI, double *wstCR, double *wstCI,
+    int nlevels, int level, int ix1, int ix2,
+    double *HR, double *HI, double *GR, double *GI, int LengthH, int *error);
+void destroycomplex(struct complex *a);
 
 nlevels = 2 + (int)*level;
 
@@ -10765,8 +11064,7 @@ for(i=0; i< (int)*LengthData; ++i)  {
 destroycomplex(acopy);
 }
 
-void destroycomplex(a)
-struct complex *a;
+void destroycomplex(struct complex *a)
 {
 free((void *)a->realval);
 free((void *)a->imagval);
@@ -10784,21 +11082,25 @@ free((void *)a);
  */
 
 
-struct complex *comAB(wstR, wstI, wstCR, wstCI,
-    nlevels, level, ix1, ix2,
-    HR, HI, GR, GI, LengthH, error)
-double *wstR;   /* Wavelet coefficients, non-dec, real          */  
-double *wstI;   /* Wavelet coefficients, non-dec, imag          */  
-double *wstCR;  /* Father wav. coeffs, non-dec, real            */
-double *wstCI;  /* Father wav. coeffs, non-dec, imag            */
-int nlevels; /* The original length of the data         */
-int level;  /* The level to reconstruct             */
-int ix1;    /* The "left" packet index              */
-int ix2;    /* The "right" packet index             */
-double *HR,*HI; /* Smoothing filter                 */
-double *GR,*GI; /* Detail filter                    */
-int LengthH;    /* The length of the filter             */
-int *error; /* Error code                       */
+struct complex *comAB(double *wstR, double *wstI, double *wstCR, double *wstCI,
+    int nlevels, int level, int ix1, int ix2,
+    double *HR, double *HI, double *GR, double *GI, int LengthH, int *error)
+/*---------------------
+ * Argument description
+ *---------------------
+double *wstR::    Wavelet coefficients, non-dec, real            
+double *wstI::    Wavelet coefficients, non-dec, imag            
+double *wstCR::   Father wav. coeffs, non-dec, real            
+double *wstCI::   Father wav. coeffs, non-dec, imag            
+int nlevels::     The original length of the data         
+int level::       The level to reconstruct             
+int ix1::         The "left" packet index              
+int ix2::         The "right" packet index             
+double *HR,*HI::  Smoothing filter                 
+double *GR,*GI::  Detail filter                    
+int LengthH::     The length of the filter             
+int *error::      Error code                       
+ *---------------------*/
 {
 register int i;
 double *clR, *clI;
@@ -10810,11 +11112,19 @@ double *genDR, *genDI;  /* Generic Cs for when we need real and imag */
 int LengthC;
 int LengthCin;
 
-void comcbr();
-double *getpacket();
-struct complex *comAB();
-void rotateback();
-void destroycomplex();
+void comcbr(double *c_inR, double *c_inI,
+	int LengthCin, int firstCin, int lastCin,
+	double *d_inR, double *d_inI,
+	int LengthDin, int firstDin, int lastDin,
+	double *HR, double *HI, double *GR, double *GI, int LengthH,
+	double *c_outR, double *c_outI, int LengthCout, int firstCout,
+	int lastCout, int type, int bc);
+double *getpacket(double *wst, int nlevels, int level, int index, int *error);
+struct complex *comAB(double *wstR, double *wstI, double *wstCR, double *wstCI,
+    int nlevels, int level, int ix1, int ix2,
+    double *HR, double *HI, double *GR, double *GI, int LengthH, int *error);
+void rotateback(double *book, int length);
+void destroycomplex(struct complex *a);
 
 *error = 0;
 
@@ -11004,5 +11314,3 @@ answer->imagval = clI;
 
 return(answer);
 }
-
-
