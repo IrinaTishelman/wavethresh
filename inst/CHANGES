@@ -132,3 +132,6 @@
 
 4.7.1	Inserted C prototypes (in response to package update request from R
 	team)
+
+4.7.2	Corrected typing of wpCmnv function which was wrong in
+	wavethresh_init.c

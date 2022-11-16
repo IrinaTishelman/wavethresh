@@ -10609,7 +10609,7 @@ function(filter.number = 10, family = "DaubLeAsymm", moment = 0,
 "wvrelease"<-
 function()
 {
-    packageStartupMessage("WaveThresh: R wavelet software, release 4.7.1, installed\n")
+    packageStartupMessage("WaveThresh: R wavelet software, release 4.7.2, installed\n")
     packageStartupMessage("Copyright Guy Nason and others 1993-2022\n")
     packageStartupMessage("Note: nlevels has been renamed to nlevelsWT\n")
 }

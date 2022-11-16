@@ -118,7 +118,7 @@ extern void wd3D(double *Carray, int *size, double *H, int *LengthH, int *error)
 
 /* 51-53 */
 
-extern void wpCmnv(double *wp, int *LengthData, int *nlevels, int *upperctrl, int *upperl, int *firstl, int *verbose, int *error);
+extern void wpCmnv(double *wp, int *LengthData, int *nlevels, int *upperctrl, double *upperl, int *firstl, int *verbose, int *error);
 
 extern void wpst(double *ansvec, int *lansvec, int *nlev, int *finish_level, int *avixstart, double *H, int *LengthH, int *error);
 

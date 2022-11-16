@@ -1,17 +1,17 @@
-34979e4352905a3628ff2b8aa9b6d52e *DESCRIPTION
+117a3fa19b4d86de217fd74bdd2bfb82 *DESCRIPTION
 af6b5704f05588794fb999142781f2dc *NAMESPACE
 d4322104e0c067fb69236236f23ce2fb *R/LSWsim.r
 1dbbada142cde04b1190afd6f4735b0e *R/NSextra.r
-3c248b3039a19ab77b2505639266273a *R/function.r
+2713562b6f36f46545109fb397833a9f *R/function.r
 a293e8e6493aa664ae235c5a0e2f6f62 *R/wavde.r
-9f384c5a3c6c8e40e729c717bb3bb04e *build/partial.rdb
+9a9039118440a136e67a2d28efd60bdb *build/partial.rdb
 8c5fdba4e1e58b2ebd9ab4258b5b7617 *data/BabyECG.rda
 fe9024fed6007ec9831601f6cc90d363 *data/BabySS.rda
 cde124da9614b7c373609ddf03107a17 *data/datalist
 2ae1e06329ec665260606abc26e2737e *data/ipd.rda
 ad576bc3fc90149d01caa06803f2250e *data/lennon.rda
 23e7e30e9b534775a1f4c9140effb9f1 *data/teddy.rda
-9d089bc7a59d5c0064cba4ca65fb06ed *inst/CHANGES
+de73b25b833ee2df2c2cf43f583ad04e *inst/CHANGES
 7eec463ea698e64bcaae88ed1385950c *man/AutoBasis.rd
 c346526092e0db7e9af4e8010d26271f *man/AvBasis.rd
 15e88b76d8824a00f8f46bbf645b9c52 *man/AvBasis.wst.rd
@@ -280,4 +280,4 @@ ab14464534eb79a1be36c3cfa3ce3314 *man/wvmoments.rd
 3c737a736391895bd81c119099e235c8 *src/WAVDE.c
 db677cce4e7d5ad10366ba732b1703b3 *src/cthreb.c
 e5fdd9a88d8590e2c5103ae7e84ce19c *src/functions.c
-2eb28a2d26c92293e841a783777525cf *src/wavethresh_init.c
+4e23b8a7a57845c1591ecf789f63177e *src/wavethresh_init.c
