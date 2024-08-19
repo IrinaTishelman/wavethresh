@@ -1,3 +1,7 @@
+
+
+#define STRICT_R_HEADERS
+
 /* This file contains the additional code needed to perform wavelet
  * density estimation in SPlus.  The WaveThresh package must be installed.
  * The locations of the functions are:
@@ -386,8 +390,8 @@ void StoDCDS(double *C, int *Csize, int *firstCin, double *H, int *LengthH,
                                         *AXSMAT(cc_out, *LengthCout, i, j);
     }
 
-    Free(cc_out);
-    Free(dd_out);
+    R_Free(cc_out);
+    R_Free(dd_out);
 }
 
 
@@ -427,7 +431,7 @@ void DensityCovarianceDecomposeStep(double *C, int Crow, int firstCin,
     *error = 0l;
 
     if ((afterCC =
-        (double *)Calloc( LengthCout*(LengthH-1), double))==NULL)
+        (double *)R_Calloc( LengthCout*(LengthH-1), double))==NULL)
         {
     *error = 6l;
         return;
@@ -440,7 +444,7 @@ void DensityCovarianceDecomposeStep(double *C, int Crow, int firstCin,
     }
 
     if ((afterDD =
-    (double *)Calloc( LengthDout*(LengthH-1),double))==NULL){
+    (double *)R_Calloc( LengthDout*(LengthH-1),double))==NULL){
         *error = 9l;
         return;
     }
@@ -574,10 +578,10 @@ void StoIDS_dh(double *C, int *Csize, int *firstCin, double *H, int *LengthH,
                                         *AXSMAT(cc_out, *LengthCout, j, i);
     }
 
-    Free(cc_out);
-    Free(cd_out);
-    Free(dc_out);
-    Free(dd_out);
+    R_Free(cc_out);
+    R_Free(cd_out);
+    R_Free(dc_out);
+    R_Free(dd_out);
 }
 
 
@@ -633,7 +637,7 @@ void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
 /* Get memory for afterC */
 
     if ((afterC =
-    (double *)Calloc(Csize*LengthCout,double))==NULL){
+    (double *)R_Calloc(Csize*LengthCout,double))==NULL){
         *error = 1l;
         return;
     }
@@ -641,7 +645,7 @@ void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
 /* Get memory for afterD */
 
     if ((afterD =
-    (double *)Calloc(Csize*LengthDout,double))==NULL){
+    (double *)R_Calloc(Csize*LengthDout,double))==NULL){
         *error = 2l;
         return;
     }
@@ -649,7 +653,7 @@ void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
 /* Get memory for row of image to pass to convolution routines */
 
     if ((ccopy =
-    (double *)Calloc(Csize,double)) == NULL) {
+    (double *)R_Calloc(Csize,double)) == NULL) {
         *error = 3l;
         return;
     }
@@ -657,14 +661,14 @@ void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
 /* Get memory for output row after C convolution */
 
     if ((ccopy_out =
-    (double *)Calloc(LengthCout,double))==NULL) {
+    (double *)R_Calloc(LengthCout,double))==NULL) {
         *error = 4l;
         return;
     }
 
 /* Get memory for output row after D convolution */
 
-    if ((dcopy_out = (double *)Calloc(LengthDout,double))==NULL) {
+    if ((dcopy_out = (double *)R_Calloc(LengthDout,double))==NULL) {
         *error = 5l;
         return;
     }
@@ -704,22 +708,22 @@ void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
  * We get four answers. First we get the necessary memory
  */
 
-    if ((afterCC = (double *)Calloc(LengthCout*LengthCout,double))==NULL){
+    if ((afterCC = (double *)R_Calloc(LengthCout*LengthCout,double))==NULL){
         *error = 6l;
         return;
     }
 
-    if ((afterCD = (double *)Calloc(LengthDout*LengthCout,double))==NULL){
+    if ((afterCD = (double *)R_Calloc(LengthDout*LengthCout,double))==NULL){
         *error = 7l;
         return;
     }
 
-    if ((afterDC = (double *)Calloc(LengthCout*LengthDout,double))==NULL){
+    if ((afterDC = (double *)R_Calloc(LengthCout*LengthDout,double))==NULL){
         *error = 8l;
         return;
     }
 
-    if ((afterDD = (double *)Calloc(LengthDout*LengthDout,double))==NULL){
+    if ((afterDD = (double *)R_Calloc(LengthDout*LengthDout,double))==NULL){
         *error = 9l;
         return;
     }
@@ -794,11 +798,11 @@ void ImageDecomposeStep_dh(double *C, int Csize, int firstCin, double *H,
 
 /* That should be it ! */
 
-    Free(afterD);
-    Free(afterC);
-    Free(dcopy_out);
-    Free(ccopy_out);
-    Free(ccopy);
+    R_Free(afterD);
+    R_Free(afterC);
+    R_Free(dcopy_out);
+    R_Free(ccopy_out);
+    R_Free(ccopy);
 
     return;
 }

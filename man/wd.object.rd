@@ -44,7 +44,7 @@ Note the \emph{time-ordered non-decimated wavelet transform} used to be called t
 This class of objects is returned from the \code{\link{wd}} function to represent a (possibly time-ordered non-decimated) wavelet decomposition of a function. Many other functions return an object of class wd.
 }
 \section{METHODS}{
-The wd class of objects has methods for the following generic functions: \code{\link{plot}}, \code{\link{threshold}}, \code{\link{summary}}, \code{\link{print}}, code{\link{draw}}.
+The wd class of objects has methods for the following generic functions: \code{\link{plot}}, \code{\link{threshold}}, \code{\link{summary}}, \code{\link{print}}, \code{\link{draw}}.
 }
 \section{RELAEASE}{Version 3.5.3 Copyright Guy Nason 1994 }
 \seealso{

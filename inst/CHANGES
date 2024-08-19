@@ -135,3 +135,7 @@
 
 4.7.2	Corrected typing of wpCmnv function which was wrong in
 	wavethresh_init.c
+
+4.7.3   Edited accessC.wst.rd, griddata.rd, makegrid, makewpstDO, wd.object
+	as there were some minor typos in the help files, mostly to do with
+	braces. Also changed Free to R_Free and Calloc to R_Calloc

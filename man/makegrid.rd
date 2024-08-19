@@ -10,7 +10,7 @@ makegrid(t, y, gridn = 2^(floor(log(length(t)-1,2)) + 1))
 \arguments{
 \item{t}{A vector of \code{x} data. Each of the entries of \code{x} must lie between 0 and 1.} 
 \item{y}{A vector of \code{y} data. Each entry of \code{y} corresponds to the same-positioned entry in \code{x} and so\code{y} must be of the same length as \code{x}. }
-\item{gridn}{The number of grid points in the dyadic grid that the (x,y) gets interpolated to. By default this is the next power of two larger than the length of {x}.}
+\item{gridn}{The number of grid points in the dyadic grid that the (x,y) gets interpolated to. By default this is the next power of two larger than the length of \code{x}.}
 }
 \details{
 One method for performing wavelet regression on data that is not equally spaced nor of power of two length is that described in Kovac, (1997) and Kovac and Silverman, (2000). 

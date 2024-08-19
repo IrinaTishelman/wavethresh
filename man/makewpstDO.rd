@@ -26,7 +26,7 @@ makewpstDO(timeseries, groups, filter.number=10, family="DaubExPhase",
 This function implements the `discrimination' version of the 
 "Wavelet packet transfer function modelling of nonstationary series"
 by Guy Nason and Theofanis Sapatinas, \emph{Statistics and Computing},
-/bold{12}, 45-56.
+\bold{12}, 45-56.
 
 The function first takes the non-decimated wavelet packet transform
 of \code{timeseries}

@@ -21,7 +21,7 @@ A vector of the extracted data.
 \details{
 The \code{\link{wst}} function performs a packet-ordered non-decimated wavelet transform. This function extracts all the father wavelet coefficients at a particular resolution level specified by \code{level}.
 
-Note that coefficients returned by this function are in emph{packet order}. They can be used \emph{as is} but for many applications it might be more useful to deal with the coefficients in packets: see the function \code{\link{getpacket.wst}} for further details. 
+Note that coefficients returned by this function are in \emph{packet order}. They can be used \emph{as is} but for many applications it might be more useful to deal with the coefficients in packets: see the function \code{\link{getpacket.wst}} for further details. 
 }
 \references{
 Nason, G. P. and Silverman, B. W. (1994). The discrete wavelet transform in S. \emph{Journal of Computational and Graphical Statistics}, \bold{3}, 163--191. 
